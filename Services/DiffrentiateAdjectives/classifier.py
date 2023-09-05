@@ -1,5 +1,7 @@
 import os
 from typing import List
+
+from Services.DependencyContainer import DependencyContainer
 from definitions import ROOT_DIR
 from Services.DiffrentiateAdjectives.LogisticRegression import LogisticRegression
 from Services.DiffrentiateAdjectives.AdjectiveFileParser import parse_file
@@ -24,7 +26,8 @@ class Classifier:
 
         self.classification_model = LogisticRegression(all_adjectives, lst_groups)
 
-    def _retrieve_embedding_model(self):
+    @staticmethod
+    def _retrieve_embedding_model():
         embedding_model_path = os.path.join(ROOT_DIR, "Documents", WORD_EMBEDDING_MODEL_NAME + ".kv")
         if not os.path.isfile(embedding_model_path) or not os.path.isfile(embedding_model_path + ".vectors.npy"):
             embedding_model = GensimDownloader.load(WORD_EMBEDDING_MODEL_NAME)
