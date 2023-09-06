@@ -1,8 +1,10 @@
-from Services.DependencyContainer import DependencyContainer
-from Services.DiffrentiateAdjectives.classifier import Classifier
+from services.dependency_container import DependencyContainer
+from services.diffrentiate_adjectives.classifier import Classifier
+
 
 def register_dependencies():
     DependencyContainer.register(Classifier)
+
 
 if __name__ == '__main__':
     register_dependencies()

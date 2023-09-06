@@ -1,6 +1,6 @@
 from sklearn.linear_model import LogisticRegression as LogisticRegressionModel
 from typing import List
-from Services.DiffrentiateAdjectives.Interfaces.IClassificationModel import IClassificationModel
+from services.diffrentiate_adjectives.interfaces.I_classification_model import IClassificationModel
 
 
 class LogisticRegression(IClassificationModel):

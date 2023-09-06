@@ -1,12 +1,12 @@
 import os
 from typing import List
 
-from Services.DependencyContainer import DependencyContainer
+from services.dependency_container import DependencyContainer
 from definitions import ROOT_DIR
-from Services.DiffrentiateAdjectives.LogisticRegression import LogisticRegression
-from Services.DiffrentiateAdjectives.AdjectiveFileParser import parse_file
+from services.diffrentiate_adjectives.logistic_regression import LogisticRegression
+from services.diffrentiate_adjectives.adjective_file_parser import parse_file
 from gensim.models import KeyedVectors
-from Models.Enums.adjective_group import AdjectiveGroup
+from models.enums.adjective_group import AdjectiveGroup
 import gensim.downloader as GensimDownloader
 
 DECREASED_FILE_NAME = "decreased"
@@ -28,7 +28,7 @@ class Classifier:
 
     @staticmethod
     def _retrieve_embedding_model():
-        embedding_model_path = os.path.join(ROOT_DIR, "Documents", WORD_EMBEDDING_MODEL_NAME + ".kv")
+        embedding_model_path = os.path.join(ROOT_DIR, "documents", WORD_EMBEDDING_MODEL_NAME + ".kv")
         if not os.path.isfile(embedding_model_path) or not os.path.isfile(embedding_model_path + ".vectors.npy"):
             embedding_model = GensimDownloader.load(WORD_EMBEDDING_MODEL_NAME)
             embedding_model.save(embedding_model_path)

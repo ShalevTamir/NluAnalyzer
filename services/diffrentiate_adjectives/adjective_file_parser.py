@@ -1,7 +1,7 @@
 from typing import List
 
 
-PATH_TO_DOCUMENTS = 'Documents/'
+PATH_TO_DOCUMENTS = 'documents/'
 
 
 def _preprocess(arr_lines):
