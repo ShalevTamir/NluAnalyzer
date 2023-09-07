@@ -3,8 +3,8 @@ from typing import List
 
 from services.dependency_container import DependencyContainer
 from definitions import ROOT_DIR
-from services.diffrentiate_adjectives.logistic_regression import LogisticRegression
-from services.diffrentiate_adjectives.adjective_file_parser import parse_file
+from services.classifier_services.logistic_regression import LogisticRegression
+from services.classifier_services.file_parser import parse_file
 from gensim.models import KeyedVectors
 from models.enums.adjective_group import AdjectiveGroup
 import gensim.downloader as GensimDownloader
@@ -21,8 +21,8 @@ class Classifier:
         increased_adjectives = self._embed_adjectives(parse_file(INCREASED_FILE_NAME))
         decreased_adjectives = self._embed_adjectives(parse_file(DECREASED_FILE_NAME))
         all_adjectives = decreased_adjectives + increased_adjectives
-        lst_groups = ([AdjectiveGroup.Decreased.value] * len(decreased_adjectives) +
-                      [AdjectiveGroup.Increased.value] * len(increased_adjectives))
+        lst_groups = ([AdjectiveGroup.DECREASED.value] * len(decreased_adjectives) +
+                      [AdjectiveGroup.INCREASED.value] * len(increased_adjectives))
 
         self.classification_model = LogisticRegression(all_adjectives, lst_groups)
 

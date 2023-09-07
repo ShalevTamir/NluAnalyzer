@@ -1,6 +1,6 @@
 from sklearn.linear_model import LogisticRegression as LogisticRegressionModel
 from typing import List
-from services.diffrentiate_adjectives.interfaces.I_classification_model import IClassificationModel
+from models.interfaces.I_classification_model import IClassificationModel
 
 
 class LogisticRegression(IClassificationModel):
@@ -10,3 +10,4 @@ class LogisticRegression(IClassificationModel):
 
     def predict(self, value: float):
         return self.model.predict([value])
+
