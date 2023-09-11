@@ -1,9 +1,9 @@
 import string
 
 
-def is_float(string):
+def is_castable(string, type_to_cast: type):
     try:
-        float(string)
+        type_to_cast(string)
         return True
     except ValueError:
         return False

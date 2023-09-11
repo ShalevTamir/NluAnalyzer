@@ -2,6 +2,8 @@ import spacy
 
 
 class SubjectDetector:
+    SUBJ_DEPENDENCIES = ["subj", "ROOT"]
+
     def __init__(self):
         self.model = spacy.load('en_core_web_sm')
 
@@ -10,11 +12,9 @@ class SubjectDetector:
             if token_dependency in token.dep_:
                 return token
 
-    def detect_param(self, sentence: str):
+    def detect(self, sentence: str):
         doc = self.model(sentence)
-        #TODO: change to const
-        subj_dependencies = ["subj","ROOT"]
-        for dependency in subj_dependencies:
+        for dependency in self.SUBJ_DEPENDENCIES:
             potential_subj = self._find_token(doc, dependency)
             if potential_subj:
                 return potential_subj.text

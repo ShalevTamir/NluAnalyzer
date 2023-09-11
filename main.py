@@ -1,55 +1,38 @@
 from services.dependency_container import DependencyContainer
-from services.classifier import Classifier
-from services.nlu_service import RangeAnalyzer
-from services.subject_detector import SubjectDetector
+from services.classification.sentence_classification.sentence_classifier import SentenceClassifier
 
-
-def register_dependencies():
-    DependencyContainer.register(Classifier)
-    DependencyContainer.register(SubjectDetector)
-    DependencyContainer.register(RangeAnalyzer)
-
-
+# TODO: change access modifiers to private or protected respectively
 if __name__ == '__main__':
-    register_dependencies()
-    range_analyzer = DependencyContainer.get_instance(RangeAnalyzer)
-    #TODO: save sentences that passed
-    parameter_sentences = [
-        "Altitude can range from sea level to the 50,000 feet.",
-        "Longitude may vary between the -180 degrees (west) and 180 degrees (east).",
-        "Wind_Speed falls in the range of 0 to 100 knots.",
-        "The Engine_Heat can be as low as 0 degrees Celsius and as high as 300 degrees Celsius.",
-        "The Air_Pressure at sea level typically ranges from 800 to 1100 hPa.",
-        "The Current_Thrust can vary from no thrust (0 kN) to full power (400 kN).",
-        "A steep climb or descent of 20 degrees is within the range of the Pitch_Angle.",
-        "Roll_Angle may oscillate from a maximum left roll of -60 degrees to a maximum right roll of 60 degrees.",
-        "Fuel_Consumption can be minimal at 0 liters or reach a maximum of 100 liters.",
-        "Ground_Speed may vary from a standstill (0 knots) to a rapid 700 knots.",
-        "A rapid climb or descent of 3000 feet per minute is within the range of the Vertical_Speed.",
-        "The parameter Tempreture can vary significantly, from a frigid -50 degrees Celsius to a scorching 100 degrees Celsius.",
-        "G-Force typically stays within the range of 0 to 5 Gs.",
-        "The Radio_Signal_Strength can be as strong as 0 dBm or as weak as -100 dBm.",
-        "The GPS_Accuracy can vary from pinpoint accuracy of 0 meters to a less precise 10 meters.",
-        "The Oxygen_Level may range from dangerously low (0%) to a safe and breathable 100%.",
-        "Flap_Position can vary from fully retracted (0 degrees) to fully extended (40 degrees).",
-        "Hydraulic_Pressure can fluctuate between 0 PSI (no pressure) and a substantial 3000 PSI.",
-        "Brake_Pressure is either applied (1) or not applied (0).",
-        "Landing_Lights can be either 1 or 0.",
-        "Strobe_Lights can be either 1 or 0.",
-        "Beacon_Lights can be either 1 or 0.",
-        "Navigation_Lights can be either 1 or 0.",
-        "Anti_Collision_Lights can be either 1 or 0.",
-        "Wing_Lights can be either 1 or 0.",
-        "Cabin_Lights can be either 1 or 0.",
-        "Emergency_Lights can be either 1 or 0.",
-        "Correlator is a pure number with no specified range.",
-        "engine_heat is less than 50",
-        "speed more than 50",
-        "altitude is colder than 100",
-        "altitude equals to 5",
-        "when height is bigger 8",
-        "the sensor is active only when rpm_rpt is bigger than 8 and smaller than 10"
-
+    container = DependencyContainer()
+    sentence_classifier: SentenceClassifier = container.sentence_classifier_provider()
+    sentences = [
+        "The temperature in the oven can be set anywhere from 200 to 450 degrees Fahrenheit.",
+        "The speed limit on the highway ranges from 55 to 70 miles per hour depending on the section.",
+        "The age group for this competition is between 18 and 30 years old.",
+        "The price of the car varies, with models ranging from $20,000 to $40,000.",
+        "The pH level of the solution should be maintained within a range of 6.5 to 7.5 for optimal results.",
+        "The number of participants in the marathon typically falls within the range of 1,000 to 1,500 runners.",
+        "The battery life of the smartphone can last anywhere from 8 to 16 hours, depending on usage.",
+        "The annual rainfall in this region fluctuates between 40 and 60 inches.",
+        "The weight of the cargo must be within the range of 500 to 1,000 kilograms for safe transportation.",
+        "The dosage of the medication should be administered in the range of 2 to 4 pills per day, as prescribed by the doctor.",
+        "The car's tire pressure is set at 32 PSI.",
+        "The room temperature is maintained at 72 degrees Fahrenheit.",
+        "The coffee machine brews coffee with a water temperature of 200 degrees Fahrenheit.",
+        "The weight of the package is 3 kilograms.",
+        "The battery capacity of the smartphone is 4000 milliampere-hours (mAh).",
+        "The length of the bookshelf is 6 feet.",
+        "The screen resolution of the monitor is 1920x1080 pixels.",
+        "The pH level of the swimming pool water is 7.2.",
+        "The speed of the internet connection is 100 megabits per second (Mbps).",
+        "The voltage of the electrical outlet is 120 volts.",
+        "engine heat between 50 and 100",
+        "engine heat is 50",
+        "engine heat 50",
+        "engine heat 50 and 100",
+        "the parameter value can vary between 50 and 100",
+        "the parameter is exactly 50"
     ]
-    for sentence in parameter_sentences:
-        range_analyzer.parse_sentence(sentence)
+    for sentence in sentences:
+        item = sentence_classifier.classify_item(sentence)
+        print(item.name,sentence)
