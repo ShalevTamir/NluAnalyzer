@@ -9,7 +9,7 @@ from services.classification.linear_classifier import LinearClassifier
 RANGE_FILE_PATH = os.path.join(ROOT_DIR, DOCUMENTS_DIRECTORY_NAME,
                                "sentence_classification", "range_sentences.txt")
 PARAMETER_FILE_PATH = os.path.join(ROOT_DIR, DOCUMENTS_DIRECTORY_NAME,
-                                   "sentence_classification", "parameter_sentences.txt")
+                                   "sentence_classification", "single_parameter_sentences.txt")
 
 
 class SentenceClassifier(LinearClassifier):
