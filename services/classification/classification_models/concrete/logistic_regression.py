@@ -15,14 +15,14 @@ class LogisticRegression(IClassificationModel[GroupEnum]):
                  embedded_group2: list[list[float]],
                  group1_enum: GroupEnum,
                  group2_enum: GroupEnum):
-        self.group_enum_class = group1_enum.__class__
+        self.__group_enum_class = group1_enum.__class__
         concatenated_groups = embedded_group1 + embedded_group2
         group_ids = [group1_enum.value] * len(embedded_group1) + \
                     [group2_enum.value] * len(embedded_group2)
 
-        self._model = LogisticRegressionModel(solver='liblinear', random_state=0).fit(concatenated_groups, group_ids)
+        self.__model = LogisticRegressionModel(solver='liblinear', random_state=0).fit(concatenated_groups, group_ids)
 
     def predict(self, value: list[float]) -> GroupEnum:
-        return self.group_enum_class(self._model.predict([value]))
+        return self.__group_enum_class(self.__model.predict([value]))
 
 

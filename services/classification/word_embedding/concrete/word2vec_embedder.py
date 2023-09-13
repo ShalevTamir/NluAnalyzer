@@ -15,12 +15,12 @@ class Word2VecEmbedder(IWordEmbedder):
         if not os.path.isfile(EMBEDDING_MODEL_PATH) or not os.path.isfile(EMBEDDING_MODEL_PATH + ".vectors.npy"):
             embedding_model = GensimDownloader.load(EMBEDDING_MODEL_NAME)
             embedding_model.save(EMBEDDING_MODEL_NAME)
-        self.word2vec_model = KeyedVectors.load(EMBEDDING_MODEL_PATH, mmap='r')
+        self.__word2vec_model = KeyedVectors.load(EMBEDDING_MODEL_PATH, mmap='r')
 
     def embedder_contains(self, item: str) -> bool:
-        return item in self.word2vec_model
+        return item in self.__word2vec_model
 
     def embed_item(self, item_to_embed: str) -> list[float]:
-        return self.word2vec_model[item_to_embed]
+        return self.__word2vec_model[item_to_embed]
 
 

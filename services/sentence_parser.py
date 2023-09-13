@@ -10,11 +10,11 @@ class SentenceParser:
     FIND_NUMBERS_REG = r'\d+(?:\.\d+)?'
 
     def __init__(self, subject_detector: SubjectDetector, adjective_handler: AdjectiveHandler):
-        self._param_detector = subject_detector
-        self._adjective_handler = adjective_handler
+        self.__param_detector = subject_detector
+        self.__adjective_handler = adjective_handler
 
     def _extract_parameter_name(self, sentence: str):
-        return self._param_detector.detect(sentence)
+        return self.__param_detector.detect(sentence)
 
     def _build_range(self, parameter, numbers):
         print(parameter, numbers)
@@ -24,7 +24,7 @@ class SentenceParser:
                 for number in re.findall(self.FIND_NUMBERS_REG, sentence)]
 
     def parse(self, sentence: str):
-        quantitative_adjs = self._adjective_handler.extract_adjectives(sentence)
+        quantitative_adjs = self.__adjective_handler.extract_adjectives(sentence)
         numbers = self._extract_numbers(sentence.replace(',', ''))
         parameter_name = self._extract_parameter_name(sentence)
         # TODO: smaller then 100 and bigger than 120

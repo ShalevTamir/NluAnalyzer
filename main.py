@@ -1,7 +1,6 @@
 from services.dependency_container import DependencyContainer
 from services.classification.classifiers.concrete.sentence_classifier import SentenceClassifier
 
-# TODO: change access modifiers to private or protected respectively
 if __name__ == '__main__':
     container = DependencyContainer()
     sentence_classifier: SentenceClassifier = container.sentence_classifier_singleton()
