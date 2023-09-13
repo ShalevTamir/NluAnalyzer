@@ -3,7 +3,7 @@ import os
 from gensim.models import KeyedVectors
 
 from definitions import ROOT_DIR, DOCUMENTS_DIRECTORY_NAME
-from services.classification.interfaces.I_word_embedder import IWordEmbedder
+from services.classification.word_embedding.base_word_embedder import IWordEmbedder
 import gensim.downloader as GensimDownloader
 
 EMBEDDING_MODEL_NAME = "word2vec-google-news-300"
@@ -22,3 +22,5 @@ class Word2VecEmbedder(IWordEmbedder):
 
     def embed_item(self, item_to_embed: str) -> list[float]:
         return self.word2vec_model[item_to_embed]
+
+

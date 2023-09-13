@@ -10,7 +10,10 @@ class IWordEmbedder(ABC):
     def embedder_contains(self, item: str) -> bool:
         pass
 
-    @abstractmethod
     def embed_collection(self, collection_to_embed: list[str]) -> list[list[float]]:
-        pass
-    
+        return [
+            self.embed_item(item_to_embed)
+            for item_to_embed in collection_to_embed
+            if self.embedder_contains(item_to_embed)
+        ]
+

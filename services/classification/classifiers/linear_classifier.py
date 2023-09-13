@@ -1,11 +1,8 @@
-from abc import abstractmethod, ABC
+from abc import ABC
 from enum import Enum
-from typing import Generic, TypeVar
 
-from services.classification.interfaces.I_classification_model import IClassificationModel
-from services.classification.interfaces.I_word_embedder import IWordEmbedder
-from services.classification.models.logistic_regression import LogisticRegression
-from services.utils.file_parser import parse_file
+from services.classification.classification_models.I_classification_model import IClassificationModel
+from services.classification.word_embedding.base_word_embedder import IWordEmbedder
 
 
 class LinearClassifier(ABC):

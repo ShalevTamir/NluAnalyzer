@@ -3,13 +3,13 @@ from nltk import word_tokenize, WordNetLemmatizer
 
 from models.enums.adjective_group import AdjectiveGroup
 from models.word_pos_tag import WordPosTag
-from services.classification.comparative_adjectives_classification.adjective_classifier import AdjectiveClassifier
+from services.classification.classifiers.concrete.adjective_classifier import AdjectiveClassifier
 
 
 class AdjectiveHandler:
     ADJECTIVE_POS_TAG = "JJR"
 
-    def __init__(self,adjective_classifier: AdjectiveClassifier):
+    def __init__(self, adjective_classifier: AdjectiveClassifier):
         self._lemmatizer = WordNetLemmatizer()
         self._classifier = adjective_classifier
 
@@ -23,7 +23,7 @@ class AdjectiveHandler:
                 if word_pos_tag.pos_tag == self.ADJECTIVE_POS_TAG]
 
     def extract_range(self, quantitative_adj, number_compared):
-        adjective_group = self._classifier.classify_word(quantitative_adj)
+        adjective_group = self._classifier.classify_item(quantitative_adj)
         match adjective_group:
             case AdjectiveGroup.INCREASED:
                 return [number_compared, float("inf")]

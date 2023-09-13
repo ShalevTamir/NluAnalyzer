@@ -1,6 +1,6 @@
 import spacy
 
-from services.classification.interfaces.I_word_embedder import IWordEmbedder
+from services.classification.word_embedding.base_word_embedder import IWordEmbedder
 
 
 class SpacyEmbedder(IWordEmbedder):

@@ -1,6 +1,6 @@
 import re
 
-from services.classification.comparative_adjectives_classification.adjective_handler import AdjectiveHandler
+from services.classification.adjective_handler import AdjectiveHandler
 from services.subject_detector import SubjectDetector
 from services.utils.str_utils import is_castable
 
