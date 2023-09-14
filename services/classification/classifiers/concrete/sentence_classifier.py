@@ -18,11 +18,11 @@ class SentenceClassifier(LinearClassifier):
     def __init__(self, spacy_embedder: SpacyEmbedder):
         range_sentences = parse_file(RANGE_FILE_PATH)
         parameter_sentences = parse_file(PARAMETER_FILE_PATH)
-        super().__init__(LogisticRegression(
-                            spacy_embedder.embed_collection(range_sentences),
-                            spacy_embedder.embed_collection(parameter_sentences),
-                            SentenceGroup.RANGE,
-                            SentenceGroup.PARAMETER),
-                         spacy_embedder)
+        super().__init__(spacy_embedder,
+                         LogisticRegression(
+                             spacy_embedder.embed_collection(range_sentences),
+                             spacy_embedder.embed_collection(parameter_sentences),
+                             SentenceGroup.RANGE,
+                             SentenceGroup.PARAMETER))
 
 

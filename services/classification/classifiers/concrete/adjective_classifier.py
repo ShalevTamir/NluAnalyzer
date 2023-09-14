@@ -20,12 +20,12 @@ class AdjectiveClassifier(LinearClassifier):
     def __init__(self, word2vec_embedder: Word2VecEmbedder):
         decreased_group = parse_file(DECREASED_FILE_PATH)
         increased_group = parse_file(INCREASED_FILE_PATH)
-        super().__init__(LogisticRegression(
+        super().__init__(word2vec_embedder,
+                         LogisticRegression(
                             word2vec_embedder.embed_collection(decreased_group),
                             word2vec_embedder.embed_collection(increased_group),
                             AdjectiveGroup.DECREASED,
-                            AdjectiveGroup.INCREASED),
-                         word2vec_embedder)
+                            AdjectiveGroup.INCREASED))
 
 
 

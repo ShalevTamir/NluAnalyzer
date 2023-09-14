@@ -1,9 +1,8 @@
-from services.dependency_container import DependencyContainer
-from services.classification.classifiers.concrete.sentence_classifier import SentenceClassifier
-
+from services.utils.dependency_containers import Application
+# TODO: change sentences to tuples
 if __name__ == '__main__':
-    container = DependencyContainer()
-    sentence_classifier: SentenceClassifier = container.sentence_classifier_singleton()
+    container = Application()
+    sentence_parser = container.services.sentence_parser()
     sentences = [
         "The temperature in the oven can be set anywhere from 200 to 450 degrees Fahrenheit.",
         "The speed limit on the highway ranges from 55 to 70 miles per hour depending on the section.",
@@ -35,7 +34,17 @@ if __name__ == '__main__':
         "the parameter can be either 5 or 10",
         "the parmter betwen 50 and 100",
         "the parmter is 50",
+        "parameter between 100-200",
+        "parameter between 50-100",
+        "engine heat needs to be with 100 degrees",
+        "engine heat is 100 degrees",
+        "engine heat is greater than 5",
+        "the parameter in question should be larger than 5KW"
+
     ]
+    sentence_classifier = container.sentence_classifier_singleton()
+
     for sentence in sentences:
-        item = sentence_classifier.classify_item(sentence)
-        print(item.name, sentence)
+        sentence_parser.parse(sentence)
+        #item = sentence_classifier.classify_item(sentence)
+        #print(item.name,sentence)
