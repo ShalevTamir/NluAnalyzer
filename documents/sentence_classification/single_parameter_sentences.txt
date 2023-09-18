@@ -20,4 +20,4 @@ The hydraulic system maintains pressure with a limit of 2000 PSI.
 Achieve optimal performance with a solution pH level of 7.0.
 The conveyor belt functions with a tension of 10 PSI.
 The recommended dosage for the medication is 500 milligrams, and it should be taken once daily.
-Secure the bolt with a torque of 30 Newton-meters and ensure the car's tires have an air pressure of 32 PSI.
+Secure the bolt with a torque of 30.

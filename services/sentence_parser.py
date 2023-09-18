@@ -1,8 +1,5 @@
 import re
 
-import nltk
-from nltk import word_tokenize
-
 from models.enums.sentence_group import SentenceGroup
 from models.requirement_range import RequirementRange
 from services.classification.classifiers.concrete.sentence_classifier import SentenceClassifier
@@ -12,7 +9,6 @@ from services.subject_detector import SubjectDetector
 from services.utils.nltk_utils import extract_word_pos_tags
 from services.utils.str_utils import is_castable
 
-ERROR_MSG = "Unable to parse sentence"
 
 
 class SentenceParser:

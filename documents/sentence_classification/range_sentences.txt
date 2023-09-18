@@ -17,3 +17,14 @@ The hotel room rates change seasonally, with prices fluctuating from $100 to $25
 The cooking time for the recipe can range from 30 minutes to 1 hour.
 The estimated completion date for the construction project is between July and September.
 The depth of the swimming pool ranges from 4 to 8 feet.
+The temperature in the desert can soar to exceed 100 degrees Fahrenheit during the summer months.
+The population of New York City falls below 10 million people.
+The weight of an adult elephant surpasses 5 tons.
+The speed of sound outpaces 300 meters per second in air.
+The price of a luxury sports car eclipses $100,000.
+The height of Mount Everest surmounts 8,000 meters above sea level.
+The diameter of the Earth measures more than 12,000 kilometers.
+The lifespan of a housefly is under 30 days.
+The distance between the Earth and the Moon is less than 400,000 kilometers.
+The acidity of lemon juice registers below pH 2.
+Engine heat is greater than 5.

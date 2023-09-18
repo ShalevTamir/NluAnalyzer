@@ -27,15 +27,15 @@ class Classifiers(containers.DeclarativeContainer):
 class Services(containers.DeclarativeContainer):
     classifiers = providers.DependenciesContainer()
 
-    adjective_handler = providers.Factory(AdjectiveHandler,
-                                          adjective_classifier=classifiers.adjective)
-    range_handler_singleton = providers.Singleton(RangeHandler,
-                                                  adjective_handler=adjective_handler.provider)
+    adjective_handler = providers.Singleton(AdjectiveHandler,
+                                            adjective_classifier=classifiers.adjective)
+    range_handler = providers.Singleton(RangeHandler,
+                                        adjective_handler=adjective_handler)
     subject_detector = providers.Singleton(SubjectDetector)
     sentence_parser = providers.Singleton(SentenceParser,
                                           subject_detector=subject_detector,
                                           sentence_classifier=classifiers.sentence,
-                                          range_handler=range_handler_singleton)
+                                          range_handler=range_handler)
 
 
 class Application(containers.DeclarativeContainer):

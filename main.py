@@ -1,9 +1,14 @@
+from models.requirement_param import RequirementParam
 from services.utils.dependency_containers import Application
 # TODO: change sentences to tuples
 if __name__ == '__main__':
     container = Application()
     sentence_parser = container.services.sentence_parser()
     sentences = [
+        "Engine heat is between 100 and 200",
+        "Engine heat in range 100-200",
+        "Engine heat is greater than 50",
+        "The parameter may be stronger than 100",
         "The temperature in the oven can be set anywhere from 200 to 450 degrees Fahrenheit.",
         "The speed limit on the highway ranges from 55 to 70 miles per hour depending on the section.",
         "The age group for this competition is between 18 and 30 years old.",
@@ -39,12 +44,19 @@ if __name__ == '__main__':
         "engine heat needs to be with 100 degrees",
         "engine heat is 100 degrees",
         "engine heat is greater than 5",
-        "the parameter in question should be larger than 5KW"
+        "the parameter in question should be larger than 5 KW"
 
     ]
-    sentence_classifier = container.sentence_classifier_singleton()
-
+    test = RequirementParam()
+    count_unsuccessful = 0
     for sentence in sentences:
-        sentence_parser.parse(sentence)
+        # if sentence == "The pH level of the swimming pool water is 7.2.":
+            # print("dasd")
+        try:
+            sentence_parser.parse(sentence)
+        except ValueError as e:
+            count_unsuccessful+=1
+            print(e)
+    print(f"accuracy {1-count_unsuccessful/len(sentences)}")
         #item = sentence_classifier.classify_item(sentence)
         #print(item.name,sentence)

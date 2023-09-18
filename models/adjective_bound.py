@@ -5,4 +5,4 @@ from models.enums.adjective_group import AdjectiveGroup
 
 class AdjectiveBound(NamedTuple):
     adjective_group: AdjectiveGroup
-    number_bound: int
+    number_bound: int | float

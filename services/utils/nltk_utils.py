@@ -3,10 +3,6 @@ from nltk import word_tokenize, Tree
 
 from models.word_pos_tag import WordPosTag
 
-COMPARATIVE_ADJECTIVE_POS_TAG = "JJR"
-NUMERICAL_POS_TAG = "CD"
-CONJUNCTION_POS_TAG = "IN"
-
 
 def extract_word_pos_tags(sentence) -> list[WordPosTag]:
     words_in_string: list[str] = word_tokenize(sentence)
@@ -18,7 +14,7 @@ def revert_word_pos_tags(word_pos_tags: list[WordPosTag]) -> str:
     return ' '.join([word_pos_tag.word for word_pos_tag in word_pos_tags])
 
 
-def find_Nth_in_chunk(chunk: list[WordPosTag], pos_tag: str, occurrence_number: int):
+def find_Nth_in_chunk(chunk: list[WordPosTag], pos_tag: str, occurrence_number: int) -> str:
     current_occurrence = 0
     for word_pos_tag in chunk:
         if word_pos_tag.pos_tag == pos_tag:
