@@ -1,33 +1,40 @@
 import spacy
+from spacy import displacy
 from spacy.tokens.token import Token
 
 
 class SubjectDetector:
-    SUBJ_DEPENDENCIES = ["subj","ROOT"]
-    SUBJ_TRAIL_DEPENDENCIES = ["compound","mod"]
+    SUBJ_DEPENDENCIES = ["subj", "ROOT"]
+    SUBJ_TRAIL_DEPENDENCIES = ["compound", "mod"]
+    NUMBER_POS_TAG = "NUM"
+
     def __init__(self):
         self.model = spacy.load('en_core_web_sm')
 
-    def __find_token(self, lst_tokens, token_dependency) -> Token:
-        for token in lst_tokens:
-            if token_dependency in token.dep_:
+    def __is_token_match(self, token_property: str, dependencies_to_match: list[str]) -> bool:
+        for dependency in dependencies_to_match:
+            if dependency in token_property:
+                return True
+        return False
+
+    def __extract_matching_tokens(self, lst_token, dependencies_to_match: list[str], pos_tags_to_exclude=None) -> Token:
+
+        for token in lst_token:
+            if self.__is_token_match(token.dep_, dependencies_to_match) and \
+                    not self.__is_token_match(token.pos_,
+                                              pos_tags_to_exclude if pos_tags_to_exclude is not None else []):
                 return token
-    def __find_matching_token(self, lst_tokens, dependencies_to_match):
-        for subject_dependency in dependencies_to_match:
-            potential_partial_subject = self.__find_token(lst_tokens,subject_dependency)
-            if potential_partial_subject:
-                return potential_partial_subject
-
-
 
     def detect(self, sentence: str):
         doc = self.model(sentence)
-        partial_subject: Token = self.__find_matching_token(doc,self.SUBJ_DEPENDENCIES)
-        if partial_subject is None:
+        root_subject: Token = self.__extract_matching_tokens(doc, self.SUBJ_DEPENDENCIES)
+        complete_subject = []
+        if root_subject is None:
             return None
-        complete_subject = [node.text
-                            for node in partial_subject.subtree
-                            if self.__find_matching_token([node], self.SUBJ_TRAIL_DEPENDENCIES) is not None] + \
-                           [partial_subject.text]
+        for node in root_subject.lefts:
+            node = self.__extract_matching_tokens([node], self.SUBJ_TRAIL_DEPENDENCIES, [self.NUMBER_POS_TAG])
+            if node:
+                complete_subject.append(node.text)
+        complete_subject.append(root_subject.text)
 
         return ' '.join(complete_subject)
