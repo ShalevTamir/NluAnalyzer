@@ -3,14 +3,14 @@ import os
 from gensim.models import KeyedVectors
 
 from definitions import ROOT_DIR, DOCUMENTS_DIRECTORY_NAME
-from services.classification.word_embedding.base_word_embedder import IWordEmbedder
+from services.classification.word_embedding.word_embedder import WordEmbedder
 import gensim.downloader as GensimDownloader
 
 EMBEDDING_MODEL_NAME = "word2vec-google-news-300"
 EMBEDDING_MODEL_PATH = os.path.join(ROOT_DIR, DOCUMENTS_DIRECTORY_NAME, EMBEDDING_MODEL_NAME + ".kv")
 
 
-class Word2VecEmbedder(IWordEmbedder):
+class Word2VecEmbedder(WordEmbedder):
     def __init__(self):
         if not os.path.isfile(EMBEDDING_MODEL_PATH) or not os.path.isfile(EMBEDDING_MODEL_PATH + ".vectors.npy"):
             embedding_model = GensimDownloader.load(EMBEDDING_MODEL_NAME)

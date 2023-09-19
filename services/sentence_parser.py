@@ -10,7 +10,6 @@ from services.utils.nltk_utils import extract_word_pos_tags
 from services.utils.str_utils import is_castable
 
 
-
 class SentenceParser:
     FIND_NUMBERS_REG = r'\d+(?:\.\d+)?'
 
@@ -25,6 +24,9 @@ class SentenceParser:
     def __build_range(self, parameter: str, requirement_range: RequirementRange):
         print(parameter, [requirement_range.value, requirement_range.end_value])
 
+    def __build_parameter(self, parameter_name: str, correlated_number: int):
+        print(parameter_name, correlated_number)
+
     def __extract_numbers(self, sentence):
         return [int(number) if is_castable(number, int) else float(number)
                 for number in re.findall(self.FIND_NUMBERS_REG, sentence)]
@@ -33,12 +35,13 @@ class SentenceParser:
         sentence = preprocess_sentence(sentence)
         parameter_name = self.__param_detector.detect(sentence)
         sentence_type: SentenceGroup = self.__sentence_classifier.classify_item(sentence)
+        word_pos_tags = extract_word_pos_tags(sentence)
         match sentence_type:
             case SentenceGroup.RANGE:
                 self.__build_range(parameter_name,
-                                   self.__range_handler.process_range(extract_word_pos_tags(sentence)))
+                                   self.__range_handler.parse_sentence(word_pos_tags))
             case SentenceGroup.PARAMETER:
-                pass
+                self.__build_parameter(parameter_name, self.__extract_numbers(sentence)[0])
 
         # TODO: smaller then 100 and bigger than 120
         # TODO: alert for this

@@ -1,22 +1,18 @@
 from sklearn import svm
 
-from services.classification.classification_models.I_classification_model import GroupEnum, IClassificationModel
+from services.classification.classification_models.classification_model import GroupEnum, ClassificationModel
 
 
-class SVM(IClassificationModel):
+class SVM(ClassificationModel):
 
     def __init__(self,
                  embedded_group1: list[list[float]],
                  embedded_group2: list[list[float]],
                  group1_enum: GroupEnum,
                  group2_enum: GroupEnum):
-        self.__group_enum_class = group1_enum.__class__
-        concatenated_groups = embedded_group1 + embedded_group2
-        group_ids = [group1_enum.value] * len(embedded_group1) + \
-                    [group2_enum.value] * len(embedded_group2)
 
         self.__model = svm.NuSVC(gamma="auto")
-        self.__model.fit(concatenated_groups,group_ids)
+        super().__init__(embedded_group1,embedded_group2,group1_enum,group2_enum, self.__model.fit)
 
     def predict(self, value: list[float]) -> GroupEnum:
-        return self.__group_enum_class(self.__model.predict([value]))
+        return self._group_enum_class(self.__model.predict([value]))

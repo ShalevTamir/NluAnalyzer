@@ -2,13 +2,10 @@ import os
 from enum import Enum
 from definitions import ROOT_DIR, DOCUMENTS_DIRECTORY_NAME
 from models.enums.sentence_group import SentenceGroup
-from services.classification.classification_models.I_classification_model import GroupEnum
-from services.classification.classification_models.concrete.native_bayes import NativeBayes
-from services.classification.classification_models.concrete.quadratic_discriminant_analysis import QuadDiscAnalysis
+from services.classification.classification_models.classification_model import GroupEnum
 from services.classification.classification_models.concrete.svm import SVM
 from services.classification.classifiers.linear_classifier import LinearClassifier
 from services.classification.classification_models.concrete.logistic_regression import LogisticRegression
-from services.classification.word_embedding.concrete.bert_embedder import BertEmbedder
 from services.classification.word_embedding.concrete.spacy_embedder import SpacyEmbedder
 from services.utils.file_parser import parse_file
 

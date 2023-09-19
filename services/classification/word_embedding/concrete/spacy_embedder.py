@@ -1,9 +1,9 @@
 import spacy
 
-from services.classification.word_embedding.base_word_embedder import IWordEmbedder
+from services.classification.word_embedding.word_embedder import WordEmbedder
 
 
-class SpacyEmbedder(IWordEmbedder):
+class SpacyEmbedder(WordEmbedder):
     def __init__(self):
         self.__spacy_model = spacy.load('en_core_web_sm')
 

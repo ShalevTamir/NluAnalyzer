@@ -1,14 +1,14 @@
 from abc import ABC
 from enum import Enum
 
-from services.classification.classification_models.I_classification_model import IClassificationModel, GroupEnum
-from services.classification.word_embedding.base_word_embedder import IWordEmbedder
+from services.classification.classification_models.classification_model import ClassificationModel, GroupEnum
+from services.classification.word_embedding.word_embedder import WordEmbedder
 
 
 class LinearClassifier(ABC):
     def __init__(self,
-                 word_embedding_model: IWordEmbedder,
-                 classification_model: IClassificationModel):
+                 word_embedding_model: WordEmbedder,
+                 classification_model: ClassificationModel):
         self._word_embedding_model = word_embedding_model
         self._classification_model = classification_model
 

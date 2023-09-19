@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class IWordEmbedder(ABC):
+class WordEmbedder(ABC):
     @abstractmethod
     def embed_item(self, item_to_embed: str) -> list[float]:
         pass

@@ -44,19 +44,18 @@ if __name__ == '__main__':
         "engine heat needs to be with 100 degrees",
         "engine heat is 100 degrees",
         "engine heat is greater than 5",
-        "the parameter in question should be larger than 5 KW"
+        "the parameter in question should be larger than 5 KW",
+        "altitude should be greater than 50",
+        "Engine heat should be greater than 50 but also smaller than 20?",
+        "Engine heat higher than 20 and also smaller than 20"
 
     ]
     test = RequirementParam()
     count_unsuccessful = 0
     for sentence in sentences:
-        # if sentence == "The pH level of the swimming pool water is 7.2.":
-            # print("dasd")
         try:
             sentence_parser.parse(sentence)
         except ValueError as e:
             count_unsuccessful+=1
             print(e)
     print(f"accuracy {1-count_unsuccessful/len(sentences)}")
-        #item = sentence_classifier.classify_item(sentence)
-        #print(item.name,sentence)
