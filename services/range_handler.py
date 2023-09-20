@@ -43,7 +43,7 @@ class RangeHandler:
         raise ValueError(f"{ERROR_MSG} {revert_word_pos_tags(word_pos_tags)}")
 
     def __valid_range(self, requirement_range: RequirementRange):
-        if requirement_range.value > requirement_range.end_value:
+        if requirement_range.end_value - requirement_range.value < 1:
             return False
         return True
 

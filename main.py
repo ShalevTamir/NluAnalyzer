@@ -54,6 +54,7 @@ if __name__ == '__main__':
         ('the parameter in question should be larger than 5KW', 'parameter'),
         ('altitude should be greater than 50', 'altitude'),
         ('engine heat higher than 20 and also smaller than 20', 'engine heat'),
+        ('engine heat higher than 10 but also smaller than 20','engine heat'),
         ('The dog started flying within 20 - 50', 'dog')
     ]
     count_successful = 0
