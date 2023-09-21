@@ -10,7 +10,6 @@ from services.utils.str_utils import parse_number
 
 class AdjectiveHandler:
     def __init__(self, adjective_classifier: AdjectiveClassifier):
-        self.__lemmatizer = WordNetLemmatizer()
         self.__classifier = adjective_classifier
 
     def extract_comparative_bounds(self, chunk_list: list[list[WordPosTag]]) -> list[AdjectiveBound]:

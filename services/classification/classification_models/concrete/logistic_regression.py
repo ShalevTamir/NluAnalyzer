@@ -16,7 +16,10 @@ class LogisticRegression(ClassificationModel[GroupEnum]):
                  group1_enum: GroupEnum,
                  group2_enum: GroupEnum):
         self.__model = LogisticRegressionModel(solver='liblinear', random_state=0)
-        super().__init__(embedded_group1, embedded_group2, group1_enum, group2_enum, self.__model.fit)
+        super().__init__(embedded_group1,
+                         embedded_group2,
+                         group1_enum,
+                         group2_enum,
+                         self.__model.fit,
+                         self.__model.predict)
 
-    def predict(self, value: list[float]) -> GroupEnum:
-        return self._group_enum_class(self.__model.predict([value]))

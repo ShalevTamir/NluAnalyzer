@@ -2,6 +2,8 @@ import spacy
 from spacy import displacy
 from spacy.tokens.token import Token
 
+from services.classification.preprocessing.preprocessor import preprocess_sentence
+
 
 class SubjectDetector:
     SUBJ_DEPENDENCIES = ["subj", "ROOT"]

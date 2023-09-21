@@ -14,7 +14,7 @@ class Word2VecEmbedder(WordEmbedder):
     def __init__(self):
         if not os.path.isfile(EMBEDDING_MODEL_PATH) or not os.path.isfile(EMBEDDING_MODEL_PATH + ".vectors.npy"):
             embedding_model = GensimDownloader.load(EMBEDDING_MODEL_NAME)
-            embedding_model.save(EMBEDDING_MODEL_NAME)
+            embedding_model.save(EMBEDDING_MODEL_PATH)
         self.__word2vec_model = KeyedVectors.load(EMBEDDING_MODEL_PATH, mmap='r')
 
     def embedder_contains(self, item: str) -> bool:

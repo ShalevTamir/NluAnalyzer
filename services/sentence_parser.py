@@ -5,7 +5,7 @@ from models.requirement_param import RequirementParam
 from models.requirement_range import RequirementRange
 from models.sensor import Sensor
 from services.classification.classifiers.concrete.sentence_classifier import SentenceClassifier
-from services.classification.preprocessing.preprocessor import preprocess_sentence
+from services.classification.preprocessing.preprocessor import preprocess_sentence,remove_punctuation_marks
 from services.range_handler import RangeHandler
 from services.subject_detector import SubjectDetector
 from services.utils.nltk_utils import extract_word_pos_tags
@@ -34,7 +34,7 @@ class SentenceParser:
                 for number in re.findall(self.FIND_NUMBERS_REG, sentence)]
 
     def parse(self, sentence: str) -> Sensor:
-        sentence = preprocess_sentence(sentence)
+        sentence = remove_punctuation_marks(sentence)
         parameter_name = self.__param_detector.detect(sentence)
         sentence_type: SentenceGroup = self.__sentence_classifier.classify_item(sentence)
         word_pos_tags = extract_word_pos_tags(sentence)

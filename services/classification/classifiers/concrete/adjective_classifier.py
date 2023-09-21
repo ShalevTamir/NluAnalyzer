@@ -3,6 +3,7 @@ from enum import Enum
 
 from definitions import ROOT_DIR, DOCUMENTS_DIRECTORY_NAME
 from models.enums.adjective_group import AdjectiveGroup
+from services.classification.preprocessing.preprocessor import preprocess_adjective
 from services.classification.word_embedding.concrete.word2vec_embedder import Word2VecEmbedder
 from services.classification.classifiers.linear_classifier import LinearClassifier
 from services.classification.classification_models.concrete.logistic_regression import LogisticRegression
@@ -24,7 +25,8 @@ class AdjectiveClassifier(LinearClassifier):
                             word2vec_embedder.embed_collection(decreased_group),
                             word2vec_embedder.embed_collection(increased_group),
                             AdjectiveGroup.DECREASED,
-                            AdjectiveGroup.INCREASED))
+                            AdjectiveGroup.INCREASED),
+                         preprocess_adjective)
 
 
 
