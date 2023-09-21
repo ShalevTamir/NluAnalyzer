@@ -22,7 +22,6 @@ def parse_sentence():
     if len(request.data) > 0:
         data = json.loads(request.data)
         sentence_requested = data[sentence_key]
-    sensor = None
     try:
         sensor = sentence_parser.parse(sentence_requested)
     except ValueError as e:

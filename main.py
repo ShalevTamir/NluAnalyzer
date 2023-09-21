@@ -1,4 +1,5 @@
 from models.requirement_param import RequirementParam
+from models.requirement_range import RequirementRange
 from services.utils.dependency_containers import Application
 
 # TODO: change sentences to tuples
@@ -6,6 +7,7 @@ if __name__ == '__main__':
     container = Application()
     sentence_parser = container.services.sentence_parser()
     sentence_subject_pairs = [
+        ('The altitude is in range 50-100. 50', 'altitude'),
         ("The car's tire pressure is set at 32 PSI.", "tire pressure"),
         ('The weight of the cargo must be within the range of 500 to 1,000 kilograms for safe transportation.',
          'weight'),
@@ -33,8 +35,7 @@ if __name__ == '__main__':
         ('The weight of the package is 3 kilograms.', 'weight'),
         ('The battery capacity of the smartphone is 4000 milliampere-hours (mAh).', 'battery capacity'),
         ('The length of the bookshelf is 6 feet.', 'length'),
-        ('The screen resolution of the monitor is 1920x1080 pixels.', 'screen resolution'),
-        ('The pH level of the swimming pool water is 7.2.', 'pH level'),
+        ('The pH_level of the swimming pool water is 7.2.', 'pH level'),
         ('The speed of the internet connection is 100 megabits per second (Mbps).', 'speed'),
         ('The voltage of the electrical outlet is 120 volts.', 'voltage'),
         ('engine heat between 50 and 100', 'engine heat'),
@@ -65,5 +66,12 @@ if __name__ == '__main__':
             print(e)
         else:
             count_successful += 1
+            requirement = None
+            if isinstance(sensor.requirement_param, RequirementRange):
+                requirement_range: RequirementRange = sensor.requirement_param
+                requirement = [requirement_range.value,requirement_range.end_value]
+            else:
+                requirement = sensor.requirement_param.value
+            print(sensor.parameter_name, requirement)
 
     print(f"accuracy {count_successful / len(sentence_subject_pairs)}")
