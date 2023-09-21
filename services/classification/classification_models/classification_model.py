@@ -1,11 +1,7 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 from enum import Enum
 from typing import TypeVar, Generic, Callable
-import numpy
-from matplotlib import pyplot as plt
-from sklearn.decomposition import PCA
 
-from services.classification.regularization_models.I_regularization_model import IRegularizationModel
 
 GroupEnum = TypeVar("GroupEnum", bound=Enum)
 
