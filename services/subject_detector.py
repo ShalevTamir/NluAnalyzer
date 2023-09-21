@@ -28,6 +28,7 @@ class SubjectDetector:
                 return token
 
     def detect(self, sentence: str):
+        sentence = preprocess_text(sentence)
         doc = self.model(sentence)
         root_subject: Token = self.__extract_matching_tokens(doc, self.SUBJ_DEPENDENCIES)
         complete_subject = []
