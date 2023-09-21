@@ -2,6 +2,8 @@ import spacy
 from spacy import displacy
 from spacy.tokens.token import Token
 
+from services.classification.preprocessing.preprocessor import preprocess_text
+
 
 class SubjectDetector:
     SUBJ_DEPENDENCIES = ["subj", "ROOT"]
@@ -26,6 +28,7 @@ class SubjectDetector:
                 return token
 
     def detect(self, sentence: str):
+        sentence = preprocess_text(sentence)
         doc = self.model(sentence)
         root_subject: Token = self.__extract_matching_tokens(doc, self.SUBJ_DEPENDENCIES)
         complete_subject = []

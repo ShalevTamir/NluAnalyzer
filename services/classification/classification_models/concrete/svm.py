@@ -3,7 +3,7 @@ from sklearn import svm
 from services.classification.classification_models.classification_model import GroupEnum, ClassificationModel
 
 
-class SVM(ClassificationModel):
+class SVM(ClassificationModel[GroupEnum]):
 
     def __init__(self,
                  embedded_group1: list[list[float]],

@@ -14,4 +14,5 @@ class LinearClassifier(ABC):
 
     def classify_item(self, item_to_classify: str) -> GroupEnum:
         word_vector = self._word_embedding_model.embed_item(item_to_classify)
+
         return self._classification_model.predict(word_vector)

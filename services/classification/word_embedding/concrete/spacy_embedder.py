@@ -7,6 +7,8 @@ class SpacyEmbedder(WordEmbedder):
     def __init__(self):
         self.__spacy_model = spacy.load('en_core_web_sm')
 
+
+
     def embed_item(self, sentence_to_embed: str) -> list[float]:
         return self.__spacy_model(sentence_to_embed).vector
 
