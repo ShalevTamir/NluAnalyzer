@@ -18,7 +18,7 @@ class AdjectiveHandler:
             adjective = find_Nth_in_chunk(chunk, COMPARATIVE_ADJECTIVE_POS_TAG, 1)
             number_bound = find_Nth_in_chunk(chunk, NUMERICAL_POS_TAG, 1)
             adjective_bounds.append(AdjectiveBound(
-                self.__classifier.classify_item(self.__lemmatizer.lemmatize(adjective)),
+                self.__classifier.classify_item(adjective),
                 parse_number(number_bound)
             ))
 

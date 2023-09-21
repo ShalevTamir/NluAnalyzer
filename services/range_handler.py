@@ -28,7 +28,7 @@ class RangeHandler:
             r"Chunk: {<" + COMPARATIVE_ADJECTIVE_POS_TAG + "><" + CONJUNCTION_POS_TAG + "><" + NUMERICAL_POS_TAG + ">}": self.__process_adjectives_range
         }
 
-    def parse_sentence(self, word_pos_tags: list[WordPosTag]) -> RequirementRange:
+    def parse_sentence(self, word_pos_tags: list[WordPosTag]) -> RequirementRange | None:
         for regex_key in self.regex_dict.keys():
             chunk_list = chunk_sentence(word_pos_tags, regex_key)
             if len(chunk_list) > 0:
@@ -40,7 +40,7 @@ class RangeHandler:
                     raise ValueError(f"{INVALID_SENT} {revert_word_pos_tags(word_pos_tags)}")
                 return requirement_range
         # No regex has matched
-        raise ValueError(f"{ERROR_MSG} {revert_word_pos_tags(word_pos_tags)}")
+        return None
 
     def __valid_range(self, requirement_range: RequirementRange):
         if requirement_range.end_value - requirement_range.value < 1:
