@@ -14,10 +14,10 @@ def preprocess_sentence(sentence: str):
     tokens = word_tokenize(sentence)
     stop_words = set(stopwords.words("english"))
     # remove stop words
-    filtered_tokens = [token for token in tokens if token.isalpha() and token not in stop_words]
+    # filtered_tokens = [token for token in tokens if token.isalpha() and token not in stop_words]
     stemmer = PorterStemmer()
     # stem tokens
-    stemmed_tokens = [stemmer.stem(token) for token in filtered_tokens]
+    stemmed_tokens = [stemmer.stem(token) for token in tokens]
     return " ".join(stemmed_tokens)
 
 
