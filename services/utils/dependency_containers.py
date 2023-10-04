@@ -16,38 +16,34 @@ class Embedders(containers.DeclarativeContainer):
     spacy_embedder = providers.Singleton(SpacyEmbedder)
 
 
-class Classifiers(containers.DeclarativeContainer):
+class Services(containers.DeclarativeContainer):
     embedders = providers.DependenciesContainer()
 
-    adjective = providers.Singleton(AdjectiveClassifier,
-                                    word2vec_embedder=embedders.word2vec_embedder)
-    sentence = providers.Singleton(SentenceClassifier,
-                                   spacy_embedder=embedders.spacy_embedder)
-
-
-class Services(containers.DeclarativeContainer):
-    classifiers = providers.DependenciesContainer()
+    adjective_classifier = providers.Singleton(AdjectiveClassifier,
+                                               word2vec_embedder=embedders.word2vec_embedder)
 
     adjective_handler = providers.Singleton(AdjectiveHandler,
-                                            adjective_classifier=classifiers.adjective)
+                                            adjective_classifier=adjective_classifier)
+
+    sentence_classifier = providers.Singleton(SentenceClassifier,
+                                              spacy_embedder=embedders.spacy_embedder,
+                                              adjective_handler=adjective_handler)
+
     range_handler = providers.Singleton(RangeHandler,
                                         adjective_handler=adjective_handler)
     subject_detector = providers.Singleton(SubjectDetector)
     text_partitioner = providers.Singleton(TextPartitioner)
     text_parser = providers.Singleton(TextParser,
                                       subject_detector=subject_detector,
-                                      sentence_classifier=classifiers.sentence,
+                                      sentence_classifier=sentence_classifier,
                                       range_handler=range_handler,
                                       text_partitioner=text_partitioner)
 
 
 class Application(containers.DeclarativeContainer):
     embedders = providers.Container(Embedders)
-    classifiers = providers.Container(
-        Classifiers,
-        embedders=embedders
-    )
+
     services = providers.Container(
         Services,
-        classifiers=classifiers
+        embedders=embedders
     )

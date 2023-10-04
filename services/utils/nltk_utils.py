@@ -1,6 +1,9 @@
+import re
+
 import nltk
 from nltk import word_tokenize, Tree
 
+from definitions import FIND_NUMBERS_REG
 from models.word_pos_tag import WordPosTag
 
 
@@ -31,3 +34,9 @@ def chunk_sentence(word_pos_tags: list[WordPosTag], chunk_regex: str) -> list[li
         if isinstance(subtree, Tree):
             lst_result.append([child for child in subtree])
     return lst_result
+
+
+def extract_numbers(word_pos_tags: list[WordPosTag]) -> list[WordPosTag]:
+    return [word_pos_tag
+            for word_pos_tag in word_pos_tags
+            if re.search(FIND_NUMBERS_REG, word_pos_tag.word)]

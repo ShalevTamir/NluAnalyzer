@@ -2,6 +2,7 @@ import re
 import string
 from definitions import FIND_NUMBERS_REG
 
+
 # TODO: change to out if possible
 def is_castable(string_to_cast: str, type_to_cast: type):
     try:
@@ -31,3 +32,8 @@ def remove_punctuation(input_string):
     result = input_string.translate(translator)
 
     return result
+
+
+def extract_numbers(string):
+    return [parse_number(number)
+            for number in re.findall(FIND_NUMBERS_REG, string)]

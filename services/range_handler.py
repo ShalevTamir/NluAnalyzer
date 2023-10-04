@@ -1,5 +1,8 @@
 import re
 from typing import Callable
+
+from numpy import minimum, maximum
+
 from definitions import INVALID_SENT, NUMERICAL_POS_TAG, COMPARATIVE_ADJECTIVE_POS_TAG, ADJECTIVE_OR_NUMERICAL_POS_TAG, \
     CONJUNCTION_POS_TAG, FIND_NUMBERS_REG, RANGE_NUMBERS_COUNT, PARAMETER_NUMBERS_COUNT
 from services.utils.nltk_utils import chunk_sentence, revert_word_pos_tags, find_Nth_in_chunk
@@ -8,7 +11,8 @@ from models.enums.adjective_group import AdjectiveGroup
 from models.requirement_range import RequirementRange
 from models.word_pos_tag import WordPosTag
 from services.classification.adjective_handler import AdjectiveHandler
-from services.utils.str_utils import is_castable, parse_number
+from services.utils.str_utils import is_castable, parse_number, extract_numbers as extract_numbers_str
+from services.utils.nltk_utils import extract_numbers as extract_numbers_nltk
 
 
 class RangeHandler:
@@ -24,7 +28,7 @@ class RangeHandler:
             r"Chunk: {<" + COMPARATIVE_ADJECTIVE_POS_TAG + "><" + CONJUNCTION_POS_TAG + "><" + NUMERICAL_POS_TAG + ">}": self.__process_adjectives_range
         }
 
-    def parse_sentence(self, word_pos_tags: list[WordPosTag]) -> RequirementRange | None:
+    def parse_sentence(self, word_pos_tags: list[WordPosTag]) -> RequirementRange:
         self.__validate_number_detection(word_pos_tags)
         for regex_key in self.regex_dict.keys():
             chunk_list = chunk_sentence(word_pos_tags, regex_key)
@@ -35,12 +39,22 @@ class RangeHandler:
                     continue
                 if self.__valid_range(requirement_range):
                     return requirement_range
+        return self.__default_parsing_case(word_pos_tags)
+
+    def __default_parsing_case(self, word_pos_tags: list[WordPosTag]) -> RequirementRange:
+        numbers_in_sentence = [parse_number(number.word) for number in extract_numbers_nltk(word_pos_tags)]
+        comparative_adjectives = self.__adjective_handler.extract_comparative_adjectives(word_pos_tags)
+        if len(numbers_in_sentence) >= RANGE_NUMBERS_COUNT:
+            relevant_numbers = [numbers_in_sentence[0], numbers_in_sentence[1]]
+            return RequirementRange(minimum(*relevant_numbers), maximum(*relevant_numbers))
+        elif len(numbers_in_sentence) == PARAMETER_NUMBERS_COUNT and comparative_adjectives:
+            return self.__extract_range(AdjectiveBound(comparative_adjectives[0], numbers_in_sentence[0]))
 
     def __validate_number_detection(self, word_pos_tags: list[WordPosTag]):
+        numbers = extract_numbers_nltk(word_pos_tags)
         for index in range(len(word_pos_tags)):
             word_pos_tag = word_pos_tags[index]
-            possible_contained_number = re.search(FIND_NUMBERS_REG, word_pos_tag.word)
-            if possible_contained_number and word_pos_tag.pos_tag != NUMERICAL_POS_TAG:
+            if word_pos_tag in numbers and word_pos_tag.pos_tag != NUMERICAL_POS_TAG:
                 word_pos_tags[index] = WordPosTag(word_pos_tag.word, NUMERICAL_POS_TAG)
 
     def __valid_range(self, requirement_range: RequirementRange):

@@ -15,7 +15,7 @@ from services.range_handler import RangeHandler
 from services.subject_detector import SubjectDetector
 from services.text_partitioner import TextPartitioner
 from services.utils.nltk_utils import extract_word_pos_tags
-from services.utils.str_utils import is_castable, parse_number
+from services.utils.str_utils import is_castable, parse_number, extract_numbers
 
 
 class TextParser:
@@ -35,15 +35,11 @@ class TextParser:
     def __build_parameter(self, parameter_name: str, correlated_number: int):
         print(parameter_name, correlated_number)
 
-    def __extract_numbers(self, sentence):
-        return [parse_number(number)
-                for number in re.findall(FIND_NUMBERS_REG, sentence)]
-
-    def __parse_range(self, sentence) -> RequirementParam | None:
+    def __parse_range(self, sentence) -> RequirementParam:
         return self.__range_handler.parse_sentence(extract_word_pos_tags(sentence))
 
-    def __parse_parameter(self, sentence) -> RequirementParam | None:
-        numbers_in_sentence = self.__extract_numbers(sentence)
+    def __parse_parameter(self, sentence) -> RequirementParam:
+        numbers_in_sentence = extract_numbers(sentence)
         if numbers_in_sentence:
             return RequirementParam(numbers_in_sentence[0])
 
@@ -53,15 +49,6 @@ class TextParser:
             if sentence_type == SentenceGroup.RANGE \
             else self.__parse_parameter(sentence)
 
-    def __default_parsing(self, sentence: str):
-        numbers_in_sentence = self.__extract_numbers(sentence)
-        if not numbers_in_sentence:
-            return
-
-        if len(numbers_in_sentence) == PARAMETER_NUMBERS_COUNT:
-            return RequirementParam(numbers_in_sentence[0])
-        else:
-            return RequirementRange(numbers_in_sentence[0], numbers_in_sentence[1])
 
     def parse(self, text: str):
         sentence = remove_punctuation_marks(text)
@@ -69,9 +56,7 @@ class TextParser:
         sentence_type: SentenceGroup = self.__sentence_classifier.classify_item(sentence)
         # containing the methods used to parse and their arguments
         parsing_options = [partial(self.__parse_sentence_by_type, sentence, sentence_type),
-                           partial(self.__parse_sentence_by_type, sentence, SentenceGroup(1 - sentence_type.value)),
-                           partial(self.__default_parsing, sentence)]
-        print(sentence_type)
+                           partial(self.__parse_sentence_by_type, sentence, SentenceGroup(1 - sentence_type.value))]
         for parsing_option in parsing_options:
             requirement_param: RequirementParam = parsing_option()
             if requirement_param:
