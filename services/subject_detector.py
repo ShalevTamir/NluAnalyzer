@@ -3,6 +3,7 @@ from spacy import displacy
 from spacy.tokens.token import Token
 
 from services.classification.preprocessing.preprocessor import preprocess_sentence
+from services.utils.spacy_utils import matching_tokens, token_match
 
 
 class SubjectDetector:
@@ -13,30 +14,22 @@ class SubjectDetector:
     def __init__(self):
         self.model = spacy.load('en_core_web_sm')
 
-    def __is_token_match(self, token_property: str, dependencies_to_match: list[str]) -> bool:
-        for dependency in dependencies_to_match:
-            if dependency in token_property:
-                return True
-        return False
-
-    def __extract_matching_tokens(self, lst_token, dependencies_to_match: list[str], pos_tags_to_exclude=None) -> Token:
-
-        for token in lst_token:
-            if self.__is_token_match(token.dep_, dependencies_to_match) and \
-                    not self.__is_token_match(token.pos_,
-                                              pos_tags_to_exclude if pos_tags_to_exclude is not None else []):
-                return token
-
     def detect(self, sentence: str):
         doc = self.model(sentence)
-        root_subject: Token = self.__extract_matching_tokens(doc, self.SUBJ_DEPENDENCIES)
+
+        for token in doc:
+            if '_' in token.text:
+                return token.text
+            
+        root_subjects = matching_tokens(doc, self.SUBJ_DEPENDENCIES)
+        root_subject: Token = next(root_subjects) if root_subjects else None
         complete_subject = []
         if root_subject is None:
             return None
-        for node in root_subject.lefts:
-            node = self.__extract_matching_tokens([node], self.SUBJ_TRAIL_DEPENDENCIES, [self.NUMBER_POS_TAG])
-            if node:
-                complete_subject.append(node.text)
+        # for node in root_subject.lefts:
+        #     if token_match(node.dep_, self.SUBJ_TRAIL_DEPENDENCIES) \
+        #             and not token_match(node.pos_, [self.NUMBER_POS_TAG]):
+        #         complete_subject.append(node.text)
         complete_subject.append(root_subject.text)
 
         return ' '.join(complete_subject)

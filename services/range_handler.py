@@ -1,7 +1,7 @@
 import re
 from typing import Callable
 from definitions import INVALID_SENT, NUMERICAL_POS_TAG, COMPARATIVE_ADJECTIVE_POS_TAG, ADJECTIVE_OR_NUMERICAL_POS_TAG, \
-    CONJUNCTION_POS_TAG, FIND_NUMBERS_REG
+    CONJUNCTION_POS_TAG, FIND_NUMBERS_REG, RANGE_NUMBERS_COUNT, PARAMETER_NUMBERS_COUNT
 from services.utils.nltk_utils import chunk_sentence, revert_word_pos_tags, find_Nth_in_chunk
 from models.adjective_bound import AdjectiveBound
 from models.enums.adjective_group import AdjectiveGroup
@@ -12,8 +12,6 @@ from services.utils.str_utils import is_castable, parse_number
 
 
 class RangeHandler:
-    PARAMETER_SIZE = 1
-    RANGE_SIZE = 2
 
     def __init__(self, adjective_handler: AdjectiveHandler):
         self.__adjective_handler = adjective_handler
@@ -35,11 +33,8 @@ class RangeHandler:
                 requirement_range: RequirementRange = resolving_method(chunk_list)
                 if not requirement_range:
                     continue
-                if not self.__valid_range(requirement_range):
-                    raise ValueError(f"{INVALID_SENT} {revert_word_pos_tags(word_pos_tags)}")
-                return requirement_range
-        # No regex has matched
-        return None
+                if self.__valid_range(requirement_range):
+                    return requirement_range
 
     def __validate_number_detection(self, word_pos_tags: list[WordPosTag]):
         for index in range(len(word_pos_tags)):
@@ -55,11 +50,11 @@ class RangeHandler:
 
     def __process_adjectives_range(self, chunk_list: list[list[WordPosTag]]) -> RequirementRange:
         comparative_bounds = self.__adjective_handler.extract_comparative_bounds(chunk_list)
-        if len(comparative_bounds) == self.PARAMETER_SIZE:
+        if len(comparative_bounds) == PARAMETER_NUMBERS_COUNT:
             return self.__extract_range(comparative_bounds[0])
 
         requirement_range = RequirementRange()
-        for index in range(self.RANGE_SIZE):
+        for index in range(RANGE_NUMBERS_COUNT):
             comparative_bound = comparative_bounds[index]
             match comparative_bound.adjective_group:
                 case AdjectiveGroup.INCREASED:

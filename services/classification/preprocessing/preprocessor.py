@@ -23,7 +23,7 @@ def preprocess_sentence(sentence: str):
 
 def remove_punctuation_marks(sentence: str) -> str:
     sentence = sentence[:len(sentence)-1] if sentence[len(sentence)-1] == '.' else sentence
-    chars_to_exclude = ['-', '.', '\'','_']
+    chars_to_exclude = ['-', '.', '\'', '_']
     return sentence.translate({ord(character): None
                                for character in string.punctuation
                                if character not in chars_to_exclude})
