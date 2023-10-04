@@ -3,12 +3,12 @@ import json
 from flask import Blueprint, request, abort
 
 from flask_app.services.json.custom_encoder import CustomEncoder
-from services.sentence_parser import SentenceParser
+from services.text_parser import TextParser
 from services.utils.dependency_containers import Application
 
 sensor_bp = Blueprint('sensor', __name__, url_prefix='/sensor')
 dependency_injector = Application()
-sentence_parser: SentenceParser = dependency_injector.services.sentence_parser()
+text_parser: TextParser = dependency_injector.services.text_parser()
 sentence_key = 'sentence'
 
 
@@ -23,7 +23,7 @@ def parse_sentence():
         data = json.loads(request.data)
         sentence_requested = data[sentence_key]
     try:
-        sensor = sentence_parser.parse(sentence_requested)
+        sensors = text_parser.parse(sentence)
     except ValueError as e:
         abort(400, str(e))
     else:

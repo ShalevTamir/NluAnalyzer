@@ -6,8 +6,9 @@ from services.classification.classifiers.concrete.sentence_classifier import Sen
 from services.classification.word_embedding.concrete.spacy_embedder import SpacyEmbedder
 from services.classification.word_embedding.concrete.word2vec_embedder import Word2VecEmbedder
 from services.range_handler import RangeHandler
-from services.sentence_parser import SentenceParser
+from services.text_parser import TextParser
 from services.subject_detector import SubjectDetector
+from services.text_partitioner import TextPartitioner
 
 
 class Embedders(containers.DeclarativeContainer):
@@ -32,10 +33,12 @@ class Services(containers.DeclarativeContainer):
     range_handler = providers.Singleton(RangeHandler,
                                         adjective_handler=adjective_handler)
     subject_detector = providers.Singleton(SubjectDetector)
-    sentence_parser = providers.Singleton(SentenceParser,
-                                          subject_detector=subject_detector,
-                                          sentence_classifier=classifiers.sentence,
-                                          range_handler=range_handler)
+    text_partitioner = providers.Singleton(TextPartitioner)
+    text_parser = providers.Singleton(TextParser,
+                                      subject_detector=subject_detector,
+                                      sentence_classifier=classifiers.sentence,
+                                      range_handler=range_handler,
+                                      text_partitioner=text_partitioner)
 
 
 class Application(containers.DeclarativeContainer):

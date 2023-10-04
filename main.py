@@ -1,13 +1,16 @@
 from models.requirement_param import RequirementParam
 from models.requirement_range import RequirementRange
+from services.text_parser import TextParser
+from services.text_partitioner import TextPartitioner
 from services.utils.dependency_containers import Application
 
 # TODO: change sentences to tuples
+# TODO: negative and doubles
 if __name__ == '__main__':
     container = Application()
-    sentence_parser = container.services.sentence_parser()
+    text_parser: TextParser = container.services.text_parser()
     sentence_subject_pairs = [
-        ('The altitude is in range 50-100. 50', 'altitude'),
+        ('The laptop\'s battery_level ranges from 45% to 100%', 'altitude'),
         ("The car's tire pressure is set at 32 PSI.", "tire pressure"),
         ('The weight of the cargo must be within the range of 500 to 1,000 kilograms for safe transportation.',
          'weight'),
@@ -56,15 +59,22 @@ if __name__ == '__main__':
         ('the parameter in question should be larger than 5KW', 'parameter'),
         ('altitude should be greater than 50', 'altitude'),
         ('engine heat higher than 10 but also smaller than 20','engine heat'),
-        ('The dog started flying within 20 - 50', 'dog')
+        ('The dog started flying within 20 - 50', 'dog'),
+        ('The temperature can vary between -10 and 100.','temperature')
     ]
     count_successful = 0
+    text = "altitude is greater than 50 but also smaller than 100. In addition engine heat is warmer than 125"
+
     for sentence in sentence_subject_pairs:
         try:
-            sensor = sentence_parser.parse(sentence[0])
+            sensor = text_parser.parse(sentence[0])
         except ValueError as e:
             print(e)
         else:
+            print(sensor.parameter_name,
+                  (sensor.requirement_param.value, sensor.requirement_param.end_value) if isinstance(
+                      sensor.requirement_param, RequirementRange) else sensor.requirement_param.value)
+
             count_successful += 1
             requirement = None
             if isinstance(sensor.requirement_param, RequirementRange):
@@ -72,6 +82,6 @@ if __name__ == '__main__':
                 requirement = [requirement_range.value,requirement_range.end_value]
             else:
                 requirement = sensor.requirement_param.value
-            print(sensor.parameter_name, requirement)
+            #print(sensor.parameter_name, requirement)
 
     print(f"accuracy {count_successful / len(sentence_subject_pairs)}")
