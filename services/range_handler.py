@@ -63,16 +63,16 @@ class RangeHandler:
     def __process_relational_range(self) -> RequirementRange:
         if len(self.__get_relational_bounds()) == PARAMETER_NUMBERS_COUNT:
             return self.__extract_range(self.__get_relational_bounds()[0])
-
-        requirement_range = RequirementRange()
-        for index in range(RANGE_NUMBERS_COUNT):
-            relational_bound = self.__get_relational_bounds()[index]
-            match relational_bound.relation_group:
-                case RelationGroup.INCREASED:
-                    requirement_range.value = relational_bound.number_bound
-                case RelationGroup.DECREASED:
-                    requirement_range.end_value = relational_bound.number_bound
-        return requirement_range
+        elif len(self.__get_relational_bounds()) >= RANGE_NUMBERS_COUNT:
+            requirement_range = RequirementRange()
+            for index in range(RANGE_NUMBERS_COUNT):
+                relational_bound = self.__get_relational_bounds()[index]
+                match relational_bound.relation_group:
+                    case RelationGroup.INCREASED:
+                        requirement_range.value = relational_bound.number_bound
+                    case RelationGroup.DECREASED:
+                        requirement_range.end_value = relational_bound.number_bound
+            return requirement_range
 
     def __process_implicit_range(self) -> RequirementRange:
         chunk_list = chunk_sentence(self.__word_pos_tags, IMPLICIT_RANGE_REGEX)
