@@ -1,15 +1,14 @@
 import spacy
-from services.utils.spacy_utils import matching_tokens
+
+from definitions import SPACY_MODEL
+from services.utils.spacy_utils import find_dependencies
 
 
 class TextPartitioner:
     SUBJ_DEPENDENCY = "subj"
 
-    def __init__(self):
-        self.__model = spacy.load('en_core_web_sm')
-
     def extract_sentences(self, text) -> list[str]:
-        doc = self.__model(text)
+        doc = SPACY_MODEL(text)
         first_subject = True
 
         for index in range(len(doc)):

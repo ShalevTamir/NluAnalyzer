@@ -1,7 +1,7 @@
 from dependency_injector import containers, providers
 
-from services.classification.classifiers.concrete.adjective_classifier import AdjectiveClassifier
-from services.classification.adjective_handler import AdjectiveHandler
+from services.classification.classifiers.concrete.relational_words_classifier import RelationalWordsClassifier
+from services.classification.relational_handler import RelationalHandler
 from services.classification.classifiers.concrete.sentence_classifier import SentenceClassifier
 from services.classification.word_embedding.concrete.spacy_embedder import SpacyEmbedder
 from services.classification.word_embedding.concrete.word2vec_embedder import Word2VecEmbedder
@@ -19,24 +19,24 @@ class Embedders(containers.DeclarativeContainer):
 class Services(containers.DeclarativeContainer):
     embedders = providers.DependenciesContainer()
 
-    adjective_classifier = providers.Singleton(AdjectiveClassifier,
-                                               word2vec_embedder=embedders.word2vec_embedder)
+    relational_classifier = providers.Singleton(RelationalWordsClassifier,
+                                                word2vec_embedder=embedders.word2vec_embedder)
 
-    adjective_handler = providers.Singleton(AdjectiveHandler,
-                                            adjective_classifier=adjective_classifier)
+    relational_handler = providers.Factory(RelationalHandler,
+                                           relational_classifier=relational_classifier)
 
     sentence_classifier = providers.Singleton(SentenceClassifier,
                                               spacy_embedder=embedders.spacy_embedder,
-                                              adjective_handler=adjective_handler)
+                                              relational_handler=relational_handler)
 
-    range_handler = providers.Singleton(RangeHandler,
-                                        adjective_handler=adjective_handler)
+    range_handler = providers.Factory(RangeHandler,
+                                      relational_handler=relational_handler)
     subject_detector = providers.Singleton(SubjectDetector)
     text_partitioner = providers.Singleton(TextPartitioner)
     text_parser = providers.Singleton(TextParser,
                                       subject_detector=subject_detector,
                                       sentence_classifier=sentence_classifier,
-                                      range_handler=range_handler,
+                                      range_handler_factory=range_handler.provider,
                                       text_partitioner=text_partitioner)
 
 

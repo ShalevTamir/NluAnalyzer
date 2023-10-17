@@ -2,8 +2,9 @@ import spacy
 from spacy import displacy
 from spacy.tokens.token import Token
 
+from definitions import SPACY_MODEL
 from services.classification.preprocessing.preprocessor import preprocess_sentence
-from services.utils.spacy_utils import matching_tokens, token_match
+from services.utils.spacy_utils import find_dependencies, matches_dependency
 
 
 class SubjectDetector:
@@ -11,17 +12,15 @@ class SubjectDetector:
     SUBJ_TRAIL_DEPENDENCIES = ["compound", "mod"]
     NUMBER_POS_TAG = "NUM"
 
-    def __init__(self):
-        self.model = spacy.load('en_core_web_sm')
 
     def detect(self, sentence: str):
-        doc = self.model(sentence)
+        doc = SPACY_MODEL(sentence)
 
         for token in doc:
             if '_' in token.text:
                 return token.text
             
-        root_subjects = matching_tokens(doc, self.SUBJ_DEPENDENCIES)
+        root_subjects = find_dependencies(doc, self.SUBJ_DEPENDENCIES)
         root_subject: Token = next(root_subjects) if root_subjects else None
         complete_subject = []
         if root_subject is None:

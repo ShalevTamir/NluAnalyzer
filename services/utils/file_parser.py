@@ -1,4 +1,3 @@
-# TODO: use preprocessor, not necessarily here
 
 def __file_rows(arr_lines):
     return [item.replace('\n', "") for item in arr_lines]

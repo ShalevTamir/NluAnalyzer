@@ -22,21 +22,15 @@ class TextParser:
     def __init__(self,
                  subject_detector: SubjectDetector,
                  sentence_classifier: SentenceClassifier,
-                 range_handler: RangeHandler,
+                 range_handler_factory,
                  text_partitioner: TextPartitioner):
         self.__param_detector = subject_detector
         self.__sentence_classifier = sentence_classifier
-        self.__range_handler = range_handler
+        self.__range_handler_factory = range_handler_factory
         self.__text_partitioner = text_partitioner
 
-    def __build_range(self, parameter: str, requirement_range: RequirementRange):
-        print(parameter, [requirement_range.value, requirement_range.end_value])
-
-    def __build_parameter(self, parameter_name: str, correlated_number: int):
-        print(parameter_name, correlated_number)
-
     def __parse_range(self, sentence) -> RequirementParam:
-        return self.__range_handler.parse_sentence(extract_word_pos_tags(sentence))
+        return self.__range_handler_factory(sentence).parse_sentence()
 
     def __parse_parameter(self, sentence) -> RequirementParam:
         numbers_in_sentence = extract_numbers(sentence)
@@ -48,7 +42,6 @@ class TextParser:
         return self.__parse_range(sentence) \
             if sentence_type == SentenceGroup.RANGE \
             else self.__parse_parameter(sentence)
-
 
     def parse(self, text: str):
         sentence = remove_punctuation_marks(text)

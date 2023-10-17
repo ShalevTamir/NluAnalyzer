@@ -1,22 +1,17 @@
 import string
 from nltk import word_tokenize, WordNetLemmatizer, PorterStemmer
 from nltk.corpus import stopwords
+from spacy.tokens import Token
 
-__lemmatizer = WordNetLemmatizer()
 
-
-def preprocess_adjective(adjective: str):
-    return __lemmatizer.lemmatize(adjective, pos='a')
+def preprocess_token(token: Token):
+    return token.lemma_
 
 
 def preprocess_sentence(sentence: str):
     sentence = sentence.lower()
     tokens = word_tokenize(sentence)
-    stop_words = set(stopwords.words("english"))
-    # remove stop words
-    # filtered_tokens = [token for token in tokens if token.isalpha() and token not in stop_words]
     stemmer = PorterStemmer()
-    # stem tokens
     stemmed_tokens = [stemmer.stem(token) for token in tokens]
     return " ".join(stemmed_tokens)
 

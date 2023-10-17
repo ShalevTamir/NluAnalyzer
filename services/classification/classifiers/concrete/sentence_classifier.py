@@ -1,7 +1,7 @@
 import os
 from definitions import ROOT_DIR, DOCUMENTS_DIRECTORY_NAME
 from models.enums.sentence_group import SentenceGroup
-from services.classification.adjective_handler import AdjectiveHandler
+from services.classification.relational_handler import RelationalHandler
 from services.classification.classification_models.classification_model import GroupEnum
 from services.classification.classification_models.concrete.logistic_regression import LogisticRegression
 from services.classification.classification_models.concrete.quadratic_discriminant import QuadraticDiscriminant
@@ -18,7 +18,7 @@ PARAMETER_FILE_PATH = os.path.join(ROOT_DIR, DOCUMENTS_DIRECTORY_NAME,
 
 
 class SentenceClassifier(LinearClassifier):
-    def __init__(self, spacy_embedder: SpacyEmbedder, adjective_handler: AdjectiveHandler):
+    def __init__(self, spacy_embedder: SpacyEmbedder, relational_handler: RelationalHandler):
         range_sentences = [preprocess_sentence(sentence) for sentence in parse_file(RANGE_FILE_PATH)]
         parameter_sentences = [preprocess_sentence(sentence) for sentence in parse_file(PARAMETER_FILE_PATH)]
         super().__init__(spacy_embedder,
@@ -28,10 +28,10 @@ class SentenceClassifier(LinearClassifier):
                              SentenceGroup.RANGE,
                              SentenceGroup.PARAMETER),
                          preprocess_sentence)
-        self.__adjective_handler = adjective_handler
+        self.__relational_handler = relational_handler
 
     def classify_item(self, item_to_classify: str) -> SentenceGroup:
-        if self.__adjective_handler.extract_comparative_adjectives(extract_word_pos_tags(item_to_classify)):
+        if list(self.__relational_handler.extract_relational_bounds(item_to_classify)):
             return SentenceGroup.RANGE
         return super().classify_item(item_to_classify)
 

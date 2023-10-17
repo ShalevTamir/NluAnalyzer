@@ -1,6 +1,6 @@
 from enum import Enum,auto
 
 
-class AdjectiveGroup(Enum):
+class RelationGroup(Enum):
     DECREASED = 0
     INCREASED = 1
