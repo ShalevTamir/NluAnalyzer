@@ -7,24 +7,18 @@ class SubjectDetector:
     _SUBJ_DEPENDENCIES = ["subj", "ROOT"]
     _SUBJ_TRAIL_DEPENDENCIES = ["compound", "mod"]
     _NUMBER_POS_TAG = "NUM"
-
+    _SUBJ_SPACE_CHAR = '_'
 
     def detect(self, sentence: str):
         doc = SPACY_MODEL(sentence)
 
         for token in doc:
-            if '_' in token.text:
+            if self._SUBJ_SPACE_CHAR in token.text:
                 return token.text
-            
+
         root_subjects = find_dependencies(doc, self._SUBJ_DEPENDENCIES)
         root_subject: Token = next(root_subjects) if root_subjects else None
         complete_subject = []
-        if root_subject is None:
-            return None
-        # for node in root_subject.lefts:
-        #     if token_match(node.dep_, self.SUBJ_TRAIL_DEPENDENCIES) \
-        #             and not token_match(node.pos_, [self.NUMBER_POS_TAG]):
-        #         complete_subject.append(node.text)
-        complete_subject.append(root_subject.text)
-
-        return ' '.join(complete_subject)
+        if root_subject is not None:
+            complete_subject.append(root_subject.text)
+            return ' '.join(complete_subject)

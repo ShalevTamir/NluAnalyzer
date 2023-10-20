@@ -1,6 +1,5 @@
 import json
 
-from numpy import minimum, maximum
 from definitions import NUMERICAL_POS_TAG, ADJECTIVE_OR_NUMERICAL_POS_TAG, \
     RANGE_NUMBERS_COUNT, PARAMETER_NUMBERS_COUNT
 from flask_app.services.json.custom_encoder import CustomEncoder
@@ -12,7 +11,6 @@ from services.utils.nltk_utils import chunk_sentence, find_Nth_in_chunk, \
     validate_number_detection, extract_word_pos_tags
 from services.utils.nltk_utils import extract_numbers as extract_numbers_nltk
 from services.utils.str_utils import parse_number
-
 
 _IMPLICIT_RANGE_REGEX = r"Chunk: {<" + NUMERICAL_POS_TAG + "><.+><" + NUMERICAL_POS_TAG + ">}"
 _EXPLICIT_RANGE_REGEX = r"Chunk: {<" + ADJECTIVE_OR_NUMERICAL_POS_TAG + ">}"
@@ -90,7 +88,7 @@ class RangeHandler:
         numbers_in_sentence = [parse_number(number.word) for number in extract_numbers_nltk(self._word_pos_tags)]
         if len(numbers_in_sentence) >= RANGE_NUMBERS_COUNT:
             relevant_numbers = [numbers_in_sentence[0], numbers_in_sentence[1]]
-            return RequirementRange(minimum(*relevant_numbers), maximum(*relevant_numbers))
+            return RequirementRange(min(*relevant_numbers), max(*relevant_numbers))
         elif len(numbers_in_sentence) == PARAMETER_NUMBERS_COUNT and self._get_relational_bounds():
             return self._extract_range(self._get_relational_bounds()[0])
 
@@ -100,7 +98,6 @@ class RangeHandler:
                 return RequirementRange(relational_bound.number_bound, float("inf"))
             case RelationGroup.DECREASED:
                 return RequirementRange(-float("inf"), relational_bound.number_bound)
-
 
     def _get_relational_bounds(self):
         if self._relational_bounds is None:

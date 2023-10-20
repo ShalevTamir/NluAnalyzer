@@ -9,16 +9,16 @@ from services.classification.relational_handler import RelationalHandler
 from services.classification.word_embedding.concrete.spacy_embedder import SpacyEmbedder
 from services.utils.file_parser import parse_file
 
-RANGE_FILE_PATH = os.path.join(ROOT_DIR, DOCUMENTS_DIRECTORY_NAME,
-                               "sentence_classification", "range_sentences.txt")
-PARAMETER_FILE_PATH = os.path.join(ROOT_DIR, DOCUMENTS_DIRECTORY_NAME,
-                                   "sentence_classification", "single_parameter_sentences.txt")
+_RANGE_FILE_PATH = os.path.join(ROOT_DIR, DOCUMENTS_DIRECTORY_NAME,
+                                "sentence_classification", "range_sentences.txt")
+_PARAMETER_FILE_PATH = os.path.join(ROOT_DIR, DOCUMENTS_DIRECTORY_NAME,
+                                    "sentence_classification", "single_parameter_sentences.txt")
 
 
 class SentenceClassifier(LinearClassifier):
     def __init__(self, spacy_embedder: SpacyEmbedder, relational_handler: RelationalHandler):
-        range_sentences = [preprocess_sentence(sentence) for sentence in parse_file(RANGE_FILE_PATH)]
-        parameter_sentences = [preprocess_sentence(sentence) for sentence in parse_file(PARAMETER_FILE_PATH)]
+        range_sentences = [preprocess_sentence(sentence) for sentence in parse_file(_RANGE_FILE_PATH)]
+        parameter_sentences = [preprocess_sentence(sentence) for sentence in parse_file(_PARAMETER_FILE_PATH)]
         super().__init__(spacy_embedder,
                          LogisticRegression(
                              spacy_embedder.embed_collection(range_sentences),
@@ -32,4 +32,3 @@ class SentenceClassifier(LinearClassifier):
         if list(self._relational_handler.extract_relational_bounds(item_to_classify)):
             return SentenceGroup.RANGE
         return super().classify_item(item_to_classify)
-

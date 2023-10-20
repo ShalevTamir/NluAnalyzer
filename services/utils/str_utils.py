@@ -2,6 +2,7 @@ import re
 import string
 from definitions import FIND_NUMBERS_REG
 from services.utils.general import is_castable
+from word2number import w2n
 
 
 def extract_number(string_to_search: str) -> str:
@@ -16,8 +17,10 @@ def parse_number(string_to_parse: str) -> int | float:
             return int(number_in_string)
         elif is_castable(number_in_string, float):
             return float(number_in_string)
-
-    raise ValueError(f"Unable to parse string {string_to_parse} to a valid number")
+    try:
+        return w2n.word_to_num(string_to_parse)
+    except ValueError:
+        raise ValueError(f"Unable to parse string {string_to_parse} to a valid number")
 
 
 def remove_punctuation(input_string):
