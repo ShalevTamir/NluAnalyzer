@@ -8,10 +8,10 @@ class QuadraticDiscriminant(ClassificationModel[GroupEnum]):
                  group1_enum: GroupEnum,
                  group2_enum: GroupEnum):
 
-        self.__model = QuadraticDiscriminantAnalysis()
+        self._model = QuadraticDiscriminantAnalysis()
         super().__init__(embedded_group1,
                          embedded_group2,
                          group1_enum,
                          group2_enum,
-                         self.__model.fit,
-                         self.__model.predict)
+                         self._model.fit,
+                         self._model.predict)

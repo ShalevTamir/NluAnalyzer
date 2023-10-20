@@ -4,14 +4,18 @@ from definitions import FIND_NUMBERS_REG
 from services.utils.general import is_castable
 
 
-def parse_number(string_to_parse: str) -> int | float:
-    regex_result = re.search(FIND_NUMBERS_REG, string_to_parse)
+def extract_number(string_to_search: str) -> str:
+    regex_result = re.search(FIND_NUMBERS_REG, string_to_search)
     if regex_result:
-        string_to_parse = regex_result.group(0)
-        if is_castable(string_to_parse, int):
-            return int(string_to_parse)
-        elif is_castable(string_to_parse, float):
-            return float(string_to_parse)
+        return regex_result.group(0)
+
+def parse_number(string_to_parse: str) -> int | float:
+    number_in_string = extract_number(string_to_parse)
+    if number_in_string:
+        if is_castable(number_in_string, int):
+            return int(number_in_string)
+        elif is_castable(number_in_string, float):
+            return float(number_in_string)
 
     raise ValueError(f"Unable to parse string {string_to_parse} to a valid number")
 

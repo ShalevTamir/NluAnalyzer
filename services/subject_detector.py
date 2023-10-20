@@ -4,9 +4,9 @@ from services.utils.spacy_utils import find_dependencies
 
 
 class SubjectDetector:
-    SUBJ_DEPENDENCIES = ["subj", "ROOT"]
-    SUBJ_TRAIL_DEPENDENCIES = ["compound", "mod"]
-    NUMBER_POS_TAG = "NUM"
+    _SUBJ_DEPENDENCIES = ["subj", "ROOT"]
+    _SUBJ_TRAIL_DEPENDENCIES = ["compound", "mod"]
+    _NUMBER_POS_TAG = "NUM"
 
 
     def detect(self, sentence: str):
@@ -16,7 +16,7 @@ class SubjectDetector:
             if '_' in token.text:
                 return token.text
             
-        root_subjects = find_dependencies(doc, self.SUBJ_DEPENDENCIES)
+        root_subjects = find_dependencies(doc, self._SUBJ_DEPENDENCIES)
         root_subject: Token = next(root_subjects) if root_subjects else None
         complete_subject = []
         if root_subject is None:

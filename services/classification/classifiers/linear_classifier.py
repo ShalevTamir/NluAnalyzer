@@ -11,9 +11,9 @@ class LinearClassifier(ABC):
                  preprocessing_method: Callable[[any], str]):
         self._word_embedding_model = word_embedding_model
         self._classification_model = classification_model
-        self.__preprocessing_method = preprocessing_method
+        self._preprocessing_method = preprocessing_method
 
     def classify_item(self, item_to_classify: any) -> GroupEnum:
-        item_to_classify: str = self.__preprocessing_method(item_to_classify)
+        item_to_classify: str = self._preprocessing_method(item_to_classify)
         word_vector = self._word_embedding_model.embed_item(item_to_classify)
         return self._classification_model.predict(word_vector)

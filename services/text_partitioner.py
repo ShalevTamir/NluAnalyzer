@@ -5,14 +5,14 @@ from services.utils.spacy_utils import find_dependencies
 
 
 class TextPartitioner:
-    SUBJ_DEPENDENCY = "subj"
+    _SUBJ_DEPENDENCY = "subj"
 
     def extract_sentences(self, text) -> list[str]:
         doc = SPACY_MODEL(text)
         first_subject = True
 
         for index in range(len(doc)):
-            if self.SUBJ_DEPENDENCY in doc[index].dep_:
+            if self._SUBJ_DEPENDENCY in doc[index].dep_:
                 if first_subject:
                     first_subject = False
                 else:

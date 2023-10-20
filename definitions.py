@@ -12,4 +12,6 @@ CONJUNCTION_POS_TAG = "IN"
 FIND_NUMBERS_REG = r'-?\d+(?:\.\d+)?'
 PARAMETER_NUMBERS_COUNT = 1
 RANGE_NUMBERS_COUNT = 2
+CONJUNCTION_DEP = 'cc'
+NEGATION_DEP = 'neg'
 SPACY_MODEL = spacy.load("en_core_web_sm")

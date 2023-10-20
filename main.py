@@ -9,6 +9,9 @@ if __name__ == '__main__':
     container = Application()
     text_parser: TextParser = container.services.text_parser()
     parameters = [
+        "the table's length is in range 5cm-20cm",
+        "the sensor should be above than 10 and under than 27",
+        "tempareture between 50",
         "The recommended daily_intake of calcium for adults is around 1,000- 1,200 milligrams.",
         "the sensor should be in the range of 500 -1000",
         "The 454 parameters have a temperature of 5",
@@ -85,11 +88,10 @@ if __name__ == '__main__':
         "The average_weight of a newborn baby is about 7.5 pounds."
     ]
 
-
     for sentence in parameters:
         try:
             # print(extract_word_pos_tags(sentence))
             sensor = text_parser.parse(sentence)
-            print(f"Sentence {sentence}", f"Sensor {json.dumps(sensor, cls=CustomEncoder)}", sep='\n',end='\n\n')
+            print(f"Sentence {sentence}", f"Sensor {json.dumps(sensor, cls=CustomEncoder)}", sep='\n', end='\n\n')
         except ValueError as e:
             print(e)

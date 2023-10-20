@@ -20,7 +20,7 @@ class ClassificationModel(ABC, Generic[GroupEnum]):
                     [group2_enum.value] * len(embedded_group2)
 
         train_method(concatenated_groups, group_ids)
-        self.__prediction_method = prediction_method
+        self._prediction_method = prediction_method
 
     def predict(self, value: list[float]) -> GroupEnum:
-        return self._group_enum_class(self.__prediction_method([value]))
+        return self._group_enum_class(self._prediction_method([value]))

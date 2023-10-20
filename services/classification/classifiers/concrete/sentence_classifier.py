@@ -26,10 +26,10 @@ class SentenceClassifier(LinearClassifier):
                              SentenceGroup.RANGE,
                              SentenceGroup.PARAMETER),
                          preprocess_sentence)
-        self.__relational_handler = relational_handler
+        self._relational_handler = relational_handler
 
     def classify_item(self, item_to_classify: str) -> SentenceGroup:
-        if list(self.__relational_handler.extract_relational_bounds(item_to_classify)):
+        if list(self._relational_handler.extract_relational_bounds(item_to_classify)):
             return SentenceGroup.RANGE
         return super().classify_item(item_to_classify)
 

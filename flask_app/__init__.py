@@ -10,10 +10,10 @@ def create_app(config=None):
     else:
         # load the config if passed in
         app.config.from_mapping(config)
-    __register_blueprints(app)
+    _register_blueprints(app)
     return app
 
 
-def __register_blueprints(app):
+def _register_blueprints(app):
     from .blueprints.sensor import sensor_bp
     app.register_blueprint(sensor_bp)

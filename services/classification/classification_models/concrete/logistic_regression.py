@@ -9,11 +9,11 @@ class LogisticRegression(ClassificationModel[GroupEnum]):
                  embedded_group2: list[list[float]],
                  group1_enum: GroupEnum,
                  group2_enum: GroupEnum):
-        self.__model = LogisticRegressionModel(solver='liblinear', random_state=0)
+        self._model = LogisticRegressionModel(solver='liblinear', random_state=0)
         super().__init__(embedded_group1,
                          embedded_group2,
                          group1_enum,
                          group2_enum,
-                         self.__model.fit,
-                         self.__model.predict)
+                         self._model.fit,
+                         self._model.predict)
 
