@@ -1,5 +1,4 @@
 from flask import Flask
-
 from flask_app.services.json.custom_encoder import CustomEncoder
 
 

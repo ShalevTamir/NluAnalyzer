@@ -1,13 +1,12 @@
 from dependency_injector import containers, providers
-
 from services.classification.classifiers.concrete.relational_words_classifier import RelationalWordsClassifier
-from services.classification.relational_handler import RelationalHandler
 from services.classification.classifiers.concrete.sentence_classifier import SentenceClassifier
+from services.classification.relational_handler import RelationalHandler
 from services.classification.word_embedding.concrete.spacy_embedder import SpacyEmbedder
 from services.classification.word_embedding.concrete.word2vec_embedder import Word2VecEmbedder
 from services.range_handler import RangeHandler
-from services.text_parser import TextParser
 from services.subject_detector import SubjectDetector
+from services.text_parser import TextParser
 from services.text_partitioner import TextPartitioner
 
 

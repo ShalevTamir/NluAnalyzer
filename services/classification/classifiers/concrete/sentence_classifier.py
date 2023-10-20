@@ -1,15 +1,13 @@
 import os
+
 from definitions import ROOT_DIR, DOCUMENTS_DIRECTORY_NAME
 from models.enums.sentence_group import SentenceGroup
-from services.classification.relational_handler import RelationalHandler
-from services.classification.classification_models.classification_model import GroupEnum
 from services.classification.classification_models.concrete.logistic_regression import LogisticRegression
-from services.classification.classification_models.concrete.quadratic_discriminant import QuadraticDiscriminant
 from services.classification.classifiers.linear_classifier import LinearClassifier
+from services.classification.preprocessing.preprocessor import preprocess_sentence
+from services.classification.relational_handler import RelationalHandler
 from services.classification.word_embedding.concrete.spacy_embedder import SpacyEmbedder
 from services.utils.file_parser import parse_file
-from services.classification.preprocessing.preprocessor import preprocess_sentence
-from services.utils.nltk_utils import extract_word_pos_tags
 
 RANGE_FILE_PATH = os.path.join(ROOT_DIR, DOCUMENTS_DIRECTORY_NAME,
                                "sentence_classification", "range_sentences.txt")

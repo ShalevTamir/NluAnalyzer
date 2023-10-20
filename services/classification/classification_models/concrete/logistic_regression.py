@@ -1,10 +1,4 @@
-from enum import Enum
-from typing import TypeVar
-
 from sklearn.linear_model import LogisticRegression as LogisticRegressionModel
-
-from models.enums.relation_group import RelationGroup
-from models.enums.sentence_group import SentenceGroup
 from services.classification.classification_models.classification_model import ClassificationModel, GroupEnum
 
 

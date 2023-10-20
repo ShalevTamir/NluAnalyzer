@@ -1,15 +1,11 @@
 import os
-from enum import Enum
-
 from definitions import ROOT_DIR, DOCUMENTS_DIRECTORY_NAME
 from models.enums.relation_group import RelationGroup
-from services.classification.classification_models.concrete.quadratic_discriminant import QuadraticDiscriminant
+from services.classification.classification_models.concrete.logistic_regression import LogisticRegression
+from services.classification.classifiers.linear_classifier import LinearClassifier
 from services.classification.preprocessing.preprocessor import preprocess_token
 from services.classification.word_embedding.concrete.word2vec_embedder import Word2VecEmbedder
-from services.classification.classifiers.linear_classifier import LinearClassifier
-from services.classification.classification_models.concrete.logistic_regression import LogisticRegression
 from services.utils.file_parser import parse_file
-from nltk import WordNetLemmatizer
 
 DECREASED_FILE_PATH = os.path.join(ROOT_DIR, DOCUMENTS_DIRECTORY_NAME, "relational_words",
                                    "decreased.txt")

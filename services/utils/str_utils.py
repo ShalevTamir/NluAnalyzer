@@ -1,15 +1,7 @@
 import re
 import string
 from definitions import FIND_NUMBERS_REG
-
-
-# TODO: change to out if possible
-def is_castable(string_to_cast: str, type_to_cast: type):
-    try:
-        type_to_cast(string_to_cast)
-        return True
-    except ValueError:
-        return False
+from services.utils.general import is_castable
 
 
 def parse_number(string_to_parse: str) -> int | float:

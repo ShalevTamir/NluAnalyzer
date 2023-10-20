@@ -1,5 +1,4 @@
 from typing import Generator, Iterable
-
 from spacy.tokens import Token, Doc
 
 
@@ -15,7 +14,6 @@ def find_dependencies(tokens: Iterable[Token], dependencies_to_match: list[str])
     for token in tokens:
         if matches_dependency(token.dep_, dependencies_to_match):
             yield token
-
 
 def find_dependency(tokens: Iterable[Token], dependency_to_match: str) -> Token:
     return next(filter(lambda token: token.dep_ == dependency_to_match, tokens), None)

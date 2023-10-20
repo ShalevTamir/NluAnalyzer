@@ -1,5 +1,4 @@
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
-import numpy
 from services.classification.classification_models.classification_model import ClassificationModel, GroupEnum
 
 

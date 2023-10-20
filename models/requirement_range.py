@@ -1,5 +1,5 @@
 from models.requirement_param import RequirementParam
-from services.utils.str_utils import is_castable
+from services.utils.general import is_castable
 
 
 class RequirementRange(RequirementParam):

@@ -1,23 +1,17 @@
-from itertools import islice, takewhile
-from typing import Iterable, Tuple, Generator
+from typing import Tuple, Generator
 
-import nltk
-import spacy
-from nltk import WordNetLemmatizer, Tree
+from nltk.corpus import stopwords
 from spacy.matcher import DependencyMatcher
-from spacy.tokens import Doc, Token, Span
-
-from definitions import COMPARATIVE_ADJECTIVE_POS_TAG, NUMERICAL_POS_TAG, CONJUNCTION_POS_TAG, SPACY_MODEL
+from spacy.tokens import Doc, Span
+from definitions import SPACY_MODEL
 from models.enums.relation_group import RelationGroup
-from services.classification.word_embedding.concrete.word2vec_embedder import Word2VecEmbedder
-from services.utils.nltk_utils import chunk_sentence, find_Nth_in_chunk
 from models.relational_bound import RelationalBound
-from models.word_pos_tag import WordPosTag
 from services.classification.classifiers.concrete.relational_words_classifier import RelationalWordsClassifier
-from services.utils.str_utils import parse_number
 from services.utils.spacy_utils import find_dependency, extract_tokens
+from services.utils.str_utils import parse_number
 
 CONJUNCTION_DEP = 'cc'
+NEGATION_DEP = 'neg'
 RELATIONAL_INDEX_IN_PATTERN = 0
 NUMBER_INDEX_IN_PATTERN = -1
 
@@ -68,6 +62,7 @@ verb_pattern = [
 
 patterns = [adjective_pattern, adposition_pattern, verb_pattern]
 
+
 class RelationalHandler:
     def __init__(self, relational_classifier: RelationalWordsClassifier):
         self.__classifier = relational_classifier
@@ -76,16 +71,23 @@ class RelationalHandler:
 
     def extract_relational_bounds(self, sentence) -> Generator[RelationalBound, None, None]:
         tokens = SPACY_MODEL(sentence)
-        matches = [list(extract_tokens(sentence_chunk, chunk_matches[0]))
-                   for sentence_chunk in self.__split_sentence(tokens)
-                   if (chunk_matches := self.__dep_matcher(sentence_chunk))]
-
-        for match in matches:
-            relational_word_token = match[RELATIONAL_INDEX_IN_PATTERN]
-            number_token = match[NUMBER_INDEX_IN_PATTERN]
-            relational_bound = RelationalBound(self.__classifier.classify_item(relational_word_token),
-                                               parse_number(number_token.text))
-            yield relational_bound
+        for sentence_chunk in self.__split_sentence(tokens):
+            chunk_matches = self.__dep_matcher(sentence_chunk)
+            if chunk_matches:
+                match = list(extract_tokens(sentence_chunk, chunk_matches[0]))
+                if match[RELATIONAL_INDEX_IN_PATTERN].text in stopwords.words('english'):
+                    is_reverted = bool(find_dependency(sentence_chunk, NEGATION_DEP))
+                    try:
+                        relation_group: RelationGroup = self.__classifier.classify_item(
+                            match[RELATIONAL_INDEX_IN_PATTERN])
+                    except KeyError:
+                        continue
+                    if is_reverted:
+                        # revert result if negation exists
+                        relation_group = RelationGroup(1 - relation_group.value)
+                    number_token = match[NUMBER_INDEX_IN_PATTERN]
+                    yield RelationalBound(relation_group,
+                                          parse_number(number_token.text))
 
     def __split_sentence(self, tokens: Doc) -> Tuple[Span | Doc, ...]:
         conjunction_token = find_dependency(tokens, CONJUNCTION_DEP)

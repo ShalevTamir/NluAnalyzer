@@ -1,6 +1,7 @@
-from functools import wraps
-from flask import request, abort
 import inspect
+from functools import wraps
+
+from flask import request, abort
 
 
 def includes_body_params(func):

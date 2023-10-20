@@ -1,21 +1,12 @@
-import re
 from functools import partial
-from typing import Generator
-
-from nltk import pos_tag, word_tokenize
-
-from definitions import FIND_NUMBERS_REG, RANGE_NUMBERS_COUNT, PARAMETER_NUMBERS_COUNT
 from models.enums.sentence_group import SentenceGroup
 from models.requirement_param import RequirementParam
-from models.requirement_range import RequirementRange
 from models.sensor import Sensor
 from services.classification.classifiers.concrete.sentence_classifier import SentenceClassifier
 from services.classification.preprocessing.preprocessor import remove_punctuation_marks
-from services.range_handler import RangeHandler
 from services.subject_detector import SubjectDetector
 from services.text_partitioner import TextPartitioner
-from services.utils.nltk_utils import extract_word_pos_tags
-from services.utils.str_utils import is_castable, parse_number, extract_numbers
+from services.utils.str_utils import extract_numbers
 
 
 class TextParser:

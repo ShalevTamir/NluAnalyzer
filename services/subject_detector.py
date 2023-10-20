@@ -1,10 +1,6 @@
-import spacy
-from spacy import displacy
 from spacy.tokens.token import Token
-
 from definitions import SPACY_MODEL
-from services.classification.preprocessing.preprocessor import preprocess_sentence
-from services.utils.spacy_utils import find_dependencies, matches_dependency
+from services.utils.spacy_utils import find_dependencies
 
 
 class SubjectDetector:

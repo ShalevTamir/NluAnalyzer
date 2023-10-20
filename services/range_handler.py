@@ -1,20 +1,16 @@
-import re
-from functools import partial
-from typing import Callable
-
 from numpy import minimum, maximum
-
-from definitions import INVALID_SENT, NUMERICAL_POS_TAG, COMPARATIVE_ADJECTIVE_POS_TAG, ADJECTIVE_OR_NUMERICAL_POS_TAG, \
-    CONJUNCTION_POS_TAG, FIND_NUMBERS_REG, RANGE_NUMBERS_COUNT, PARAMETER_NUMBERS_COUNT
-from services.utils.nltk_utils import chunk_sentence, revert_word_pos_tags, find_Nth_in_chunk, \
-    validate_number_detection, extract_word_pos_tags
-from models.relational_bound import RelationalBound
+from definitions import NUMERICAL_POS_TAG, ADJECTIVE_OR_NUMERICAL_POS_TAG, \
+    RANGE_NUMBERS_COUNT, PARAMETER_NUMBERS_COUNT
 from models.enums.relation_group import RelationGroup
+from models.relational_bound import RelationalBound
 from models.requirement_range import RequirementRange
-from models.word_pos_tag import WordPosTag
 from services.classification.relational_handler import RelationalHandler
-from services.utils.str_utils import is_castable, parse_number, extract_numbers as extract_numbers_str
+from services.utils.nltk_utils import chunk_sentence, find_Nth_in_chunk, \
+    validate_number_detection, extract_word_pos_tags
 from services.utils.nltk_utils import extract_numbers as extract_numbers_nltk
+from services.utils.general import is_castable
+from services.utils.str_utils import parse_number
+
 
 IMPLICIT_RANGE_REGEX = r"Chunk: {<" + NUMERICAL_POS_TAG + "><.+><" + NUMERICAL_POS_TAG + ">}"
 EXPLICIT_RANGE_REGEX = r"Chunk: {<" + ADJECTIVE_OR_NUMERICAL_POS_TAG + ">}"
@@ -82,9 +78,9 @@ class RangeHandler:
                 parse_number(find_Nth_in_chunk(chunk, NUMERICAL_POS_TAG, 2)))
 
     def __process_explicit_range(self) -> RequirementRange:
-        chunk_list = chunk_sentence(self.__word_pos_tags, EXPLICIT_RANGE_REGEX)
-        for chunk in chunk_list:
-            possible_range = chunk[0].word.split('-')
+        numbers_in_sentence = [number.word for number in extract_numbers_nltk(self.__word_pos_tags)]
+        for number in numbers_in_sentence:
+            possible_range = number.split('-')
             if len(possible_range) == 2 and is_castable(possible_range[0], int) and \
                     is_castable(possible_range[1], int):
                 return RequirementRange(

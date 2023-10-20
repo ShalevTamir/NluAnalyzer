@@ -1,6 +1,5 @@
 import string
-from nltk import word_tokenize, WordNetLemmatizer, PorterStemmer
-from nltk.corpus import stopwords
+from nltk import word_tokenize, PorterStemmer
 from spacy.tokens import Token
 
 

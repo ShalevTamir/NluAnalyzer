@@ -1,12 +1,11 @@
 import json
 
-from flask import Blueprint, request, abort
+from flask import Blueprint, abort
 
 from flask_app.decorators.view import includes_body_params
 from flask_app.services.json.custom_encoder import CustomEncoder
 from services.text_parser import TextParser
 from services.utils.dependency_containers import Application
-import pdb
 
 sensor_bp = Blueprint('sensor', __name__, url_prefix='/sensor')
 dependency_injector = Application()

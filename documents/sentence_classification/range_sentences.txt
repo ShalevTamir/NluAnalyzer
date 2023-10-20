@@ -109,3 +109,4 @@ The water temperature for a hot bath is 37°C to 40°C.
 The credit card expiration date is typically 2-5 years.
 The car's fuel efficiency can range from 20mpg to 40mpg.
 The serving size for a chocolate bar is 40g to 50g.
+The sensor should be in the range of 500 -1000.
