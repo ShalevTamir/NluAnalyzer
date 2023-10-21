@@ -14,7 +14,7 @@ class SubjectDetector:
         subject_locators = [
             partial(locate_matching_token, tokens, 'text', self._SUBJ_SPACE_CHAR),
             *[
-                partial(locate_matching_token, tokens, 'pos_', subj_dependency)
+                partial(locate_matching_token, tokens, 'dep_', subj_dependency)
                 for subj_dependency in self._SUBJ_DEPENDENCIES
             ]
         ]
@@ -22,4 +22,4 @@ class SubjectDetector:
         for subject_locator in subject_locators:
             possible_subject = subject_locator()
             if possible_subject:
-                return possible_subject
+                return possible_subject.text
