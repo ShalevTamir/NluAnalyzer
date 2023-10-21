@@ -1,7 +1,7 @@
 import re
 import nltk
 from nltk import word_tokenize, Tree
-from definitions import FIND_NUMBERS_REG, NUMERICAL_POS_TAG
+from definitions import FIND_NUMBERS_REG, NUMERICAL_POS_TAG_NLTK
 from models.word_pos_tag import WordPosTag
 
 
@@ -38,7 +38,7 @@ def extract_numbers(word_pos_tags: list[WordPosTag]) -> list[WordPosTag]:
     return [
         word_pos_tag
         for word_pos_tag in word_pos_tags
-        if word_pos_tag.pos_tag == NUMERICAL_POS_TAG
+        if word_pos_tag.pos_tag == NUMERICAL_POS_TAG_NLTK
     ]
 
 
@@ -52,5 +52,5 @@ def validate_number_detection(word_pos_tags: list[WordPosTag]):
     numbers = extract_numbers_regex(word_pos_tags)
     for index in range(len(word_pos_tags)):
         word_pos_tag = word_pos_tags[index]
-        if word_pos_tag in numbers and word_pos_tag.pos_tag != NUMERICAL_POS_TAG:
-            word_pos_tags[index] = WordPosTag(word_pos_tag.word, NUMERICAL_POS_TAG)
+        if word_pos_tag in numbers and word_pos_tag.pos_tag != NUMERICAL_POS_TAG_NLTK:
+            word_pos_tags[index] = WordPosTag(word_pos_tag.word, NUMERICAL_POS_TAG_NLTK)

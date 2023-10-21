@@ -1,6 +1,6 @@
 import json
 
-from definitions import NUMERICAL_POS_TAG, ADJECTIVE_OR_NUMERICAL_POS_TAG, \
+from definitions import NUMERICAL_POS_TAG_NLTK, ADJECTIVE_OR_NUMERICAL_POS_TAG, \
     RANGE_NUMBERS_COUNT, PARAMETER_NUMBERS_COUNT
 from flask_app.services.json.custom_encoder import CustomEncoder
 from models.enums.relation_group import RelationGroup
@@ -12,7 +12,7 @@ from services.utils.nltk_utils import chunk_sentence, find_Nth_in_chunk, \
 from services.utils.nltk_utils import extract_numbers as extract_numbers_nltk
 from services.utils.str_utils import parse_number
 
-_IMPLICIT_RANGE_REGEX = r"Chunk: {<" + NUMERICAL_POS_TAG + "><.+><" + NUMERICAL_POS_TAG + ">}"
+_IMPLICIT_RANGE_REGEX = r"Chunk: {<" + NUMERICAL_POS_TAG_NLTK + "><.+><" + NUMERICAL_POS_TAG_NLTK + ">}"
 _EXPLICIT_RANGE_REGEX = r"Chunk: {<" + ADJECTIVE_OR_NUMERICAL_POS_TAG + ">}"
 
 
@@ -51,8 +51,8 @@ class RangeHandler:
         chunk_list = chunk_sentence(self._word_pos_tags, _IMPLICIT_RANGE_REGEX)
         for chunk in chunk_list:
             return RequirementRange(
-                parse_number(find_Nth_in_chunk(chunk, NUMERICAL_POS_TAG, 1)),
-                parse_number(find_Nth_in_chunk(chunk, NUMERICAL_POS_TAG, 2)))
+                parse_number(find_Nth_in_chunk(chunk, NUMERICAL_POS_TAG_NLTK, 1)),
+                parse_number(find_Nth_in_chunk(chunk, NUMERICAL_POS_TAG_NLTK, 2)))
 
     def _process_explicit_range(self) -> RequirementRange:
         numbers_in_sentence = [number.word for number in extract_numbers_nltk(self._word_pos_tags)]
@@ -74,15 +74,24 @@ class RangeHandler:
         if len(self._get_relational_bounds()) == PARAMETER_NUMBERS_COUNT:
             return self._extract_range(self._get_relational_bounds()[0])
         elif len(self._get_relational_bounds()) >= RANGE_NUMBERS_COUNT:
-            requirement_range = RequirementRange()
-            for index in range(RANGE_NUMBERS_COUNT):
-                relational_bound = self._get_relational_bounds()[index]
-                match relational_bound.relation_group:
-                    case RelationGroup.INCREASED:
-                        requirement_range.value = relational_bound.number_bound
-                    case RelationGroup.DECREASED:
-                        requirement_range.end_value = relational_bound.number_bound
-            return requirement_range
+            if self._get_relational_bounds()[0].relation_group != self._get_relational_bounds()[1].relation_group:
+                requirement_range = RequirementRange()
+                for index in range(RANGE_NUMBERS_COUNT):
+                    relational_bound = self._get_relational_bounds()[index]
+                    match relational_bound.relation_group:
+                        case RelationGroup.INCREASED:
+                            requirement_range.value = relational_bound.number_bound
+                        case RelationGroup.DECREASED:
+                            requirement_range.end_value = relational_bound.number_bound
+                return requirement_range
+            else:
+                comparing_func = max \
+                                 if self._get_relational_bounds()[0].relation_group == RelationGroup.INCREASED \
+                                 else min
+                return self._extract_range(comparing_func(
+                                               self._get_relational_bounds()[0],
+                                               self._get_relational_bounds()[1],
+                                               key=lambda relational_bound : relational_bound.number_bound))
 
     def _default_parsing_case(self) -> RequirementRange:
         numbers_in_sentence = [parse_number(number.word) for number in extract_numbers_nltk(self._word_pos_tags)]

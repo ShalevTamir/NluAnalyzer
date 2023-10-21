@@ -1,7 +1,6 @@
 import spacy
 
 from definitions import SPACY_MODEL
-from services.utils.spacy_utils import find_dependencies
 
 
 class TextPartitioner:

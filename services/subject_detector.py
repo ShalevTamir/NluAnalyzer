@@ -1,24 +1,25 @@
+from functools import partial
+
 from spacy.tokens.token import Token
 from definitions import SPACY_MODEL
-from services.utils.spacy_utils import find_dependencies
+from services.utils.spacy_utils import locate_matching_token
 
 
 class SubjectDetector:
     _SUBJ_DEPENDENCIES = ["subj", "ROOT"]
-    _SUBJ_TRAIL_DEPENDENCIES = ["compound", "mod"]
-    _NUMBER_POS_TAG = "NUM"
     _SUBJ_SPACE_CHAR = '_'
 
     def detect(self, sentence: str):
-        doc = SPACY_MODEL(sentence)
+        tokens = SPACY_MODEL(sentence)
+        subject_locators = [
+            partial(locate_matching_token, tokens, 'text', self._SUBJ_SPACE_CHAR),
+            *[
+                partial(locate_matching_token, tokens, 'pos_', subj_dependency)
+                for subj_dependency in self._SUBJ_DEPENDENCIES
+            ]
+        ]
 
-        for token in doc:
-            if self._SUBJ_SPACE_CHAR in token.text:
-                return token.text
-
-        root_subjects = find_dependencies(doc, self._SUBJ_DEPENDENCIES)
-        root_subject: Token = next(root_subjects) if root_subjects else None
-        complete_subject = []
-        if root_subject is not None:
-            complete_subject.append(root_subject.text)
-            return ' '.join(complete_subject)
+        for subject_locator in subject_locators:
+            possible_subject = subject_locator()
+            if possible_subject:
+                return possible_subject
