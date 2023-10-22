@@ -23,7 +23,7 @@ _reverted_adjective_pattern = [
         "LEFT_ID": "adjective",
         "REL_OP": ".",
         "RIGHT_ID": "adposition",
-        "RIGHT_ATTRS": {"POS": "ADP"}
+        "RIGHT_ATTRS": {}
     },
     {
         "LEFT_ID": "adposition",
