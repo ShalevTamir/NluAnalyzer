@@ -46,15 +46,20 @@ class TextParser:
         sentence = remove_punctuation_marks(text)
         parameter_name = self._param_detector.detect(sentence)
         sentence_type: SentenceGroup = self._sentence_classifier.classify_item(sentence)
+        print(sentence_type)
         # containing the methods used to parse and their arguments
         parsing_options = [partial(self._parse_sentence_by_type, sentence, sentence_type),
                            partial(self._parse_sentence_by_type, sentence, SentenceGroup(1 - sentence_type.value))]
+
+        parse_status: ParseStatus = ParseStatus.UNABLE_TO_PARSE
+        requirement_param: RequirementParam | None = None
         for parsing_option in parsing_options:
             requirement_param, parse_status = parsing_option()
             if parse_status == ParseStatus.SUCCESSFUL:
                 return Sensor(parameter_name, requirement_param)
-            elif parse_status == ParseStatus.INVALID_RANGE:
-                raise ValueError(f"Invalid range for sentence {sentence}, "
-                                 f"parsed {json.dumps(Sensor(parameter_name, requirement_param), cls=CustomEncoder)}")
-            elif parse_status == ParseStatus.UNABLE_TO_PARSE:
-                raise ValueError(f"Unable to parse sentence {sentence}")
+
+        if parse_status == ParseStatus.INVALID_RANGE:
+            raise ValueError(f"Invalid range for sentence {sentence}, "
+                             f"parsed {json.dumps(Sensor(parameter_name, requirement_param), cls=CustomEncoder)}")
+        if parse_status == ParseStatus.UNABLE_TO_PARSE:
+            raise ValueError(f"Unable to parse sentence {sentence}")
