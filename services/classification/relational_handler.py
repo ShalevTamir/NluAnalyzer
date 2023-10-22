@@ -44,7 +44,7 @@ class RelationalHandler:
 
     def _split_sentence(self, tokens: Doc) -> Tuple[Span | Doc, ...]:
         first_number = locate_matching_token(tokens, 'pos_', NUMERICAL_POS_TAG_SPACY)
-        if first_number.i == len(tokens) - 1:
+        if not first_number or first_number.i == len(tokens) - 1:
             return tokens,
         else:
             return tokens[:first_number.i + 1], tokens[first_number.i + 1:]
