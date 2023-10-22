@@ -1,12 +1,13 @@
 import re
 import string
-from definitions import FIND_NUMBERS_REG
 from services.utils.general import is_castable
 from word2number import w2n
 
+_FIND_NUMBERS_REG = r'-?\d+(?:\.\d+)?'
+
 
 def extract_number(string_to_search: str) -> str:
-    regex_result = re.search(FIND_NUMBERS_REG, string_to_search)
+    regex_result = re.search(_FIND_NUMBERS_REG, string_to_search)
     if regex_result:
         return regex_result.group(0)
 
@@ -35,4 +36,4 @@ def remove_punctuation(input_string):
 
 def extract_numbers(string):
     return [parse_number(number)
-            for number in re.findall(FIND_NUMBERS_REG, string)]
+            for number in re.findall(_FIND_NUMBERS_REG, string)]

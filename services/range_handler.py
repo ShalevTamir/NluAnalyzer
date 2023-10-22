@@ -7,14 +7,15 @@ from models.enums.relation_group import RelationGroup
 from models.relational_bound import RelationalBound
 from models.requirement_range import RequirementRange
 from services.classification.relational_handler import RelationalHandler
-from services.utils.nltk_utils import chunk_sentence, find_Nth_in_chunk, \
-    validate_number_detection, extract_word_pos_tags
+from services.utils.nltk_utils import chunk_sentence, find_Nth_in_chunk, extract_word_pos_tags
 from services.utils.nltk_utils import extract_numbers as extract_numbers_nltk
 from services.utils.str_utils import parse_number
+from typing import Iterable
+from models.enums.parse_status import ParseStatus
+from definitions import SPACY_MODEL
 
 _IMPLICIT_RANGE_REGEX = r"Chunk: {<" + NUMERICAL_POS_TAG_NLTK + "><.+><" + NUMERICAL_POS_TAG_NLTK + ">}"
 _EXPLICIT_RANGE_REGEX = r"Chunk: {<" + ADJECTIVE_OR_NUMERICAL_POS_TAG + ">}"
-
 
 class RangeHandler:
 
@@ -22,10 +23,11 @@ class RangeHandler:
         self._relational_handler = relational_handler
         self._sentence = sentence
         self._word_pos_tags = extract_word_pos_tags(sentence)
-        self._relational_bounds = None
+        self._relational_bounds: Iterable[RelationalBound] = None
+        self._range: RequirementRange = None
+        self._parse_status: ParseStatus = None
 
-    def parse_sentence(self) -> RequirementRange:
-        validate_number_detection(self._word_pos_tags)
+    def parse_sentence(self):
         parsing_methods = [
             # Parses syntax: Engine heat is between 100 and 200
             self._process_implicit_range,
@@ -37,15 +39,29 @@ class RangeHandler:
             self._default_parsing_case
         ]
 
+        requirement_range = None
         for parsing_method in parsing_methods:
             requirement_range = parsing_method()
             if not requirement_range:
                 continue
-            # validate range
-            if requirement_range.end_value - requirement_range.value > 0:
-                return requirement_range
             else:
-                raise ValueError(f'Invalid range {json.dumps(requirement_range, cls=CustomEncoder)}')
+                break
+
+        self._range = requirement_range
+
+        if not self._range:
+            self._parse_status = ParseStatus.UNABLE_TO_PARSE
+        elif self._range.end_value - self._range.value <= 0:
+            self._parse_status = ParseStatus.INVALID_RANGE
+        else:
+            self._parse_status = ParseStatus.SUCCESSFUL
+
+
+    def get_range(self):
+        return self._range
+
+    def get_parse_status(self):
+        return self._parse_status
 
     def _process_implicit_range(self) -> RequirementRange:
         chunk_list = chunk_sentence(self._word_pos_tags, _IMPLICIT_RANGE_REGEX)

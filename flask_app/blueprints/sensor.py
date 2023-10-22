@@ -1,4 +1,5 @@
 import json
+import pdb
 
 from flask import Blueprint, abort
 
@@ -20,7 +21,7 @@ def parse_sentence(sentence):
     try:
         sensors = text_parser.parse(sentence)
     except ValueError as e:
-        abort(400, str(e))
+        abort(400, str(e).replace('\"',''))
     else:
         return json.dumps(sensors, cls=CustomEncoder)
 
