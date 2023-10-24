@@ -16,7 +16,7 @@ _PARAMETER_FILE_PATH = os.path.join(ROOT_DIR, DOCUMENTS_DIRECTORY_NAME,
 
 
 class SentenceClassifier(LinearClassifier):
-    def __init__(self, spacy_embedder: SpacyEmbedder, relational_handler: RelationalHandler):
+    def __init__(self, spacy_embedder: SpacyEmbedder):
         range_sentences = [preprocess_sentence(sentence) for sentence in parse_file(_RANGE_FILE_PATH)]
         parameter_sentences = [preprocess_sentence(sentence) for sentence in parse_file(_PARAMETER_FILE_PATH)]
         super().__init__(spacy_embedder,
@@ -26,5 +26,4 @@ class SentenceClassifier(LinearClassifier):
                              SentenceGroup.RANGE,
                              SentenceGroup.PARAMETER))
                          # preprocess_sentence)
-        self._relational_handler = relational_handler
 

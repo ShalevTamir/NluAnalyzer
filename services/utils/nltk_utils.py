@@ -1,8 +1,7 @@
-import re
 import nltk
 from nltk import word_tokenize, Tree
 from definitions import NUMERICAL_POS_TAG_NLTK
-from models.word_pos_tag import WordPosTag
+from models.named_tuples.word_pos_tag import WordPosTag
 from services.decorators.number_validation import validate_numbers_nltk
 
 

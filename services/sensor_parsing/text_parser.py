@@ -5,13 +5,13 @@ from typing import Tuple
 from flask_app.services.json.custom_encoder import CustomEncoder
 from models.enums.parse_status import ParseStatus
 from models.enums.sentence_group import SentenceGroup
-from models.requirement_param import RequirementParam
-from models.sensor import Sensor
+from models.sensor_dto.requirement_param import RequirementParam
+from models.sensor_dto.sensor import Sensor
 from services.classification.classifiers.concrete.sentence_classifier import SentenceClassifier
 from services.classification.preprocessing.preprocessor import remove_punctuation_marks
-from services.range_handler import RangeHandler
-from services.subject_detector import SubjectDetector
-from services.text_partitioner import TextPartitioner
+from services.sensor_parsing.range_handler import RangeHandler
+from services.sensor_parsing.subject_detector import SubjectDetector
+from services.sensor_parsing.text_partitioner import TextPartitioner
 from services.utils.str_utils import extract_numbers
 
 
@@ -46,7 +46,6 @@ class TextParser:
         sentence = remove_punctuation_marks(text)
         parameter_name = self._param_detector.detect(sentence)
         sentence_type: SentenceGroup = self._sentence_classifier.classify_item(sentence)
-        print(sentence_type)
         # containing the methods used to parse and their arguments
         parsing_options = [partial(self._parse_sentence_by_type, sentence, sentence_type),
                            partial(self._parse_sentence_by_type, sentence, SentenceGroup(1 - sentence_type.value))]

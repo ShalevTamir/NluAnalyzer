@@ -1,4 +1,4 @@
-from models.requirement_param import RequirementParam
+from models.sensor_dto.requirement_param import RequirementParam
 
 
 class Sensor:

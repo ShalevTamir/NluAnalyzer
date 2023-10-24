@@ -1,15 +1,15 @@
 from typing import Tuple, Generator
 
-from nltk.corpus import stopwords
 from spacy.matcher import DependencyMatcher
 from spacy.tokens import Doc, Span
-from definitions import SPACY_MODEL, NEGATION_DEP, CONJUNCTION_DEP, NUMERICAL_POS_TAG_SPACY
+from definitions import SPACY_MODEL, NEGATION_DEP, NUMERICAL_POS_TAG_SPACY
 from models.enums.relation_group import RelationGroup
-from models.relational_bound import RelationalBound
+from models.named_tuples.relational_bound import RelationalBound
 from services.classification.classifiers.concrete.relational_words_classifier import RelationalWordsClassifier
 from services.utils.spacy_utils import extract_tokens, locate_matching_token
 from services.utils.str_utils import parse_number
 from models.named_tuples.pattern import patterns
+
 
 class RelationalHandler:
     def __init__(self, relational_classifier: RelationalWordsClassifier):

@@ -4,10 +4,10 @@ from services.classification.classifiers.concrete.sentence_classifier import Sen
 from services.classification.relational_handler import RelationalHandler
 from services.classification.word_embedding.concrete.spacy_embedder import SpacyEmbedder
 from services.classification.word_embedding.concrete.word2vec_embedder import Word2VecEmbedder
-from services.range_handler import RangeHandler
-from services.subject_detector import SubjectDetector
-from services.text_parser import TextParser
-from services.text_partitioner import TextPartitioner
+from services.sensor_parsing.range_handler import RangeHandler
+from services.sensor_parsing.subject_detector import SubjectDetector
+from services.sensor_parsing.text_parser import TextParser
+from services.sensor_parsing.text_partitioner import TextPartitioner
 
 
 class Embedders(containers.DeclarativeContainer):
@@ -15,18 +15,19 @@ class Embedders(containers.DeclarativeContainer):
     spacy_embedder = providers.Singleton(SpacyEmbedder)
 
 
-class Services(containers.DeclarativeContainer):
+class Classifiers(containers.DeclarativeContainer):
     embedders = providers.DependenciesContainer()
+    relational = providers.Singleton(RelationalWordsClassifier,
+                                     word2vec_embedder=embedders.word2vec_embedder)
+    sentence = providers.Singleton(SentenceClassifier,
+                                   spacy_embedder=embedders.spacy_embedder)
 
-    relational_classifier = providers.Singleton(RelationalWordsClassifier,
-                                                word2vec_embedder=embedders.word2vec_embedder)
+
+class Services(containers.DeclarativeContainer):
+    classifiers = providers.DependenciesContainer()
 
     relational_handler = providers.Factory(RelationalHandler,
-                                           relational_classifier=relational_classifier)
-
-    sentence_classifier = providers.Singleton(SentenceClassifier,
-                                              spacy_embedder=embedders.spacy_embedder,
-                                              relational_handler=relational_handler)
+                                           relational_classifier=classifiers.relational)
 
     range_handler = providers.Factory(RangeHandler,
                                       relational_handler=relational_handler)
@@ -34,15 +35,18 @@ class Services(containers.DeclarativeContainer):
     text_partitioner = providers.Singleton(TextPartitioner)
     text_parser = providers.Singleton(TextParser,
                                       subject_detector=subject_detector,
-                                      sentence_classifier=sentence_classifier,
+                                      sentence_classifier=classifiers.sentence,
                                       range_handler_factory=range_handler.provider,
                                       text_partitioner=text_partitioner)
 
 
 class Application(containers.DeclarativeContainer):
     embedders = providers.Container(Embedders)
-
+    classifiers = providers.Container(
+        Classifiers,
+        embedders=embedders
+    )
     services = providers.Container(
         Services,
-        embedders=embedders
+        classifiers=classifiers
     )

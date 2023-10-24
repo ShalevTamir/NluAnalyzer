@@ -1,9 +1,7 @@
 from functools import wraps
-import spacy
-import nltk
 from spacy.tokens import Span, Doc
 
-from models.word_pos_tag import WordPosTag
+from models.named_tuples.word_pos_tag import WordPosTag
 from services.utils.str_utils import parse_number
 
 

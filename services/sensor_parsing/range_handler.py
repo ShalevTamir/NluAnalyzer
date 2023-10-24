@@ -1,11 +1,8 @@
-import json
-
 from definitions import NUMERICAL_POS_TAG_NLTK, ADJECTIVE_OR_NUMERICAL_POS_TAG, \
     RANGE_NUMBERS_COUNT, PARAMETER_NUMBERS_COUNT
-from flask_app.services.json.custom_encoder import CustomEncoder
 from models.enums.relation_group import RelationGroup
-from models.relational_bound import RelationalBound
-from models.requirement_range import RequirementRange
+from models.named_tuples.relational_bound import RelationalBound
+from models.sensor_dto.requirement_range import RequirementRange
 from services.classification.relational_handler import RelationalHandler
 from services.utils.nltk_utils import chunk_sentence, find_Nth_in_chunk, extract_word_pos_tags
 from services.utils.nltk_utils import extract_numbers as extract_numbers_nltk
@@ -13,9 +10,9 @@ from services.utils.str_utils import parse_number
 from typing import Iterable
 from models.enums.parse_status import ParseStatus
 
-
 _IMPLICIT_RANGE_REGEX = r"Chunk: {<" + NUMERICAL_POS_TAG_NLTK + "><.+><" + NUMERICAL_POS_TAG_NLTK + ">}"
 _EXPLICIT_RANGE_REGEX = r"Chunk: {<" + ADJECTIVE_OR_NUMERICAL_POS_TAG + ">}"
+
 
 class RangeHandler:
 
@@ -56,7 +53,6 @@ class RangeHandler:
             self._parse_status = ParseStatus.INVALID_RANGE
         else:
             self._parse_status = ParseStatus.SUCCESSFUL
-
 
     def get_range(self):
         return self._range
@@ -104,12 +100,12 @@ class RangeHandler:
                 return requirement_range
             else:
                 comparing_func = max \
-                                 if self._get_relational_bounds()[0].relation_group == RelationGroup.INCREASED \
-                                 else min
+                    if self._get_relational_bounds()[0].relation_group == RelationGroup.INCREASED \
+                    else min
                 return self._extract_range(comparing_func(
-                                               self._get_relational_bounds()[0],
-                                               self._get_relational_bounds()[1],
-                                               key=lambda relational_bound : relational_bound.number_bound))
+                    self._get_relational_bounds()[0],
+                    self._get_relational_bounds()[1],
+                    key=lambda relational_bound: relational_bound.number_bound))
 
     def _default_parsing_case(self) -> RequirementRange:
         if len(self._numbers_in_sentence) >= RANGE_NUMBERS_COUNT:
