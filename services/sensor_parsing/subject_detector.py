@@ -1,7 +1,8 @@
 from functools import partial
 
 from spacy.tokens.token import Token
-from definitions import SPACY_MODEL
+
+from models.definitions.spacy_def import SPACY_MODEL, SPACY_DEP_ATR
 from services.utils.spacy_utils import locate_matching_token
 
 
@@ -14,7 +15,7 @@ class SubjectDetector:
         subject_locators = [
             partial(locate_matching_token, tokens, 'text', self._SUBJ_SPACE_CHAR),
             *[
-                partial(locate_matching_token, tokens, 'dep_', subj_dependency)
+                partial(locate_matching_token, tokens, SPACY_DEP_ATR, subj_dependency)
                 for subj_dependency in self._SUBJ_DEPENDENCIES
             ]
         ]

@@ -8,11 +8,12 @@ def preprocess_token(token: Token):
 
 
 def preprocess_sentence(sentence: str):
+    sentence = remove_punctuation_marks(sentence)
     sentence = sentence.lower()
-    tokens = word_tokenize(sentence)
-    stemmer = PorterStemmer()
-    stemmed_tokens = [stemmer.stem(token) for token in tokens]
-    return " ".join(stemmed_tokens)
+    # tokens = word_tokenize(sentence)
+    # stemmer = PorterStemmer()
+    # stemmed_tokens = [stemmer.stem(token) for token in tokens]
+    return sentence
 
 
 def remove_punctuation_marks(sentence: str) -> str:

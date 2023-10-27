@@ -1,11 +1,10 @@
 import os
 
-from definitions import ROOT_DIR, DOCUMENTS_DIRECTORY_NAME
+from models.definitions.file_def import ROOT_DIR, DOCUMENTS_DIRECTORY_NAME
 from models.enums.sentence_group import SentenceGroup
 from services.classification.classification_models.concrete.logistic_regression import LogisticRegression
 from services.classification.classifiers.linear_classifier import LinearClassifier
 from services.classification.preprocessing.preprocessor import preprocess_sentence
-from services.classification.relational_handler import RelationalHandler
 from services.classification.word_embedding.concrete.spacy_embedder import SpacyEmbedder
 from services.utils.file_parser import parse_file
 
@@ -24,6 +23,6 @@ class SentenceClassifier(LinearClassifier):
                              spacy_embedder.embed_collection(range_sentences),
                              spacy_embedder.embed_collection(parameter_sentences),
                              SentenceGroup.RANGE,
-                             SentenceGroup.PARAMETER))
-                         # preprocess_sentence)
+                             SentenceGroup.PARAMETER),
+                         preprocess_sentence)
 

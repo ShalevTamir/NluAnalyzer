@@ -1,4 +1,4 @@
-from definitions import SPACY_MODEL
+from models.definitions.spacy_def import SPACY_MODEL
 from services.classification.word_embedding.word_embedder import WordEmbedder
 
 

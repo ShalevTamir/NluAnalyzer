@@ -1,6 +1,4 @@
-import spacy
-
-from definitions import SPACY_MODEL
+from models.definitions.spacy_def import SPACY_MODEL
 
 
 class TextPartitioner:

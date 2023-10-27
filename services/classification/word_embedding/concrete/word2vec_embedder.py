@@ -1,6 +1,7 @@
 import os
 from gensim.models import KeyedVectors
-from definitions import ROOT_DIR, DOCUMENTS_DIRECTORY_NAME
+
+from models.definitions.file_def import ROOT_DIR, DOCUMENTS_DIRECTORY_NAME
 from services.classification.word_embedding.word_embedder import WordEmbedder
 import gensim.downloader as gensim_downloader
 

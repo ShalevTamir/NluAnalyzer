@@ -1,5 +1,6 @@
 import os
-from definitions import ROOT_DIR, DOCUMENTS_DIRECTORY_NAME
+
+from models.definitions.file_def import ROOT_DIR, DOCUMENTS_DIRECTORY_NAME
 from models.enums.relation_group import RelationGroup
 from services.classification.classification_models.concrete.logistic_regression import LogisticRegression
 from services.classification.classifiers.linear_classifier import LinearClassifier
@@ -14,7 +15,6 @@ INCREASED_FILE_PATH = os.path.join(ROOT_DIR, DOCUMENTS_DIRECTORY_NAME, "relation
 
 
 class RelationalWordsClassifier(LinearClassifier):
-
     def __init__(self, word2vec_embedder: Word2VecEmbedder):
         decreased_group = parse_file(DECREASED_FILE_PATH)
         increased_group = parse_file(INCREASED_FILE_PATH)

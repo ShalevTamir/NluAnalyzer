@@ -4,12 +4,14 @@ from services.sensor_parsing.text_parser import TextParser
 from services.utils.dependency_containers import Application
 
 # TODO: change sentences to tuples
+# TODO: handle unable to parse string x to a valid number, instead of just throwing it
+# TODO: split the sentence in advance, and try each parsing option on each half and combine them
 if __name__ == '__main__':
     container = Application()
     text_parser: TextParser = container.services.text_parser()
 
     parameter_ranges_long = [
-        "The operating temperature of the machinery can vary widely, covering a broad spectrum from as low as 0 degrees to as high as 100 degrees Celsius, providing adaptability to diverse environmental conditions.",
+        "The operating temperature of the machinery can vary widely, covering a broad spectrum from as low as 0 degrees, providing adaptability to diverse environmental conditions.",
         "When it comes to the vehicle's performance, the car's speed can be adjusted to suit various driving situations, ranging from a minimum of 0 miles per hour for slow and controlled movement to a maximum of 60 miles per hour for high-speed travel on highways.",
         "In scientific experiments and industrial processes, maintaining the pH level within a specific range is essential, with the acceptable range spanning from 5 to 9 to ensure accurate results and desired outcomes.",
         "In electrical systems, it's crucial to ensure a stable power supply, and the voltage should remain within the tight range of 110 to 120 volts to prevent any damage or malfunction.",
@@ -57,7 +59,7 @@ if __name__ == '__main__':
         "For event organizers and conference planners, the number of attendees at a conference can vary, with participant counts ranging from as low as 200 attendees for intimate and focused gatherings to as high as 300 attendees for larger and more expansive conferences, accommodating a wide range of conference sizes and objectives.",
         "In the world of aviation and air travel, the altitude of an airplane can vary during flight, with elevations fluctuating from as low as 30,000 feet for cruising altitudes in commercial flights to as high as 40,000 feet, representing altitudes typically reached by commercial and private aircraft.",
         "When selecting a tablet for personal or professional use, the screen size of a tablet can be customized, offering options ranging from a minimum of 7 inches for compact and portable devices to a maximum of 12 inches for larger and more versatile tablets, catering to a variety of user preferences and needs.",
-        "In data storage solutions, the storage capacity of a hard drive is an essential feature, with capacities ranging from a minimum of 1 terabyte, ideal for basic storage needs, to a maximum of 4 terabytes, suitable for extensive data storage and archiving, ensuring users have the space they require for their digital content and files."
+        "In data storage solutions, the storage capacity of a hard drive is an essential feature, with capacities greater than 1 terabyte, ideal for basic storage needs, but needs to be smaller than 4 terabytes, suitable for extensive data storage and archiving, ensuring users have the space they require for their digital content and files."
     ]
 
     parameter_ranges_short = [
@@ -335,7 +337,8 @@ if __name__ == '__main__':
         "Rotation angle is restricted to a strict 180 degrees, with no deviation.",
     ]
 
-    for sentence in parameter_single_long:
+
+    for sentence in parameter_ranges_long:
         try:
             # print(extract_word_pos_tags(sentence))
             sensor = text_parser.parse(sentence)

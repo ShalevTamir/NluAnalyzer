@@ -1,50 +1,33 @@
 from typing import Tuple, Generator
-
-from spacy.matcher import DependencyMatcher
 from spacy.tokens import Doc, Span
-from definitions import SPACY_MODEL, NEGATION_DEP, NUMERICAL_POS_TAG_SPACY
-from models.enums.relation_group import RelationGroup
+
+from models.definitions.spacy_def import SPACY_MODEL, SPACY_DEP_ATR, NEGATION_DEP, NUMERICAL_POS_TAG, SPACY_POS_ATR
+from models.enums.relation_group import RelationGroup, revert_relation_group
 from models.named_tuples.relational_bound import RelationalBound
-from services.classification.classifiers.concrete.relational_words_classifier import RelationalWordsClassifier
-from services.utils.spacy_utils import extract_tokens, locate_matching_token
-from services.utils.str_utils import parse_number
-from models.named_tuples.pattern import patterns
+from models.patterns_matcher.relational_matcher import RelationalMatcher
+from services.utils.spacy_utils import locate_matching_token
 
 
 class RelationalHandler:
-    def __init__(self, relational_classifier: RelationalWordsClassifier):
-        self._classifier = relational_classifier
-        self._dep_matcher = DependencyMatcher(SPACY_MODEL.vocab)
-        # self._dep_matcher.add("relational_patterns", _patterns)
+    def __init__(self, relational_matcher: RelationalMatcher):
+        self._relational_matcher = relational_matcher
 
-    def extract_relational_bounds(self, sentence) -> Generator[RelationalBound, None, None]:
-        tokens = SPACY_MODEL(sentence)
+    def extract_relational_bounds(self, tokens: Doc | Span) -> Generator[RelationalBound, None, None]:
         for sentence_chunk in self._split_sentence(tokens):
-            for current_pattern in patterns:
-                self._dep_matcher.add("current_pattern", [current_pattern.pattern_rules])
-                chunk_matches = self._dep_matcher(sentence_chunk)
-                self._dep_matcher.remove("current_pattern")
-                if chunk_matches:
-                    match = list(extract_tokens(sentence_chunk, chunk_matches[0]))
-                    is_reverted = current_pattern.is_reversed or \
-                                  bool(locate_matching_token(sentence_chunk, 'dep_', NEGATION_DEP))
-                    try:
-                        relation_group: RelationGroup = self._classifier.classify_item(
-                            match[current_pattern.relational_index])
-                    except KeyError:
-                        continue
-                    else:
-                        if is_reverted:
-                            # revert result if negation exists
-                            relation_group = RelationGroup(1 - relation_group.value)
-                        number_token = match[current_pattern.number_index]
-                        yield RelationalBound(relation_group,
-                                              parse_number(number_token.text))
-                        break
+            for pattern_result in self._relational_matcher.match_results(sentence_chunk):
+                yield self._revert_negated_bound(sentence_chunk, pattern_result)
+                break
 
     def _split_sentence(self, tokens: Doc) -> Tuple[Span | Doc, ...]:
-        first_number = locate_matching_token(tokens, 'pos_', NUMERICAL_POS_TAG_SPACY)
+        first_number = locate_matching_token(tokens, SPACY_POS_ATR, NUMERICAL_POS_TAG)
         if not first_number or first_number.i == len(tokens) - 1:
             return tokens,
         else:
             return tokens[:first_number.i + 1], tokens[first_number.i + 1:]
+
+    def _revert_negated_bound(self, sentence_chunk: Doc | Span, relational_bound: RelationalBound):
+        # negation detected
+        if bool(locate_matching_token(sentence_chunk, SPACY_DEP_ATR, NEGATION_DEP)):
+            return RelationalBound(revert_relation_group(relational_bound.relation_group), relational_bound.number_bound)
+        else:
+            return relational_bound
