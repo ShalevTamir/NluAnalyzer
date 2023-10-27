@@ -1,5 +1,4 @@
-from models.requirement_param import RequirementParam
-from services.utils.str_utils import is_castable
+from models.sensor_dto.requirement_param import RequirementParam
 
 
 class RequirementRange(RequirementParam):

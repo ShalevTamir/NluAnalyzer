@@ -1,6 +1,4 @@
-from typing import TypeVar
-
-from services.utils.str_utils import is_castable
+from services.utils.general import is_castable
 
 
 class RequirementParam:
@@ -14,11 +12,10 @@ class RequirementParam:
         self._value = self._parse_value(start_value)
 
     def _parse_value(self, value: int | float) -> int | float:
+
         if isinstance(value, int):
             return int(value)
         else:
             return float(value)
 
     value = property(get_value, set_value)
-
-

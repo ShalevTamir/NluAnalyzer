@@ -1,26 +1,27 @@
 import re
 import string
+from services.utils.general import is_castable
+from word2number import w2n
 
-NUMBER_REGEX = r"\d+"
+_FIND_NUMBERS_REG = r'-?\d+(?:\.\d+)?'
 
-# TODO: change to out if possible
-def is_castable(string_to_cast: str, type_to_cast: type):
-    try:
-        type_to_cast(string_to_cast)
-        return True
-    except ValueError:
-        return False
+
+def extract_number(string_to_search: str) -> str:
+    regex_result = re.search(_FIND_NUMBERS_REG, string_to_search)
+    if regex_result:
+        return regex_result.group(0)
 
 def parse_number(string_to_parse: str) -> int | float:
-    regex_result = re.search(NUMBER_REGEX,string_to_parse)
-    if regex_result:
-        string_to_parse = regex_result.group(0)
-        if is_castable(string_to_parse, int):
-            return int(string_to_parse)
-        elif is_castable(string_to_parse,float):
-            return float(string_to_parse)
-
-    raise ValueError(f"Unable to parse string {string_to_parse} to a valid number")
+    number_in_string = extract_number(string_to_parse)
+    if number_in_string:
+        if is_castable(number_in_string, int):
+            return int(number_in_string)
+        elif is_castable(number_in_string, float):
+            return float(number_in_string)
+    try:
+        return w2n.word_to_num(string_to_parse)
+    except ValueError:
+        raise ValueError(f"Unable to parse string {string_to_parse} to a valid number")
 
 
 def remove_punctuation(input_string):
@@ -31,3 +32,8 @@ def remove_punctuation(input_string):
     result = input_string.translate(translator)
 
     return result
+
+
+def extract_numbers(string):
+    return [parse_number(number)
+            for number in re.findall(_FIND_NUMBERS_REG, string)]

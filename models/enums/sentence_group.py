@@ -2,5 +2,5 @@ from enum import Enum, auto
 
 
 class SentenceGroup(Enum):
-    RANGE = auto()
-    PARAMETER = auto()
+    RANGE = 0
+    PARAMETER = 1
