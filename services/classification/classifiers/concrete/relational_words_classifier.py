@@ -1,5 +1,4 @@
 import os
-
 from models.definitions.file_def import ROOT_DIR, DOCUMENTS_DIRECTORY_NAME
 from models.enums.relation_group import RelationGroup
 from services.classification.classification_models.concrete.logistic_regression import LogisticRegression

@@ -16,12 +16,13 @@ def validate_numbers_spacy(func):
 def _validate_spacy(tokens: Doc | Span):
     from models.definitions.spacy_def import NUMERICAL_POS_TAG
     for token in tokens:
-        try:
-            parse_number(token.text)
-        except ValueError:
-            continue
-        else:
-            token.pos_ = NUMERICAL_POS_TAG
+        if token.pos_ != NUMERICAL_POS_TAG:
+            try:
+                parse_number(token.text)
+            except ValueError:
+                continue
+            else:
+                token.pos_ = NUMERICAL_POS_TAG
 
 
 

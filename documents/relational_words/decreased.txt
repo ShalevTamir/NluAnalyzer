@@ -38,3 +38,4 @@ shrink
 early
 young
 before
+minimum

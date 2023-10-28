@@ -14,23 +14,20 @@ The wind speed during the storm reached anywhere from 50 to 70 miles per hour.
 The price of the concert tickets ranges from $50 to $150, depending on the seating section.
 The car's gas mileage can vary between 20 and 30 miles per gallon.
 The hotel room rates change seasonally, with prices fluctuating from $100 to $250 per night.
-The cooking time for the recipe can range from 30 minutes to 1 hour.
-The estimated completion date for the construction project is between July and September.
+The cooking time for the recipe can range from 30 minutes to 60 minutes.
+The estimated completion date for the construction project is between 7 and 9.
 The depth of the swimming pool ranges from 4 to 8 feet.
 The temperature in the desert can soar to exceed 100 degrees Fahrenheit during the summer months.
 The population of New York City falls below 10 million people.
 The weight of an adult elephant surpasses 5 tons.
 The speed of sound outpaces 300 meters per second in air.
-The price of a luxury sports car eclipses $100,000.
-The height of Mount Everest surmounts 8,000 meters above sea level.
 The diameter of the Earth measures more than 12,000 kilometers.
 The lifespan of a housefly is under 30 days.
 The distance between the Earth and the Moon is less than 400,000 kilometers.
-The acidity of lemon juice registers below pH 2.
+The acidity of lemon juice registers below 2.
 Engine heat is greater than 5.
 The acceptable humidity levels for the greenhouse range from 40% to 60%.
 To qualify for the marathon, runners must complete the race in a time range of 3 to 6 hours.
-The recommended dosage for the medication is between 2 and 4 pills per day.
 The conference room can accommodate a range of 20 to 50 participants comfortably.
 The budget for the project falls within a range of $10,000 to $15,000.
 The acceptable noise levels in the residential area range from 30 decibels to 60 decibels during daytime hours.
@@ -65,7 +62,7 @@ The storage capacity of the smartphone varies from 64GB to 256GB.
 The allowable wind speed for outdoor events is 5-20 miles per hour.
 The price of concert tickets ranges from $50 to $150.
 The serving size for the dessert is 100-200 grams.
-The acceptable blood pressure reading is between 90/60 and 120/80 mm Hg.
+The acceptable blood pressure reading is between 90 and 120 mm Hg.
 The shelf life of the canned food product is 2-5 years.
 The admission fee to the zoo is $10-$20 for adults and $5-$10 for children.
 The acceptable driving speed on the highway is 60-75 miles per hour.
@@ -97,7 +94,7 @@ The price range for laptops spans from $500 to $2,000.
 The suitable humidity level for a tropical fish tank is 75% to 85%.
 The valid passport expiration date for international travel is typically 6 to 12 months.
 The battery life of a smartphone ranges from 12 to 24 hours depending on usage.
-The admission fee for a zoo can range from $15 to $30 for adults and $5 to $15 for children.
+The admission fee for a zoo can range from $15 to $30 for adults.
 The electricity consumption can be in the range of 50W to 100W.
 The recommended room temperature is 20°C to 25°C.
 The wind speed for outdoor events should stay between 10m/s to 20m/s.

@@ -1,4 +1,6 @@
-from models.definitions.spacy_def import SPACY_MODEL, SPACY_POS_ATR
+import logging
+
+from models.definitions.spacy_def import SPACY_MODEL, SPACY_POS_ATR, NUMERICAL_POS_TAG
 from models.enums.relation_group import RelationGroup
 from models.named_tuples.range_parse import ParseResult
 from models.named_tuples.relational_bound import RelationalBound
@@ -20,7 +22,7 @@ class RangeHandler:
         self._range_matcher = range_matcher
         self._relational_bounds = list(relational_handler.extract_relational_bounds(self._tokens))
         self._numbers_in_sentence = tuple((number.text for number in
-                                           locate_matching_tokens(self._tokens, SPACY_POS_ATR, 'NUM')))
+                                           locate_matching_tokens(self._tokens, SPACY_POS_ATR, NUMERICAL_POS_TAG)))
         self._parsing_methods = [
             # Parses using range patterns
             self._process_explicit_range,
@@ -79,9 +81,11 @@ class RangeHandler:
 
     def _default_parsing_case(self) -> RequirementRange:
         if len(self._numbers_in_sentence) >= RANGE_NUMBERS_COUNT:
+            logging.warning(f"Default parsing case for sentence {self._tokens}, used min, max")
             relevant_numbers = [parse_number(number) for number in self._numbers_in_sentence[:RANGE_NUMBERS_COUNT]]
             return RequirementRange(min(*relevant_numbers), max(*relevant_numbers))
         elif len(self._numbers_in_sentence) == PARAMETER_NUMBERS_COUNT and self._relational_bounds:
+            logging.warning(f"Default parsing case for sentence {self._tokens}, used first relational bound")
             return self._extract_range(self._relational_bounds[0])
 
     def _extract_range(self, relational_bound: RelationalBound):

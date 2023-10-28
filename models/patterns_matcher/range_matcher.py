@@ -2,7 +2,7 @@ from models.definitions.spacy_def import PATTERN_POS_ATTR, NUMERICAL_POS_TAG, NO
     ADPOSITION_POS_TAG, PATTERN_OP_ATTR, PARTICLE_POS_TAG, CONJUNCTION_POS_TAG, COORDINATING_CONJUNCTION_POS_TAG, \
     SUBORDINATING_CONJUNCTION_POS_TAG, PUNCTUATION_POS_TAG, SYMBOL_POS_TAG
 from models.patterns_matcher.base_matcher import PatternsMatcher
-from services.pattern_matching.RangePattern import RangePattern
+from services.pattern_matching.range_pattern import RangePattern
 
 
 class RangeMatcher(PatternsMatcher):

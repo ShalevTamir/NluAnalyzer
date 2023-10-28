@@ -1,4 +1,4 @@
-The engine heat is 25 degrees Celsius.
+The engine heat is at 25 degrees Celsius.
 The population of the city is 500,000 residents.
 The price of the book is $20.
 The weight of the package is 2.5 kilograms.
@@ -29,9 +29,7 @@ Set the alarm clock to ring at 7:30 AM.
 The recommended dosage of this medication is 2 tablets per day.
 Ensure that the pressure in the tire is at 32 PSI.
 The resolution of the camera is set to 1080p.
-The budget for the project should not exceed $10,000.
-The password must be at least 8 characters long and include one uppercase letter and one number.
-Adjust the exposure settings to f/2.8 for a better shot in low light.
+Adjust the exposure settings to 2.8 for a better shot in low light.
 The timeout for the online session is 15 minutes of inactivity.
 The water temperature in the pool should be maintained at 82 degrees.
 The weight limit for this elevator is 1000 kilograms.
@@ -47,23 +45,19 @@ The color temperature of the LED lighting should be set to 4000 Kelvin.
 Set the cruise control speed to 65 miles per hour for a consistent driving experience.
 The dosage of the prescription medication is 50 milligrams twice a day.
 Ensure that the aircraft's altitude is maintained at 35,000 feet during the flight.
-The encryption key should be at least 128 bits long for secure data protection.
 The irrigation system should water the lawn for 20 minutes every other day.
 The thread count of the bedsheet is 400 for a soft and luxurious feel.
 The voting age in this country is set at 18 years old.
-The voting precincts should have a maximum of 1000 registered voters each.
 The classroom temperature should be set to 72 degrees Fahrenheit for student comfort.
-The weight limit for this elevator is 15 persons or 2000 pounds.
-The dosage for the over-the-counter medicine is one tablet every four hours.
+The weight limit for this elevator is 15 persons.
+The dosage for the over-the-counter medicine is 1 tablet.
 Adjust the oven temperature to 350 degrees Fahrenheit for baking.
 Set the timer for the presentation to 15 minutes per speaker.
 The storage capacity of the hard drive is 1 terabyte.
 Set the font size in the document to 12 points for readability.
 The maximum weight limit for this bridge is 5 tons.
 The recommended daily intake of water is 8 glasses.
-Adjust the exposure time on the camera to 1/1000 of a second for a fast shutter speed.
 The recommended tire pressure for this car is 32 PSI for optimal fuel efficiency.
-Please keep the noise level in the library to a minimum.
 The interest rate on the mortgage is fixed at 3.5%.
 The dimensions of the room are 20 feet by 15 feet.
 The timeout for the user session is set to 15 minutes of inactivity.
@@ -73,19 +67,17 @@ The saturation level of this color is 50%.
 The voltage of this power supply is set to 12 volts.
 The recommended daily caloric intake for an adult is 2000 calories.
 The frequency of the sound wave is 440 Hz, which is an A4 note.
-The duration of this music track is 3 minutes and 45 seconds.
+The duration of this music track is 3 minutes.
 The seating capacity of this auditorium is 500 people.
 The target humidity level in the wine cellar is 55%.
 The angle of elevation for this ramp is 15 degrees.
 The recommended dosage of this medicine is one pill every 8 hours.
-The price of the product is $49.99 with a 10% discount.
+The price of the product is $49.99.
 Set the cooking temperature for the oven to 350°F.
 The storage capacity of this USB drive is 64 gigabytes.
 The pressure inside the scuba tank should be at 3000 PSI before diving.
 The speed limit in this residential area is 25 miles per hour.
-Adjust the color balance on the monitor to reduce the blue tint.
 The height of this skyscraper is 1,776 feet.
-The voting hours for the election are from 7:00 AM to 8:00 PM.
 The recommended serving size for this cereal is 1 cup.
 The diameter of the telescope's objective lens is 4 inches.
 The recommended dosage of vitamin D for infants is 400 IU per day.

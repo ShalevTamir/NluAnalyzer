@@ -56,9 +56,9 @@ class TextParser:
             parse_result: ParseResult = parsing_option()
             if parse_result.parse_status == ParseStatus.SUCCESSFUL:
                 return Sensor(parameter_name, parse_result.requirement)
+            elif parse_result.parse_status == ParseStatus.INVALID_RANGE:
+                raise ValueError(f"Invalid range for sentence {sentence}, "
+                                 f"parsed {json.dumps(Sensor(parameter_name, parse_result.requirement), cls=CustomEncoder)}")
 
-        if parse_result.parse_status == ParseStatus.INVALID_RANGE:
-            raise ValueError(f"Invalid range for sentence {sentence}, "
-                             f"parsed {json.dumps(Sensor(parameter_name, parse_result.requirement), cls=CustomEncoder)}")
         if parse_result.parse_status == ParseStatus.UNABLE_TO_PARSE:
             raise ValueError(f"Unable to parse sentence {sentence}")

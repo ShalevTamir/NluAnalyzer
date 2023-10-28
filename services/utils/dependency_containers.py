@@ -7,7 +7,7 @@ from services.classification.classifiers.concrete.sentence_classifier import Sen
 from services.classification.relational_handler import RelationalHandler
 from services.classification.word_embedding.concrete.spacy_embedder import SpacyEmbedder
 from services.classification.word_embedding.concrete.word2vec_embedder import Word2VecEmbedder
-from services.pattern_matching.RelationalPattern import RelationalPattern
+from services.pattern_matching.relational_pattern import RelationalPattern
 from services.sensor_parsing.range_handler import RangeHandler
 from services.sensor_parsing.subject_detector import SubjectDetector
 from services.sensor_parsing.text_parser import TextParser
