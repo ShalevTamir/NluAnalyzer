@@ -10,6 +10,7 @@ from services.utils.dependency_containers import Application
 
 # TODO: change sentences to tuples
 # TODO: handle unable to parse string x to a valid number, instead of just throwing it
+# TODO: initiate range stuff on startup, instead on the first range parse request
 if __name__ == '__main__':
     logging.basicConfig(filename="documents/logs/invalid_parsing.log", encoding='utf-8', level=logging.DEBUG)
     container = Application()
@@ -342,6 +343,14 @@ if __name__ == '__main__':
         "Rotation angle is restricted to a strict 180 degrees, with no deviation."
     ]
     parameter_list = [
+        ("engine heat is greater than 5 and also lower than 6", (5,6)),
+        ("The frequency range for the radio signal is 88-108 MHz.", (88, 108)),
+        (
+            "For maintaining a controlled environment in a greenhouse, the desired humidity level falls within the range of 40% on the lower end, creating a moderately dry climate, to 60% on the upper end, providing optimal conditions for plant growth and cultivation.",
+            (40, 60)),
+        (
+            "For adjustable furniture or equipment, such as ergonomic chairs, the angle of inclination can be customized to provide maximum comfort, ranging from a minimum inclination of 0 degrees to a maximum inclination of 90 degrees.",
+            (0, 90)),
         ("The engine heat is bigger than 5", (5, float('inf'))),
         ("The engine heat is 5", (5)),
         (
@@ -383,9 +392,6 @@ if __name__ == '__main__':
         (
         "When selecting a TV or monitor, the screen size is a crucial factor to consider, as it can range from a minimum of 5 inches for smaller devices to a maximum of 15 inches for larger screens, catering to different viewing preferences.",
         (5, 15)),
-        (
-        "For adjustable furniture or equipment, such as ergonomic chairs, the angle of inclination can be customized to provide maximum comfort, ranging from a minimum inclination of 0 degrees to a maximum inclination of 90 degrees.",
-        (0, 90)),
         (
         "For aquatic activities, knowing the depth of the water is essential for safety and enjoyment, and it can vary widely, from as shallow as 2 feet to as deep as 5 feet, accommodating various water-related activities and skill levels.",
         (2, 5)),
@@ -434,9 +440,7 @@ if __name__ == '__main__':
         (
         "When considering a job offer, the salary range for the position may vary, with potential earnings starting at a minimum of $60,000 per year for entry-level roles and going up to as high as $80,000 per year for more senior and specialized positions.",
         (60000, 80000)),
-        (
-        "For maintaining a controlled environment in a greenhouse, the desired humidity level falls within the range of 40% on the lower end, creating a moderately dry climate, to 60% on the upper end, providing optimal conditions for plant growth and cultivation.",
-        (40, 60)),
+
         (
         "When welcoming a newborn into the world, the average weight of a baby typically ranges from as low as 6 pounds for smaller infants to as high as 8 pounds for more robust and healthy babies, reflecting natural variations in birth weights.",
         (6, 8)),
@@ -497,7 +501,7 @@ if __name__ == '__main__':
         ("The voltage should be within the range of 110 to 120 volts.", (110, 120)),
         ("Pressure can fluctuate from 20 to 40 psi.", (20, 40)),
         ("The weight of the product should be between 5 and 10 pounds.", (5, 10)),
-        ("The frequency range for the radio signal is 88-108 MHz.", (88, 108)),
+
         ("The time interval can be set from 1 to 24 hours.", (1, 24)),
         ("The concentration of the solution is within the range of 0.1 to 1.0 M.", (0.1, 1.0)),
         ("The distance covered spans from 50 to 100 meters.", (50, 100)),
