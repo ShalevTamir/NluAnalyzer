@@ -11,6 +11,9 @@ from services.utils.dependency_containers import Application
 # TODO: change sentences to tuples
 # TODO: handle unable to parse string x to a valid number, instead of just throwing it
 # TODO: initiate range stuff on startup, instead on the first range parse request
+# TODO: if 2 or more numbers and less than 2 relational bounds detected, default parseco
+# TODO: add option to use units and parsing still works
+# TODO: make relational patterns catch even if extra words between the pattern words, like : Ensure that the temperature remains above a comfortable 25 degrees celsius and below 50
 if __name__ == '__main__':
     logging.basicConfig(filename="documents/logs/invalid_parsing.log", encoding='utf-8', level=logging.DEBUG)
     container = Application()
@@ -343,6 +346,7 @@ if __name__ == '__main__':
         "Rotation angle is restricted to a strict 180 degrees, with no deviation."
     ]
     parameter_list = [
+        ("engine heat goes beyond 5 and below 6", (5,6)),
         ("engine heat is greater than 5 and also lower than 6", (5,6)),
         ("The frequency range for the radio signal is 88-108 MHz.", (88, 108)),
         (
@@ -763,20 +767,21 @@ if __name__ == '__main__':
         ("Rotation angle is restricted to a strict 180 degrees, with no deviation.", 180),
     ]
 
-    for sentence, range in parameter_list:
+    for sentence in ["the exceptional lion's height is higher than 20 cm but below 40 and the car speed is taller than 50"]:
         try:
-            # print(extract_word_pos_tags(sentence))
-            sensor = text_parser.parse(sentence)
-            if isinstance(range, tuple) and sensor.requirement_param.__class__ == RequirementRange:
-                requirement_range: RequirementRange = sensor.requirement_param
-                if requirement_range.value != range[0] or requirement_range.end_value != range[1]:
-                    logging.error(f"Wrong evaluation of sentence {sentence}, evaluated {(requirement_range.value, requirement_range.end_value)} but is actually {range}")
-            elif isinstance(range, int) and sensor.requirement_param.__class__ == RequirementParam:
-                if sensor.requirement_param.value != range:
-                    logging.error(f"Wrong evaluation of sentence {sentence}, evaluated {sensor.requirement_param.value} but is actually {range[0]}")
-            else:
-                logging.error(f"Wrong evaluation of sentence {sentence}, evaluated {json.dumps(sensor, cls=CustomEncoder)} but is actually {range}")
 
-            # print(f"Sentence {sentence}", f"Sensor {json.dumps(sensor, cls=CustomEncoder)}", sep='\n', end='\n\n')
+            # print(extract_word_pos_tags(sentence))
+            sensors = list(text_parser.parse(sentence))
+            # if isinstance(range, tuple) and sensor.requirement_param.__class__ == RequirementRange:
+            #     requirement_range: RequirementRange = sensor.requirement_param
+            #     if requirement_range.value != range[0] or requirement_range.end_value != range[1]:
+            #         logging.error(f"Wrong evaluation of sentence {sentence}, evaluated {(requirement_range.value, requirement_range.end_value)} but is actually {range}")
+            # elif isinstance(range, int) and sensor.requirement_param.__class__ == RequirementParam:
+            #     if sensor.requirement_param.value != range:
+            #         logging.error(f"Wrong evaluation of sentence {sentence}, evaluated {sensor.requirement_param.value} but is actually {range[0]}")
+            # else:
+            #     logging.error(f"Wrong evaluation of sentence {sentence}, evaluated {json.dumps(sensor, cls=CustomEncoder)} but is actually {range}")
+
+            print(f"Sentence {sentence}", f"Sensor {json.dumps(sensors, cls=CustomEncoder)}", sep='\n', end='\n\n')
         except ValueError as e:
             print(e ,end='\n\n')

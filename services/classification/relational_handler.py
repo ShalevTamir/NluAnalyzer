@@ -12,18 +12,19 @@ class RelationalHandler:
     def __init__(self, relational_matcher: RelationalMatcher):
         self._relational_matcher = relational_matcher
 
-    def extract_relational_bounds(self, tokens: Doc | Span) -> Generator[RelationalBound, None, None]:
+    def extract_relational_bounds(self, tokens: Span | Doc) -> Generator[RelationalBound, None, None]:
         for sentence_chunk in self._split_sentence(tokens):
             for pattern_result in self._relational_matcher.match_results(sentence_chunk):
                 yield self._revert_negated_bound(sentence_chunk, pattern_result)
                 break
 
-    def _split_sentence(self, tokens: Doc) -> Tuple[Span | Doc, ...]:
-        first_number = locate_matching_token(tokens, SPACY_POS_ATTR, NUMERICAL_POS_TAG)
-        if not first_number or first_number.i == len(tokens) - 1:
-            return tokens,
+    def _split_sentence(self, sentence_chunk: Span) -> Tuple[Span, ...]:
+        first_number = locate_matching_token(sentence_chunk, SPACY_POS_ATTR, NUMERICAL_POS_TAG)
+        first_number_index = first_number.i - sentence_chunk.start if isinstance(sentence_chunk, Span) else first_number.i
+        if not first_number or first_number_index == len(sentence_chunk) - 1:
+            return sentence_chunk,
         else:
-            return tokens[:first_number.i + 1], tokens[first_number.i + 1:]
+            return sentence_chunk[:first_number_index + 1], sentence_chunk[first_number_index + 1:]
 
     def _revert_negated_bound(self, sentence_chunk: Doc | Span, relational_bound: RelationalBound):
         # negation detected

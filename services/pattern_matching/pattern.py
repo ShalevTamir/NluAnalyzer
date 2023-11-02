@@ -10,14 +10,8 @@ class Pattern:
 
     def compute_result(self, matcher: Matcher, tokens: Doc | Span):
         matcher.add("", [self._pattern_rules])
-        results = matcher(tokens)
+        results = matcher(tokens, as_spans=True)
         matcher.remove("")
-        if results:
-            first_result = results[0]
-            from_index, to_index = first_result[1], first_result[2]
-            match = tokens[from_index: to_index]
-            return match
-        else:
-            return []
+        return results[0] if results else []
 
     pattern_rules = property(fget=lambda self: self._pattern_rules)

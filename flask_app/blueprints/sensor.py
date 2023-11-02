@@ -1,6 +1,6 @@
 import json
 
-from flask import Blueprint, abort
+from flask import Blueprint, abort, Response
 
 from flask_app.decorators.view import includes_body_params
 from flask_app.services.json.custom_encoder import CustomEncoder
@@ -22,6 +22,6 @@ def parse_sentence(sentence):
     except ValueError as e:
         abort(400, str(e).replace('\"',''))
     else:
-        return json.dumps(sensors, cls=CustomEncoder)
+        return Response(json.dumps(sensors, cls=CustomEncoder),mimetype='text/json')
 
 
