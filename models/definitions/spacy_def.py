@@ -9,9 +9,12 @@ Language.__call__ = validate_numbers_spacy(Language.__call__)
 
 # DEPENDENCIES
 NEGATION_DEP = 'neg'
-CONJUNCTION_DEP = 'cc'
+COORDINATION_DEP = 'cc'
+CONJUNCTION_DEP = 'conj'
 ADVERBIAL_MODIFIER_DEP = 'advmod'
 QUANTITY_MODIFIER_DEP = 'quantmod'
+SUBJECT_DEP = 'nsubj'
+ROOT_DEP = 'ROOT'
 
 # POS TAGS
 NUMERICAL_POS_TAG = "NUM"
@@ -29,8 +32,8 @@ SYMBOL_POS_TAG = 'SYM'
 PRONOUN_POS_TAG = 'PRON'
 
 # ATTRIBUTES
-SPACY_DEP_ATR = 'dep_'
-SPACY_POS_ATR = 'pos_'
+SPACY_DEP_ATTR = 'dep_'
+SPACY_POS_ATTR = 'pos_'
 
 # PATTERNS
 PATTERN_POS_ATTR = 'POS'

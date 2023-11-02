@@ -1,5 +1,6 @@
 import os
 from models.definitions.file_def import ROOT_DIR, DOCUMENTS_DIRECTORY_NAME
+from models.definitions.spacy_def import SPACY_MODEL
 from models.enums.relation_group import RelationGroup
 from services.classification.classification_models.concrete.logistic_regression import LogisticRegression
 from services.classification.classifiers.linear_classifier import LinearClassifier

@@ -18,7 +18,7 @@ sentence_key = 'sentence'
 def parse_sentence(sentence):
     # pdb.set_trace()
     try:
-        sensors = text_parser.parse(sentence)
+        sensors = list(text_parser.parse(sentence))
     except ValueError as e:
         abort(400, str(e).replace('\"',''))
     else:

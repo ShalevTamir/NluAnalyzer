@@ -1,13 +1,14 @@
 # import logging
+from spacy.tokens import Span, Doc
 
-from models.definitions.spacy_def import SPACY_MODEL, SPACY_POS_ATR, NUMERICAL_POS_TAG
+from models.definitions.spacy_def import SPACY_MODEL, SPACY_POS_ATTR, NUMERICAL_POS_TAG
 from models.enums.relation_group import RelationGroup
 from models.named_tuples.range_parse import ParseResult
 from models.named_tuples.relational_bound import RelationalBound
 from models.patterns_matcher.range_matcher import RangeMatcher
 from models.sensor_dto.requirement_range import RequirementRange
 from services.classification.relational_handler import RelationalHandler
-from services.utils.spacy_utils import locate_matching_tokens
+from services.utils.spacy_utils import locate_matching_tokens, extract_numbers
 from services.utils.str_utils import parse_number
 from models.enums.parse_status import ParseStatus
 
@@ -17,12 +18,11 @@ RANGE_NUMBERS_COUNT = 2
 
 class RangeHandler:
 
-    def __init__(self, sentence: str, relational_handler: RelationalHandler, range_matcher: RangeMatcher):
-        self._tokens = SPACY_MODEL(sentence)
+    def __init__(self, sentence_tokens: Doc | Span, relational_handler: RelationalHandler, range_matcher: RangeMatcher):
+        self._tokens = sentence_tokens
         self._range_matcher = range_matcher
         self._relational_bounds = list(relational_handler.extract_relational_bounds(self._tokens))
-        self._numbers_in_sentence = tuple((number.text for number in
-                                           locate_matching_tokens(self._tokens, SPACY_POS_ATR, NUMERICAL_POS_TAG)))
+        self._numbers_in_sentence = extract_numbers(sentence_tokens)
         self._parsing_methods = [
             # Parses using range patterns
             self._process_explicit_range,

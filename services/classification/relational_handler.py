@@ -1,7 +1,7 @@
 from typing import Tuple, Generator
 from spacy.tokens import Doc, Span
 
-from models.definitions.spacy_def import SPACY_MODEL, SPACY_DEP_ATR, NEGATION_DEP, NUMERICAL_POS_TAG, SPACY_POS_ATR
+from models.definitions.spacy_def import SPACY_MODEL, SPACY_DEP_ATTR, NEGATION_DEP, NUMERICAL_POS_TAG, SPACY_POS_ATTR
 from models.enums.relation_group import RelationGroup, revert_relation_group
 from models.named_tuples.relational_bound import RelationalBound
 from models.patterns_matcher.relational_matcher import RelationalMatcher
@@ -19,7 +19,7 @@ class RelationalHandler:
                 break
 
     def _split_sentence(self, tokens: Doc) -> Tuple[Span | Doc, ...]:
-        first_number = locate_matching_token(tokens, SPACY_POS_ATR, NUMERICAL_POS_TAG)
+        first_number = locate_matching_token(tokens, SPACY_POS_ATTR, NUMERICAL_POS_TAG)
         if not first_number or first_number.i == len(tokens) - 1:
             return tokens,
         else:
@@ -27,7 +27,7 @@ class RelationalHandler:
 
     def _revert_negated_bound(self, sentence_chunk: Doc | Span, relational_bound: RelationalBound):
         # negation detected
-        if bool(locate_matching_token(sentence_chunk, SPACY_DEP_ATR, NEGATION_DEP)):
+        if bool(locate_matching_token(sentence_chunk, SPACY_DEP_ATTR, NEGATION_DEP)):
             return RelationalBound(revert_relation_group(relational_bound.relation_group), relational_bound.number_bound)
         else:
             return relational_bound

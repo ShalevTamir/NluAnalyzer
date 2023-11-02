@@ -107,3 +107,141 @@ The credit card expiration date is typically 2-5 years.
 The car's fuel efficiency can range from 20mpg to 40mpg.
 The serving size for a chocolate bar is 40g to 50g.
 The sensor should be in the range of 500 -1000.
+The room temperature is lower than 20 degrees Celsius.
+The car's speed is greater than 60 miles per hour.
+The water depth is below 10 meters.
+The air pressure is higher than 30 inches of mercury.
+The mountain's altitude is above 5,000 feet.
+The restaurant's rating is less than 4 stars.
+The rainfall amount is within 1-2 inches.
+The distance to the destination is greater than 200 miles.
+The cost of the product is less than $50 but higher than $20.
+The time it takes to complete the race is under 30 minutes.
+The price of the item is above $100.
+The weight of the package is below 5 kilograms.
+The humidity level in the room is between 40% and 60%.
+The room's lighting is dimmer than 30 lux.
+The temperature of the oven is above 400 degrees Fahrenheit.
+The vehicle's fuel efficiency is under 20 miles per gallon.
+The noise level in the library is lower than 40 decibels.
+The tree's height is greater than 10 feet.
+The product's lifespan is above 2 years.
+The profit margin for the company is below 10%.
+The length of the movie is greater than 2 hours.
+The percentage of completion for the project is above 50%.
+The car's fuel tank capacity is above 15 gallons.
+The restaurant's wait time is less than 30 minutes.
+The cost of the phone plan is between $30 and $50.
+The shoe size is larger than 10.
+The number of employees in the company is below 100.
+The battery life of the device is less than 4 hours.
+The speed of the wind is above 30 miles per hour.
+The voltage of the circuit is under 110 volts.
+The number of calories in the dish is greater than 500.
+The discount on the product is below 20%.
+The duration of the flight is over 5 hours.
+The width of the river is less than 50 meters.
+The internet download speed is higher than 100 Mbps.
+The alcohol content in the beverage is above 15%.
+The duration of the event is less than 3 days.
+The age of the antique is greater than 100 years.
+The number of available seats is below 50.
+The shirt size is larger than 8.
+The temperature in the sauna is set to 90 degrees Celsius.
+The cost of the hotel room is under $200.
+The screen resolution is higher than 1080p.
+The balance in the account is above $1,000.
+The thickness of the paper is less than 0.5 millimeters.
+The gas mileage of the car is under 30 miles per gallon.
+The amount of rainfall is greater than 2 inches.
+The interest rate on the loan is below 5%.
+The room temperature plummets beneath 20 degrees Celsius.
+The car's speed eclipses 60 miles per hour.
+The water depth extends far beyond 10 meters.
+The air pressure soars above 30 inches of mercury.
+The mountain's altitude soars well above 5,000 feet.
+The restaurant's rating falls conspicuously short of 4 stars.
+The rainfall amount fluctuates between 1-2 inches.
+The cost of the product hovers under $50 but significantly surpasses $20.
+The time it takes to complete the race scarcely exceeds 30 minutes.
+The price of the item reaches well above $100.
+The weight of the package is markedly below 5 kilograms.
+The humidity level in the room oscillates between 40% and 60%.
+The room's lighting registers dimmer than 30 lux.
+The temperature of the oven climbs well above 400 degrees Fahrenheit.
+The vehicle's fuel efficiency barely manages 20 miles per gallon.
+The noise level in the library maintains itself below 40 decibels.
+The tree's height ascends significantly beyond 10 feet.
+The product's lifespan far surpasses 2 years.
+The profit margin for the company remains perceptibly below 10%.
+The length of the movie exceeds well beyond 2 hours.
+The sugar content in the drink is less than 5 grams.
+The car's fuel tank capacity extends far beyond 15 gallons.
+The restaurant's wait time is notably shorter than 30 minutes.
+The cost of the phone plan falls within the range of $30 and $50.
+The number of employees in the company scarcely exceeds 100.
+The wind speed significantly surpasses 30 miles per hour.
+The voltage of the circuit remains perceptibly below 110 volts.
+The number of calories in the dish goes beyond 500.
+The discount on the product falls far short of 20%.
+The duration of the flight extends significantly beyond 5 hours.
+The width of the river is just under 50 meters.
+The internet download speed goes significantly beyond 100 Mbps.
+The alcohol content in the beverage surpasses 15%.
+The duration of the event remains within the span of 3 days.
+The age of the antique significantly surpasses 100 years.
+The cost of the hotel room remains perceptibly under $200.
+The screen resolution exceeds well beyond 1080p.
+The balance in the account reaches significantly above $1,000.
+The paper thickness measures less than 0.5 millimeters.
+The car's gas mileage barely exceeds 30 miles per gallon.
+The amount of rainfall significantly surpasses 2 inches.
+The interest rate on the loan remains perceptibly below 5%.
+Desert temperature: Above 40°F and below 100°F.
+Recommended calorie intake: Above 1,800 and below 2,500 calories.
+The river's length: Extends from 200 up to 300 kilometers.
+Stock market: Fluctuated, starting from 28,000 up to 28,500 points.
+Event attendance: Expected to be above 200 and below 300 people.
+Maintain the pool's pH level: Above 7.2 and below 7.6.
+Laptop battery life: Starting from 8 up to 12 hours.
+Flexible airport check-in: Starting from 2 up to 4 hours.
+Light bulb lifespan: Ranges from 1,000 up to 2,000 hours.
+Package delivery time: Starting from 2 up to 5 business days.
+Storm wind speed: Reached 50 up to 70 mph.
+Concert ticket prices: Ranging from $50 up to $150.
+Car's gas mileage: Varies from 20 up to 30 mpg.
+Hotel room rates: Fluctuate, ranging from $100 up to $250.
+Recipe cooking time: Starting from 30 up to 60 minutes.
+Construction project completion: Ranges from 7 up to 9 days.
+Swimming pool depth: Starts from 4 up to 8 feet.
+Summer desert heat: Exceeds 100°F.
+NYC population: Below 10 million.
+Adult elephant weight: Surpasses 5 tons.
+Sound speed in air: Exceeds 300 m/s.
+Earth's diameter: Measures more than 12,000 kilometers.
+Housefly lifespan: Less than 30 days.
+Earth-Moon distance: Less than 400,000 kilometers.
+Lemon juice acidity: Below pH 2.
+Engine heat: Exceeds 5.
+Maintain greenhouse humidity: Above 40% and below 60%.
+Marathon completion time: Starts from 3 up to 6 hours.
+Conference room capacity: Ranges from 20 up to 50 participants.
+Project budget: Starts from $10,000 up to $15,000.
+Residential noise levels: Range from 30 up to 60 decibels during the day.
+Recommended daily calorie intake: Starts from 2,000 up to 2,500 calories.
+Power supply voltage output: Remains within the range of 110 up to 120 volts.
+Museum's artwork spans from the 16th up to the 20th century.
+Playground admission age: Starts from 3 up to 12 years old.
+Maintain greenhouse humidity: Above 40% and below 60%.
+Marathon completion time: Starts from 3 up to 6 hours.
+Recommended medication dosage: Starts from 2 up to 4 pills per day.
+Conference room capacity: Ranges from 20 up to 50 participants.
+Project budget: Starts from $10,000 up to $15,000.
+Residential noise levels: Range from 30 up to 60 decibels during the day.
+Recommended daily calorie intake: Starts from 2,000 up to 2,500 calories.
+Power supply voltage output: Remains within the range of 110 up to 120 volts.
+Museum's artwork spans from the 16th up to the 20th century.
+Playground admission age: Starts from 3 up to 12 years old.
+Swimming pool depth: Ranges from 3 up to 12 feet.
+Club membership age: Spans from 18 up to 65 years.
+Child screen time: Starts from 1 up to 2 hours per day.

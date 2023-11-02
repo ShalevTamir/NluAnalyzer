@@ -9,9 +9,7 @@ from services.classification.word_embedding.concrete.spacy_embedder import Spacy
 from services.classification.word_embedding.concrete.word2vec_embedder import Word2VecEmbedder
 from services.pattern_matching.relational_pattern import RelationalPattern
 from services.sensor_parsing.range_handler import RangeHandler
-from services.sensor_parsing.subject_detector import SubjectDetector
 from services.sensor_parsing.text_parser import TextParser
-from services.sensor_parsing.text_partitioner import TextPartitioner
 
 
 class Embedders(containers.DeclarativeContainer):
@@ -44,13 +42,9 @@ class Services(containers.DeclarativeContainer):
     range_handler = providers.Factory(RangeHandler,
                                       relational_handler=relational_handler,
                                       range_matcher=range_matcher)
-    subject_detector = providers.Singleton(SubjectDetector)
-    text_partitioner = providers.Singleton(TextPartitioner)
     text_parser = providers.Singleton(TextParser,
-                                      subject_detector=subject_detector,
                                       sentence_classifier=classifiers.sentence,
-                                      range_handler_factory=range_handler.provider,
-                                      text_partitioner=text_partitioner)
+                                      range_handler_factory=range_handler.provider)
 
 
 class Application(containers.DeclarativeContainer):
