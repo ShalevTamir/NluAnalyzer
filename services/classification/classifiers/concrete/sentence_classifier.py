@@ -27,3 +27,6 @@ class SentenceClassifier(LinearClassifier):
                              SentenceGroup.RANGE,
                              SentenceGroup.PARAMETER),
                          preprocess_sentence)
+
+# classifier = SentenceClassifier(SpacyEmbedder())
+# print(classifier.classify_item("maintain pressure at 35"))

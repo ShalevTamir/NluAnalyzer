@@ -1,11 +1,18 @@
+import os
+
 from spacy import Language
 
 import spacy
 
+from models.definitions.file_def import ROOT_DIR, DOCUMENTS_DIRECTORY_NAME
 from services.decorators.number_validation import validate_numbers_spacy
+from spacy.lang.en import stop_words
 
 SPACY_MODEL = spacy.load("en_core_web_sm")
 Language.__call__ = validate_numbers_spacy(Language.__call__)
+NER_MODEL = spacy.load(os.path.join(ROOT_DIR, DOCUMENTS_DIRECTORY_NAME, "ner_detection_model"))
+SPAN_SUBJECT_ATTR = 'subject'
+STOP_WORDS = stop_words.STOP_WORDS - {'amount'}
 
 # DEPENDENCIES
 NEGATION_DEP = 'neg'
@@ -15,6 +22,8 @@ ADVERBIAL_MODIFIER_DEP = 'advmod'
 QUANTITY_MODIFIER_DEP = 'quantmod'
 SUBJECT_DEP = 'nsubj'
 ROOT_DEP = 'ROOT'
+DIRECT_OBJECT_DEP = 'dobj'
+COMPOUND_DEP = 'compound'
 
 # POS TAGS
 NUMERICAL_POS_TAG = "NUM"
@@ -34,6 +43,7 @@ PRONOUN_POS_TAG = 'PRON'
 # ATTRIBUTES
 SPACY_DEP_ATTR = 'dep_'
 SPACY_POS_ATTR = 'pos_'
+SPACY_TEXT_ATTR = 'text'
 
 # PATTERNS
 PATTERN_POS_ATTR = 'POS'
@@ -42,3 +52,5 @@ PATTERN_OP_ATTR = 'OP'
 PATTERN_IN_ATTR = 'IN'
 PATTERN_NOT_IN_ATTR = 'NOT_IN'
 PATTERN_TEXT_ATTR = 'TEXT'
+
+DEFAULT_PATTERN_NAME = ""

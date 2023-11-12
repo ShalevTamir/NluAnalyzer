@@ -13,7 +13,7 @@ from services.utils.dependency_containers import Application
 # TODO: initiate range stuff on startup, instead on the first range parse request
 # TODO: if 2 or more numbers and less than 2 relational bounds detected, default parseco
 # TODO: add option to use units and parsing still works
-# TODO: make relational patterns catch even if extra words between the pattern words, like : Ensure that the temperature remains above a comfortable 25 degrees celsius and below 50
+# TODO: make relational pattern_groups catch even if extra words between the pattern words, like : Ensure that the temperature remains above a comfortable 25 degrees celsius and below 50
 if __name__ == '__main__':
     logging.basicConfig(filename="documents/logs/invalid_parsing.log", encoding='utf-8', level=logging.DEBUG)
     container = Application()
@@ -767,8 +767,46 @@ if __name__ == '__main__':
         ("Rotation angle is restricted to a strict 180 degrees, with no deviation.", 180),
     ]
 
-    for sentence in ["the exceptional lion's height is higher than 20 cm but below 40 and the car speed is taller than 50"]:
-        try:
+    sentences = [
+        "Aim for a daily step_count between 8,000 to 10,000, covering a walking distance of 5 to 7 kilometers.",
+        "Plan a vacation lasting 7 to 10 days, allocating a budget of $1,000 to $1,500 for an enjoyable and stress-free trip.",
+        "Adjust the thermostat to maintain room temperature between 22 and 25 degrees Celsius, considering energy savings and comfort.",
+        "Complete the project within a time_frame of 4 to 6 weeks, aiming for a work_time of at least 5 hours per day and ensuring high-quality outcomes.",
+        "Keep the car's speed between 50 to 65 miles per hour during long journeys, maintaining a consistent fuel efficiency of 25 to 30 miles per gallon.",
+        "Consume 8 to 10 glasses of water daily for optimal health, ensuring each glass contains 200 to 250 milliliters of water.",
+        "in order to ensure each glass contains 200 to 250 milliliters of water, consume 8 to 10 glasses of water daily for optimal health",
+        "Balance your diet with 5 to 7 servings of vegetables and fruits per day, ensuring a mix of colors and types for nutritional variety.",
+        "Set the alarm clock within a time window of 6 to 7 a.m., ensuring a sleep duration of 7 to 8 hours for a well-rested morning.",
+        "Maintain bedroom humidity between 30% and 50% for a comfortable sleep environment, ensuring a room temperature of 18 to 22 degrees Celsius.",
+        "Set the swimming pool temperature between 25 to 28 degrees Celsius, allowing for a water depth of 5 to 8 feet for optimal swimming conditions.",
+        "Adjust the office chair height between 18 to 24 inches, ensuring a desk height of 70 to 75 centimeters for an ergonomic workspace.",
+        "Maintain office noise levels between 40 and 60 decibels for concentration, ensuring appropriate lighting of 500 to 700 lux.",
+        "Set electronic device screen brightness between 70% and 80%, considering a screen resolution of 1080p for optimal visual experience.",
+        "Ensure proper ventilation by opening windows for 15 to 20 minutes each day, aiming for an indoor CO2 concentration below 600 parts per million.",
+        "Monitor blood pressure within the range of 90/60 to 120/80 mm Hg, considering a heart rate of 60 to 80 beats per minute.",
+        "Devote 1 to 2 hours for studying, ensuring a study environment with a noise level of 40 to 50 decibels.",
+        "Adjust guitar string tension between 12 to 16 pounds, considering a guitar fret width of 1.5 to 2 inches.",
+        "Consume vitamin C doses between 500 to 1000 milligrams per day, dividing them into two equal doses for better absorption.",
+        "Keep the refrigerator temperature between 2 to 4 degrees Celsius, organizing food items with a maximum shelf life of 5 to 7 days.",
+        "Schedule breaks during work hours with intervals of 10 to 15 minutes, considering a daily work duration of 6 to 8 hours for improved productivity."
+    ]
+
+    icd_parameters = [
+        "GPS_Accuracy is larger than 0 and lower than 10 while the Oxygen_Level is higher than 0. The Flap_Position is bigger than 0 and below 40 and Hydraulic_Pressure is more than 0",
+        "altitude is in range 50000 - 100000 and longitude is higher than -180.5",
+        "wind_speed is between 0 and 100 and engine_heat greater than 0, while the air_pressure has to be lower than 1100",
+        "current_thrust is higher than 0 and Pitch_Angle is below 50. Roll_Angle is between -60 and 100 and Fuel_Consumption is above 50. Ground_Speed is 5",
+        "Vertical_Speed is 10",
+        "Tempreture is greater than -50 while being smaller then 100",
+        "The G-Force is higher than 0",
+        "Radio_Signal_Strength is bigger than -100 and smaller than 0",
+        "Brake_Pressure needs to be high, meaning it's range is 0-2000 and Landing_Lights has to be 1, while Strobe_Lights need to be 0",
+        "Beacon_Lights need to be 1"
+    ]
+
+
+    for sentence in icd_parameters:
+        #try:
 
             # print(extract_word_pos_tags(sentence))
             sensors = list(text_parser.parse(sentence))
@@ -783,5 +821,5 @@ if __name__ == '__main__':
             #     logging.error(f"Wrong evaluation of sentence {sentence}, evaluated {json.dumps(sensor, cls=CustomEncoder)} but is actually {range}")
 
             print(f"Sentence {sentence}", f"Sensor {json.dumps(sensors, cls=CustomEncoder)}", sep='\n', end='\n\n')
-        except ValueError as e:
-            print(e ,end='\n\n')
+        #except ValueError as e:
+        #    print(e ,end='\n\n')

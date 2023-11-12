@@ -5,7 +5,7 @@ from models.definitions.spacy_def import SPACY_MODEL, SPACY_POS_ATTR, NUMERICAL_
 from models.enums.relation_group import RelationGroup
 from models.named_tuples.range_parse import ParseResult
 from models.named_tuples.relational_bound import RelationalBound
-from models.patterns_matcher.range_matcher import RangeMatcher
+from models.pattern_groups.range_patterns_group import RangePatternsGroup
 from models.sensor_dto.requirement_range import RequirementRange
 from services.classification.relational_handler import RelationalHandler
 from services.utils.spacy_utils import locate_matching_tokens, extract_numbers
@@ -18,15 +18,18 @@ RANGE_NUMBERS_COUNT = 2
 
 class RangeHandler:
 
-    def __init__(self, sentence_tokens: Doc | Span, relational_handler: RelationalHandler, range_matcher: RangeMatcher):
+    def __init__(self,
+                 sentence_tokens: Doc | Span,
+                 relational_handler: RelationalHandler,
+                 range_patterns: RangePatternsGroup):
         self._tokens = sentence_tokens
-        self._range_matcher = range_matcher
+        self._range_patterns = range_patterns
         self._relational_bounds = list(relational_handler.extract_relational_bounds(self._tokens))
         self._numbers_in_sentence = extract_numbers(sentence_tokens)
         self._parsing_methods = [
-            # Parses using range patterns
+            # Parses using range pattern_groups
             self._process_explicit_range,
-            # Parses using relational patterns
+            # Parses using relational pattern_groups
             self._process_relational_range,
             # Default parse if parse failed
             self._default_parsing_case
@@ -50,9 +53,7 @@ class RangeHandler:
             return ParseStatus.SUCCESSFUL
 
     def _process_explicit_range(self) -> RequirementRange | None:
-        for pattern_result in self._range_matcher.match_results(self._tokens):
-            if pattern_result:
-                return pattern_result
+        return next(self._range_patterns.match_results(self._tokens), None)
 
     def _process_relational_range(self) -> RequirementRange | None:
         if len(self._relational_bounds) < RANGE_NUMBERS_COUNT <= len(self._numbers_in_sentence):
