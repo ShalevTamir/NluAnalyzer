@@ -1,7 +1,7 @@
 from models.definitions.spacy_def import PATTERN_POS_ATTR, ADVERB_POS_TAG, PATTERN_DEP_ATTR, ADVERBIAL_MODIFIER_DEP, \
     ADJECTIVE_POS_TAG, ADPOSITION_POS_TAG, NUMERICAL_POS_TAG, PATTERN_OP_ATTR, VERB_POS_TAG, PATTERN_IN_ATTR, \
     NOUN_POS_TAG, PRONOUN_POS_TAG, SUBORDINATING_CONJUNCTION_POS_TAG, PATTERN_NOT_IN_ATTR, SPACY_MODEL, \
-    PATTERN_TEXT_ATTR
+    PATTERN_TEXT_ATTR, PART_POS_TAG
 
 from models.pattern_groups.patterns_group import PatternsGroup
 from services.pattern_matching.spacy_matchers.spacy_matcher import SpacyMatcher
@@ -61,6 +61,13 @@ class RelationalPatternsGroup(PatternsGroup):
             {PATTERN_POS_ATTR: NUMERICAL_POS_TAG}
         ]
 
+        # Parses syntax: up to 10
+        _reverted_adposition_pattern = [
+            {PATTERN_POS_ATTR: ADPOSITION_POS_TAG},
+            {PATTERN_POS_ATTR: PART_POS_TAG},
+            {PATTERN_POS_ATTR: NUMERICAL_POS_TAG}
+        ]
+
         # Parses syntax: exceeds 10
         _verb_pattern = [
             {PATTERN_POS_ATTR: VERB_POS_TAG},
@@ -77,5 +84,6 @@ class RelationalPatternsGroup(PatternsGroup):
                 relational_pattern_factory(_reverted_adverb_pattern, reverse_classification=True, relational_index=1),
                 relational_pattern_factory(_adjective_pattern),
                 relational_pattern_factory(_adposition_pattern),
+                relational_pattern_factory(_reverted_adposition_pattern, reverse_classification=True),
                 relational_pattern_factory(_verb_pattern)
             ])

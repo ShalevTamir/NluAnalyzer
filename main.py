@@ -1,19 +1,17 @@
 import json
 import logging
-from typing import Tuple
+
+from spacy import displacy
 
 from flask_app.services.json.custom_encoder import CustomEncoder
-from models.sensor_dto.requirement_param import RequirementParam
-from models.sensor_dto.requirement_range import RequirementRange
+from models.definitions.spacy_def import SPACY_MODEL
 from services.sensor_parsing.text_parser import TextParser
 from services.utils.dependency_containers import Application
 
-# TODO: change sentences to tuples
 # TODO: handle unable to parse string x to a valid number, instead of just throwing it
 # TODO: initiate range stuff on startup, instead on the first range parse request
-# TODO: if 2 or more numbers and less than 2 relational bounds detected, default parseco
+
 # TODO: add option to use units and parsing still works
-# TODO: make relational pattern_groups catch even if extra words between the pattern words, like : Ensure that the temperature remains above a comfortable 25 degrees celsius and below 50
 if __name__ == '__main__':
     logging.basicConfig(filename="documents/logs/invalid_parsing.log", encoding='utf-8', level=logging.DEBUG)
     container = Application()
@@ -22,33 +20,33 @@ if __name__ == '__main__':
     parameter_ranges_long = [
         "When it comes to maintaining a swimming pool, the pH range of the pool water should ideally be kept between a minimum of 7.2 and a maximum of 7.8, creating a balanced and safe environment for swimmers and equipment.",
         "In scientific experiments and industrial processes, maintaining the pH level within a specific range is essential, with the acceptable range spanning from 5 to 9 to ensure accurate results and desired outcomes.",
-        "When it comes to the vehicle's performance, the car's speed can be adjusted to suit various driving situations, ranging from a minimum of 0 miles per hour for slow and controlled movement to a maximum of 60 miles per hour for high-speed travel on highways.",
-        "The operating temperature of the machinery can vary widely, covering a broad spectrum from as low as 0 degrees, providing adaptability to diverse environmental conditions.",
-        "In electrical systems, it's crucial to ensure a stable power supply, and the voltage should remain within the tight range of 110 to 120 volts to prevent any damage or malfunction.",
-        "The air pressure inside a sealed container may vary, but it should ideally stay within the safe range of 20 to 40 pounds per square inch (psi) to maintain the integrity of the container and its contents.",
-        "When dealing with shipping and handling, the weight of the products must be strictly adhered to, ranging from a minimum of 5 pounds for lighter items to a maximum of 10 pounds for heavier packages, ensuring efficient and safe transport.",
-        "For efficient communication and broadcasting, the frequency range of the radio signal is set between 88 and 108 MHz, encompassing a wide spectrum for compatibility with various devices and channels.",
-        "When scheduling tasks and processes, it's essential to set the time interval correctly, allowing for adjustments from as little as 1 hour to as long as 24 hours to accommodate the specific needs of the project or operation.",
-        "In laboratories and chemical reactions, achieving the desired concentration of a solution is crucial, with the acceptable range typically spanning from a low of 0.1 Molar to a high of 1.0 Molar, ensuring precise reactions and reliable results.",
-        "Athletic competitions often take place in different settings, and the distance that athletes must cover can vary significantly, ranging from a minimum of 50 meters for shorter sprints to a maximum of 100 meters for longer races.",
-        "To create an ideal environment for plant growth, maintaining humidity levels within a defined range is essential, with an acceptable range from a minimum of 30% to a maximum of 70% relative humidity, allowing for a wide range of plant species to thrive.",
-        "When selecting a TV or monitor, the screen size is a crucial factor to consider, as it can range from a minimum of 5 inches for smaller devices to a maximum of 15 inches for larger screens, catering to different viewing preferences.",
-        "For adjustable furniture or equipment, such as ergonomic chairs, the angle of inclination can be customized to provide maximum comfort, ranging from a minimum inclination of 0 degrees to a maximum inclination of 90 degrees.",
-        "For aquatic activities, knowing the depth of the water is essential for safety and enjoyment, and it can vary widely, from as shallow as 2 feet to as deep as 5 feet, accommodating various water-related activities and skill levels.",
-        "Audio equipment often allows users to adjust the volume to suit their preferences, with the volume ranging from as low as 0 decibels for complete silence to as high as 100 decibels for extremely loud audio output.",
-        "In electrical engineering, the resistance of a circuit is a critical parameter, and it can vary significantly, with values ranging from 10 ohms, indicating low resistance, to 100 ohms, representing higher resistance.",
-        "When preparing food and beverages, the concentration of sugar in a solution is an important factor that can affect taste, with values ranging from as low as 5% sugar content to as high as 20% sugar content, offering flexibility in recipes and beverages.",
-        "In optics and photography, the wavelength of light used plays a crucial role in capturing images and data, and it can vary within the range of 400 to 700 nanometers, corresponding to the visible spectrum of light.",
-        "When choosing a vehicle, fuel efficiency is a key consideration, with options ranging from as low as 20 miles per gallon, suitable for larger vehicles, to as high as 30 miles per gallon, ideal for compact and fuel-efficient cars.",
-        "For events and gatherings, the duration of the event can be tailored to fit various schedules and purposes, with timespan options ranging from a minimum of 2 hours for shorter meetings to a maximum of 3 hours for more extensive functions.",
-        "In the world of technology and data storage, software often needs to handle files of different sizes, with the capacity to manage files as small as 1 megabyte to as large as 10 megabytes, accommodating a wide array of digital content.",
-        "In financial investments, the interest rate plays a significant role in determining returns, with values fluctuating between as low as 3% for conservative investments to as high as 5% for more aggressive and potentially higher-yielding options.",
-        "For culinary enthusiasts and chefs, controlling the temperature of an oven is essential for perfect cooking, with the ability to adjust the temperature from as low as 150 degrees Fahrenheit for delicate baking to as high as 450 degrees Fahrenheit for high-heat roasting and broiling.",
-        "When shopping for consumer products, the price range for an item can be quite broad, with options available from as low as $50 for budget-friendly choices to as high as $100 for more premium and feature-rich products, catering to a diverse range of consumer preferences and budgets.",
-        "In geometry and design, the diameter of a circle can be customized to fit various applications, with dimensions varying from a minimum of 5 centimeters for smaller circular objects to a maximum of 15 centimeters for larger and more substantial shapes.",
-        "For those using battery-powered devices, the lifespan of the battery is a crucial factor, with variations from as low as 2 years for short-term use to as high as 5 years for long-lasting and durable battery performance, providing flexibility and convenience to users.",
-        "When exploring career opportunities, the salary for a job can differ significantly, with options available from as low as $40,000 annually for entry-level positions to as high as $60,000 annually for roles that require advanced skills and experience, allowing job seekers to align their career goals with their financial aspirations.",
-        "In environmental control systems, the acceptable temperature range for refrigeration spans from as low as -20 degrees Celsius, suitable for deep freezing, to as high as -5 degrees Celsius, perfect for long-term food storage.",
+        # "When it comes to the vehicle's performance, the car's speed can be adjusted to suit various driving situations, ranging from a minimum of 0 miles per hour for slow and controlled movement to a maximum of 60 miles per hour for high-speed travel on highways.",
+        # "The operating temperature of the machinery can vary widely, covering a broad spectrum from as low as 0 degrees, providing adaptability to diverse environmental conditions.",
+        # "In electrical systems, it's crucial to ensure a stable power supply, and the voltage should remain within the tight range of 110 to 120 volts to prevent any damage or malfunction.",
+        # "The air pressure inside a sealed container may vary, but it should ideally stay within the safe range of 20 to 40 pounds per square inch (psi) to maintain the integrity of the container and its contents.",
+        # "When dealing with shipping and handling, the weight of the products must be strictly adhered to, ranging from a minimum of 5 pounds for lighter items to a maximum of 10 pounds for heavier packages, ensuring efficient and safe transport.",
+        # "For efficient communication and broadcasting, the frequency range of the radio signal is set between 88 and 108 MHz, encompassing a wide spectrum for compatibility with various devices and channels.",
+        # "When scheduling tasks and processes, it's essential to set the time interval correctly, allowing for adjustments from as little as 1 hour to as long as 24 hours to accommodate the specific needs of the project or operation.",
+        # "In laboratories and chemical reactions, achieving the desired concentration of a solution is crucial, with the acceptable range typically spanning from a low of 0.1 Molar to a high of 1.0 Molar, ensuring precise reactions and reliable results.",
+        # "Athletic competitions often take place in different settings, and the distance that athletes must cover can vary significantly, ranging from a minimum of 50 meters for shorter sprints to a maximum of 100 meters for longer races.",
+        # "To create an ideal environment for plant growth, maintaining humidity levels within a defined range is essential, with an acceptable range from a minimum of 30% to a maximum of 70% relative humidity, allowing for a wide range of plant species to thrive.",
+        # "When selecting a TV or monitor, the screen size is a crucial factor to consider, as it can range from a minimum of 5 inches for smaller devices to a maximum of 15 inches for larger screens, catering to different viewing preferences.",
+        # "For adjustable furniture or equipment, such as ergonomic chairs, the angle of inclination can be customized to provide maximum comfort, ranging from a minimum inclination of 0 degrees to a maximum inclination of 90 degrees.",
+        # "For aquatic activities, knowing the depth of the water is essential for safety and enjoyment, and it can vary widely, from as shallow as 2 feet to as deep as 5 feet, accommodating various water-related activities and skill levels.",
+        # "Audio equipment often allows users to adjust the volume to suit their preferences, with the volume ranging from as low as 0 decibels for complete silence to as high as 100 decibels for extremely loud audio output.",
+        # "In electrical engineering, the resistance of a circuit is a critical parameter, and it can vary significantly, with values ranging from 10 ohms, indicating low resistance, to 100 ohms, representing higher resistance.",
+        # "When preparing food and beverages, the concentration of sugar in a solution is an important factor that can affect taste, with values ranging from as low as 5% sugar content to as high as 20% sugar content, offering flexibility in recipes and beverages.",
+        # "In optics and photography, the wavelength of light used plays a crucial role in capturing images and data, and it can vary within the range of 400 to 700 nanometers, corresponding to the visible spectrum of light.",
+        # "When choosing a vehicle, fuel efficiency is a key consideration, with options ranging from as low as 20 miles per gallon, suitable for larger vehicles, to as high as 30 miles per gallon, ideal for compact and fuel-efficient cars.",
+        # "For events and gatherings, the duration of the event can be tailored to fit various schedules and purposes, with timespan options ranging from a minimum of 2 hours for shorter meetings to a maximum of 3 hours for more extensive functions.",
+        # "In the world of technology and data storage, software often needs to handle files of different sizes, with the capacity to manage files as small as 1 megabyte to as large as 10 megabytes, accommodating a wide array of digital content.",
+        # "In financial investments, the interest rate plays a significant role in determining returns, with values fluctuating between as low as 3% for conservative investments to as high as 5% for more aggressive and potentially higher-yielding options.",
+        # "For culinary enthusiasts and chefs, controlling the temperature of an oven is essential for perfect cooking, with the ability to adjust the temperature from as low as 150 degrees Fahrenheit for delicate baking to as high as 450 degrees Fahrenheit for high-heat roasting and broiling.",
+        # "When shopping for consumer products, the price range for an item can be quite broad, with options available from as low as $50 for budget-friendly choices to as high as $100 for more premium and feature-rich products, catering to a diverse range of consumer preferences and budgets.",
+        # "In geometry and design, the diameter of a circle can be customized to fit various applications, with dimensions varying from a minimum of 5 centimeters for smaller circular objects to a maximum of 15 centimeters for larger and more substantial shapes.",
+        # "For those using battery-powered devices, the lifespan of the battery is a crucial factor, with variations from as low as 2 years for short-term use to as high as 5 years for long-lasting and durable battery performance, providing flexibility and convenience to users.",
+        # "When exploring career opportunities, the salary for a job can differ significantly, with options available from as low as $40,000 annually for entry-level positions to as high as $60,000 annually for roles that require advanced skills and experience, allowing job seekers to align their career goals with their financial aspirations.",
+        # "In environmental control systems, the acceptable temperature range for refrigeration spans from as low as -20 degrees Celsius, suitable for deep freezing, to as high as -5 degrees Celsius, perfect for long-term food storage.",
         "When considering a job offer, the salary range for the position may vary, with potential earnings starting at a minimum of $60,000 per year for entry-level roles and going up to as high as $80,000 per year for more senior and specialized positions.",
         "For maintaining a controlled environment in a greenhouse, the desired humidity level falls within the range of 40% on the lower end, creating a moderately dry climate, to 60% on the upper end, providing optimal conditions for plant growth and cultivation.",
         "When welcoming a newborn into the world, the average weight of a baby typically ranges from as low as 6 pounds for smaller infants to as high as 8 pounds for more robust and healthy babies, reflecting natural variations in birth weights.",
@@ -187,7 +185,7 @@ if __name__ == '__main__':
         "Tire pressure: 30-35 psi.",
         "Participant age: 18-30 years.",
         "Book length ranges from 200 to 300 pages.",
-        "Greenhouse temperature range: 20-25°C.",
+        "Greenhouse temperature range: 20-25C.",
         "Maximum load capacity is 500-1000 kilograms.",
         "Highway speed limit: 55-70 mph.",
         "Wi-Fi signal range: 50-100 feet.",
@@ -201,7 +199,7 @@ if __name__ == '__main__':
         "Stock price: $50-$100 per share.",
         "Movie duration: 90-120 minutes.",
         "Medication dose: 2-4 tablets.",
-        "Acceptable temperature range: -10 to 40°C.",
+        "Acceptable temperature range: -10 to 40C.",
         "Car fuel tank holds 10-20 gallons of gas.",
         "Angle of rotation: 0-360 degrees.",
         "Sound wave frequency: 20-20,000 Hz.",
@@ -217,7 +215,7 @@ if __name__ == '__main__':
         "Radio signal wavelength: 10-100 meters.",
         "Laptop charger input: 110-240V.",
         "Children's event age group: 3-12 years.",
-        "Refrigeration temperature range: -20 to -5°C.",
+        "Refrigeration temperature range: -20 to -5C.",
         "Position salary: $60,000 to $80,000 per year.",
         "Greenhouse humidity: 40-60%.",
         "Newborn baby weight: 6-8 pounds.",
@@ -238,7 +236,7 @@ if __name__ == '__main__':
         "Airplane altitude: 30,000-40,000 feet.",
         "Tablet screen size: 7-12 inches.",
         "Hard drive storage capacity: 1-4 TB.",
-        "Tropical climate temperature: 25-35°C.",
+        # "Tropical climate temperature: 25-35C.",
         "Fast-food meal calories: 500-800."
     ]
 
@@ -266,7 +264,7 @@ if __name__ == '__main__':
         "The file size is 8 MB.",
         "The interest rate is 4%.",
         "The pool water pH is 7.5.",
-        "Set the oven temperature to 350°F.",
+        "Set the oven temperature to 350F.",
         "The product costs $75.",
         "The circle has a 10 cm diameter.",
         "Battery life is 3 years.",
@@ -275,7 +273,7 @@ if __name__ == '__main__':
         "The tire pressure is 35 psi.",
         "Participants' age is 25 years.",
         "The book has 250 pages.",
-        "Greenhouse temperature is 23°C.",
+        # "Greenhouse temperature is 23C.",
         "The maximum load is 800 kilograms.",
         "Highway speed limit is 65 mph.",
         "Wi-Fi range extends 120 feet.",
@@ -289,7 +287,7 @@ if __name__ == '__main__':
         "The stock price is $75 per share.",
         "The movie's duration is 120 minutes.",
         "Take 1 tablet of the medication.",
-        "The acceptable temperature is 20°C.",
+        "The acceptable temperature is 20C.",
         "Fuel tank capacity is 15 gallons.",
         "Rotation angle is 180 degrees.",
     ]
@@ -297,7 +295,7 @@ if __name__ == '__main__':
     parameter_single_long = [
         "Set the temperature to a comfortable 25 degrees Celsius.",
         "Maintain a steady car speed of exactly 60 mph for the entire journey.",
-        "Ensure that the pH level remains constant at a neutral value of 7.",
+        # "Ensure that the pH level remains constant at a neutral value of 7.",
         "The power supply must consistently deliver 120 volts to the equipment.",
         "Pressure should be within the safe range of 30 psi, neither too low nor too high.",
         "Please do not exceed the maximum weight limit of 10 pounds for this luggage.",
@@ -317,7 +315,7 @@ if __name__ == '__main__':
         "The event duration is fixed at 2 hours, with no room for extension.",
         "The file size is exactly 8 megabytes, as indicated in the specifications.",
         "The interest rate is set at a fixed 4%, providing a stable return.",
-        "Please maintain the pool water pH at a constant 7.5 to ensure safety.",
+        # "Please maintain the pool water pH at a constant 7.5 to ensure safety.",
         "The oven temperature must be precisely 350 degrees Fahrenheit for the recipe.",
         "The product is available at a set price of $75, with no discounts.",
         "The circle's diameter is precisely 10 centimeters, measured accurately.",
@@ -345,9 +343,10 @@ if __name__ == '__main__':
         "The car's fuel tank capacity is set at 15 gallons for every refill.",
         "Rotation angle is restricted to a strict 180 degrees, with no deviation."
     ]
+
     parameter_list = [
-        ("engine heat goes beyond 5 and below 6", (5,6)),
-        ("engine heat is greater than 5 and also lower than 6", (5,6)),
+        ("engine heat goes beyond 5 and below 6", (5, 6)),
+        ("engine heat is greater than 5 and also lower than 6", (5, 6)),
         ("The frequency range for the radio signal is 88-108 MHz.", (88, 108)),
         (
             "For maintaining a controlled environment in a greenhouse, the desired humidity level falls within the range of 40% on the lower end, creating a moderately dry climate, to 60% on the upper end, providing optimal conditions for plant growth and cultivation.",
@@ -358,147 +357,147 @@ if __name__ == '__main__':
         ("The engine heat is bigger than 5", (5, float('inf'))),
         ("The engine heat is 5", (5)),
         (
-        "When it comes to maintaining a swimming pool, the pH range of the pool water should ideally be kept between a minimum of 7.2 and a maximum of 7.8, creating a balanced and safe environment for swimmers and equipment.",
-        (7.2, 7.8)),
+            "When it comes to maintaining a swimming pool, the pH range of the pool water should ideally be kept between a minimum of 7.2 and a maximum of 7.8, creating a balanced and safe environment for swimmers and equipment.",
+            (7.2, 7.8)),
         (
-        "In scientific experiments and industrial processes, maintaining the pH level within a specific range is essential, with the acceptable range spanning from 5 to 9 to ensure accurate results and desired outcomes.",
-        (5, 9)),
+            "In scientific experiments and industrial processes, maintaining the pH level within a specific range is essential, with the acceptable range spanning from 5 to 9 to ensure accurate results and desired outcomes.",
+            (5, 9)),
         (
-        "When it comes to the vehicle's performance, the car's speed can be adjusted to suit various driving situations, ranging from a minimum of 0 miles per hour for slow and controlled movement to a maximum of 60 miles per hour for high-speed travel on highways.",
-        (0, 60)),
+            "When it comes to the vehicle's performance, the car's speed can be adjusted to suit various driving situations, ranging from a minimum of 0 miles per hour for slow and controlled movement to a maximum of 60 miles per hour for high-speed travel on highways.",
+            (0, 60)),
         (
-        "The operating temperature of the machinery can vary widely, covering a broad spectrum from as low as 0 degrees, providing adaptability to diverse environmental conditions.",
-        (0,float('inf'))),
+            "The operating temperature of the machinery can vary widely, covering a broad spectrum from as low as 0 degrees, providing adaptability to diverse environmental conditions.",
+            (0, float('inf'))),
         (
-        "In electrical systems, it's crucial to ensure a stable power supply, and the voltage should remain within the tight range of 110 to 120 volts to prevent any damage or malfunction.",
-        (110, 120)),
+            "In electrical systems, it's crucial to ensure a stable power supply, and the voltage should remain within the tight range of 110 to 120 volts to prevent any damage or malfunction.",
+            (110, 120)),
         (
-        "The air pressure inside a sealed container may vary, but it should ideally stay within the safe range of 20 to 40 pounds per square inch (psi) to maintain the integrity of the container and its contents.",
-        (20, 40)),
+            "The air pressure inside a sealed container may vary, but it should ideally stay within the safe range of 20 to 40 pounds per square inch (psi) to maintain the integrity of the container and its contents.",
+            (20, 40)),
         (
-        "When dealing with shipping and handling, the weight of the products must be strictly adhered to, ranging from a minimum of 5 pounds for lighter items to a maximum of 10 pounds for heavier packages, ensuring efficient and safe transport.",
-        (5, 10)),
+            "When dealing with shipping and handling, the weight of the products must be strictly adhered to, ranging from a minimum of 5 pounds for lighter items to a maximum of 10 pounds for heavier packages, ensuring efficient and safe transport.",
+            (5, 10)),
         (
-        "For efficient communication and broadcasting, the frequency range of the radio signal is set between 88 and 108 MHz, encompassing a wide spectrum for compatibility with various devices and channels.",
-        (88, 108)),
+            "For efficient communication and broadcasting, the frequency range of the radio signal is set between 88 and 108 MHz, encompassing a wide spectrum for compatibility with various devices and channels.",
+            (88, 108)),
         (
-        "When scheduling tasks and processes, it's essential to set the time interval correctly, allowing for adjustments from as little as 1 hour to as long as 24 hours to accommodate the specific needs of the project or operation.",
-        (1, 24)),
+            "When scheduling tasks and processes, it's essential to set the time interval correctly, allowing for adjustments from as little as 1 hour to as long as 24 hours to accommodate the specific needs of the project or operation.",
+            (1, 24)),
         (
-        "In laboratories and chemical reactions, achieving the desired concentration of a solution is crucial, with the acceptable range typically spanning from a low of 0.1 Molar to a high of 1.0 Molar, ensuring precise reactions and reliable results.",
-        (0.1, 1.0)),
+            "In laboratories and chemical reactions, achieving the desired concentration of a solution is crucial, with the acceptable range typically spanning from a low of 0.1 Molar to a high of 1.0 Molar, ensuring precise reactions and reliable results.",
+            (0.1, 1.0)),
         (
-        "Athletic competitions often take place in different settings, and the distance that athletes must cover can vary significantly, ranging from a minimum of 50 meters for shorter sprints to a maximum of 100 meters for longer races.",
-        (50, 100)),
+            "Athletic competitions often take place in different settings, and the distance that athletes must cover can vary significantly, ranging from a minimum of 50 meters for shorter sprints to a maximum of 100 meters for longer races.",
+            (50, 100)),
         (
-        "To create an ideal environment for plant growth, maintaining humidity levels within a defined range is essential, with an acceptable range from a minimum of 30% to a maximum of 70% relative humidity, allowing for a wide range of plant species to thrive.",
-        (30, 70)),
+            "To create an ideal environment for plant growth, maintaining humidity levels within a defined range is essential, with an acceptable range from a minimum of 30% to a maximum of 70% relative humidity, allowing for a wide range of plant species to thrive.",
+            (30, 70)),
         (
-        "When selecting a TV or monitor, the screen size is a crucial factor to consider, as it can range from a minimum of 5 inches for smaller devices to a maximum of 15 inches for larger screens, catering to different viewing preferences.",
-        (5, 15)),
+            "When selecting a TV or monitor, the screen size is a crucial factor to consider, as it can range from a minimum of 5 inches for smaller devices to a maximum of 15 inches for larger screens, catering to different viewing preferences.",
+            (5, 15)),
         (
-        "For aquatic activities, knowing the depth of the water is essential for safety and enjoyment, and it can vary widely, from as shallow as 2 feet to as deep as 5 feet, accommodating various water-related activities and skill levels.",
-        (2, 5)),
+            "For aquatic activities, knowing the depth of the water is essential for safety and enjoyment, and it can vary widely, from as shallow as 2 feet to as deep as 5 feet, accommodating various water-related activities and skill levels.",
+            (2, 5)),
         (
-        "Audio equipment often allows users to adjust the volume to suit their preferences, with the volume ranging from as low as 0 decibels for complete silence to as high as 100 decibels for extremely loud audio output.",
-        (0, 100)),
+            "Audio equipment often allows users to adjust the volume to suit their preferences, with the volume ranging from as low as 0 decibels for complete silence to as high as 100 decibels for extremely loud audio output.",
+            (0, 100)),
         (
-        "In electrical engineering, the resistance of a circuit is a critical parameter, and it can vary significantly, with values ranging from 10 ohms, indicating low resistance, to 100 ohms, representing higher resistance.",
-        (10, 100)),
+            "In electrical engineering, the resistance of a circuit is a critical parameter, and it can vary significantly, with values ranging from 10 ohms, indicating low resistance, to 100 ohms, representing higher resistance.",
+            (10, 100)),
         (
-        "When preparing food and beverages, the concentration of sugar in a solution is an important factor that can affect taste, with values ranging from as low as 5% sugar content to as high as 20% sugar content, offering flexibility in recipes and beverages.",
-        (5, 20)),
+            "When preparing food and beverages, the concentration of sugar in a solution is an important factor that can affect taste, with values ranging from as low as 5% sugar content to as high as 20% sugar content, offering flexibility in recipes and beverages.",
+            (5, 20)),
         (
-        "In optics and photography, the wavelength of light used plays a crucial role in capturing images and data, and it can vary within the range of 400 to 700 nanometers, corresponding to the visible spectrum of light.",
-        (400, 700)),
+            "In optics and photography, the wavelength of light used plays a crucial role in capturing images and data, and it can vary within the range of 400 to 700 nanometers, corresponding to the visible spectrum of light.",
+            (400, 700)),
         (
-        "When choosing a vehicle, fuel efficiency is a key consideration, with options ranging from as low as 20 miles per gallon, suitable for larger vehicles, to as high as 30 miles per gallon, ideal for compact and fuel-efficient cars.",
-        (20, 30)),
+            "When choosing a vehicle, fuel efficiency is a key consideration, with options ranging from as low as 20 miles per gallon, suitable for larger vehicles, to as high as 30 miles per gallon, ideal for compact and fuel-efficient cars.",
+            (20, 30)),
         (
-        "For events and gatherings, the duration of the event can be tailored to fit various schedules and purposes, with timespan options ranging from a minimum of 2 hours for shorter meetings to a maximum of 3 hours for more extensive functions.",
-        (2, 3)),
+            "For events and gatherings, the duration of the event can be tailored to fit various schedules and purposes, with timespan options ranging from a minimum of 2 hours for shorter meetings to a maximum of 3 hours for more extensive functions.",
+            (2, 3)),
         (
-        "In the world of technology and data storage, software often needs to handle files of different sizes, with the capacity to manage files as small as 1 megabyte to as large as 10 megabytes, accommodating a wide array of digital content.",
-        (1, 10)),
+            "In the world of technology and data storage, software often needs to handle files of different sizes, with the capacity to manage files as small as 1 megabyte to as large as 10 megabytes, accommodating a wide array of digital content.",
+            (1, 10)),
         (
-        "In financial investments, the interest rate plays a significant role in determining returns, with values fluctuating between as low as 3% for conservative investments to as high as 5% for more aggressive and potentially higher-yielding options.",
-        (3, 5)),
+            "In financial investments, the interest rate plays a significant role in determining returns, with values fluctuating between as low as 3% for conservative investments to as high as 5% for more aggressive and potentially higher-yielding options.",
+            (3, 5)),
         (
-        "For culinary enthusiasts and chefs, controlling the temperature of an oven is essential for perfect cooking, with the ability to adjust the temperature from as low as 150 degrees Fahrenheit for delicate baking to as high as 450 degrees Fahrenheit for high-heat roasting and broiling.",
-        (150, 450)),
+            "For culinary enthusiasts and chefs, controlling the temperature of an oven is essential for perfect cooking, with the ability to adjust the temperature from as low as 150 degrees Fahrenheit for delicate baking to as high as 450 degrees Fahrenheit for high-heat roasting and broiling.",
+            (150, 450)),
         (
-        "When shopping for consumer products, the price range for an item can be quite broad, with options available from as low as $50 for budget-friendly choices to as high as $100 for more premium and feature-rich products, catering to a diverse range of consumer preferences and budgets.",
-        (50, 100)),
+            "When shopping for consumer products, the price range for an item can be quite broad, with options available from as low as $50 for budget-friendly choices to as high as $100 for more premium and feature-rich products, catering to a diverse range of consumer preferences and budgets.",
+            (50, 100)),
         (
-        "In geometry and design, the diameter of a circle can be customized to fit various applications, with dimensions varying from a minimum of 5 centimeters for smaller circular objects to a maximum of 15 centimeters for larger and more substantial shapes.",
-        (5, 15)),
+            "In geometry and design, the diameter of a circle can be customized to fit various applications, with dimensions varying from a minimum of 5 centimeters for smaller circular objects to a maximum of 15 centimeters for larger and more substantial shapes.",
+            (5, 15)),
         (
-        "For those using battery-powered devices, the lifespan of the battery is a crucial factor, with variations from as low as 2 years for short-term use to as high as 5 years for long-lasting and durable battery performance, providing flexibility and convenience to users.",
-        (2, 5)),
+            "For those using battery-powered devices, the lifespan of the battery is a crucial factor, with variations from as low as 2 years for short-term use to as high as 5 years for long-lasting and durable battery performance, providing flexibility and convenience to users.",
+            (2, 5)),
         (
-        "When exploring career opportunities, the salary for a job can differ significantly, with options available from as low as $40,000 annually for entry-level positions to as high as $60,000 annually for roles that require advanced skills and experience, allowing job seekers to align their career goals with their financial aspirations.",
-        (40000, 60000)),
+            "When exploring career opportunities, the salary for a job can differ significantly, with options available from as low as $40,000 annually for entry-level positions to as high as $60,000 annually for roles that require advanced skills and experience, allowing job seekers to align their career goals with their financial aspirations.",
+            (40000, 60000)),
         (
-        "In environmental control systems, the acceptable temperature range for refrigeration spans from as low as -20 degrees Celsius, suitable for deep freezing, to as high as -5 degrees Celsius, perfect for long-term food storage.",
-        (-20, -5)),
+            "In environmental control systems, the acceptable temperature range for refrigeration spans from as low as -20 degrees Celsius, suitable for deep freezing, to as high as -5 degrees Celsius, perfect for long-term food storage.",
+            (-20, -5)),
         (
-        "When considering a job offer, the salary range for the position may vary, with potential earnings starting at a minimum of $60,000 per year for entry-level roles and going up to as high as $80,000 per year for more senior and specialized positions.",
-        (60000, 80000)),
+            "When considering a job offer, the salary range for the position may vary, with potential earnings starting at a minimum of $60,000 per year for entry-level roles and going up to as high as $80,000 per year for more senior and specialized positions.",
+            (60000, 80000)),
 
         (
-        "When welcoming a newborn into the world, the average weight of a baby typically ranges from as low as 6 pounds for smaller infants to as high as 8 pounds for more robust and healthy babies, reflecting natural variations in birth weights.",
-        (6, 8)),
+            "When welcoming a newborn into the world, the average weight of a baby typically ranges from as low as 6 pounds for smaller infants to as high as 8 pounds for more robust and healthy babies, reflecting natural variations in birth weights.",
+            (6, 8)),
         (
-        "In the realm of consumer electronics, the price of a smartphone can vary, with budget-friendly options available at a starting price of $200, while premium models can reach as high as $500, offering features and capabilities to suit a wide range of consumer needs and budgets.",
-        (200, 500)),
+            "In the realm of consumer electronics, the price of a smartphone can vary, with budget-friendly options available at a starting price of $200, while premium models can reach as high as $500, offering features and capabilities to suit a wide range of consumer needs and budgets.",
+            (200, 500)),
         (
-        "For outdoor enthusiasts and cyclists, the speed of a bicycle can be adjusted to match the intended terrain and cycling experience, ranging from a minimum speed of 15 miles per hour for leisurely rides to a maximum speed of 25 miles per hour for high-performance cycling.",
-        (15, 25)),
+            "For outdoor enthusiasts and cyclists, the speed of a bicycle can be adjusted to match the intended terrain and cycling experience, ranging from a minimum speed of 15 miles per hour for leisurely rides to a maximum speed of 25 miles per hour for high-performance cycling.",
+            (15, 25)),
         (
-        "When planning the construction of a swimming pool, the depth of the pool can be customized according to specific preferences and needs, with options ranging from a minimum of 5 feet for shallower pools to a maximum of 10 feet for deeper pools, catering to swimmers of various skill levels.",
-        (5, 10)),
+            "When planning the construction of a swimming pool, the depth of the pool can be customized according to specific preferences and needs, with options ranging from a minimum of 5 feet for shallower pools to a maximum of 10 feet for deeper pools, catering to swimmers of various skill levels.",
+            (5, 10)),
         (
-        "In the world of photography and videography, the angle of a camera's lens can be adjusted to capture a wide range of perspectives, from a minimum angle of 24 degrees for tighter and more focused shots to a maximum angle of 70 degrees for broader and more panoramic views.",
-        (24, 70)),
+            "In the world of photography and videography, the angle of a camera's lens can be adjusted to capture a wide range of perspectives, from a minimum angle of 24 degrees for tighter and more focused shots to a maximum angle of 70 degrees for broader and more panoramic views.",
+            (24, 70)),
         (
-        "For travelers and jet setters, the duration of a flight can vary, with flight times extending from as short as 2 hours for quick regional trips to as long as 4 hours for more extensive international journeys, allowing passengers to plan and prepare accordingly.",
-        (2, 4)),
+            "For travelers and jet setters, the duration of a flight can vary, with flight times extending from as short as 2 hours for quick regional trips to as long as 4 hours for more extensive international journeys, allowing passengers to plan and prepare accordingly.",
+            (2, 4)),
         (
-        "In the field of data storage, the capacity of a storage drive can be selected to accommodate specific storage needs, with options ranging from a minimum of 256 gigabytes for modest storage requirements to a maximum of 512 gigabytes for extensive data storage and backup solutions.",
-        (256, 512)),
+            "In the field of data storage, the capacity of a storage drive can be selected to accommodate specific storage needs, with options ranging from a minimum of 256 gigabytes for modest storage requirements to a maximum of 512 gigabytes for extensive data storage and backup solutions.",
+            (256, 512)),
         (
-        "When residing in arid regions, the annual precipitation level can vary widely, with average rainfall amounts fluctuating from as low as 5 inches per year, resulting in dry conditions, to as high as 15 inches per year, contributing to a slightly more moderate climate.",
-        (5, 15)),
+            "When residing in arid regions, the annual precipitation level can vary widely, with average rainfall amounts fluctuating from as low as 5 inches per year, resulting in dry conditions, to as high as 15 inches per year, contributing to a slightly more moderate climate.",
+            (5, 15)),
         (
-        "For health-conscious individuals and dieters, the recommended calorie intake for a daily diet can span from a minimum of 1,500 calories per day, suitable for weight loss and reduced calorie intake, to as high as 2,000 calories per day, ensuring adequate energy and nutrient consumption.",
-        (1500, 2000)),
+            "For health-conscious individuals and dieters, the recommended calorie intake for a daily diet can span from a minimum of 1,500 calories per day, suitable for weight loss and reduced calorie intake, to as high as 2,000 calories per day, ensuring adequate energy and nutrient consumption.",
+            (1500, 2000)),
         (
-        "In electrical engineering, the voltage output of a power supply is a critical consideration, with voltages adjustable to provide as low as 5 volts for low-power applications to as high as 12 volts for high-power and energy-demanding devices and equipment.",
-        (5, 12)),
+            "In electrical engineering, the voltage output of a power supply is a critical consideration, with voltages adjustable to provide as low as 5 volts for low-power applications to as high as 12 volts for high-power and energy-demanding devices and equipment.",
+            (5, 12)),
         (
-        "When shopping for laptops, the price range for a laptop can be quite extensive, offering options starting from as low as $800 for budget-friendly models and extending up to as high as $1,500 for premium laptops with advanced features and capabilities, meeting the diverse needs and preferences of consumers.",
-        (800, 1500)),
+            "When shopping for laptops, the price range for a laptop can be quite extensive, offering options starting from as low as $800 for budget-friendly models and extending up to as high as $1,500 for premium laptops with advanced features and capabilities, meeting the diverse needs and preferences of consumers.",
+            (800, 1500)),
         (
-        "For music enthusiasts and concertgoers, the duration of a concert can vary, with performances lasting from as short as 1.5 hours for shorter events and musical showcases to as long as 3 hours for comprehensive concerts and musical extravaganzas, ensuring an enjoyable and memorable experience.",
-        (1.5, 3)),
+            "For music enthusiasts and concertgoers, the duration of a concert can vary, with performances lasting from as short as 1.5 hours for shorter events and musical showcases to as long as 3 hours for comprehensive concerts and musical extravaganzas, ensuring an enjoyable and memorable experience.",
+            (1.5, 3)),
         (
-        "In the realm of dietary supplements, the recommended dose of a vitamin can fluctuate, with dosages ranging from as low as 100 milligrams for standard daily intake to as high as 200 milligrams for specialized or therapeutic use, offering flexibility to individuals seeking specific health and wellness benefits.",
-        (100, 200)),
+            "In the realm of dietary supplements, the recommended dose of a vitamin can fluctuate, with dosages ranging from as low as 100 milligrams for standard daily intake to as high as 200 milligrams for specialized or therapeutic use, offering flexibility to individuals seeking specific health and wellness benefits.",
+            (100, 200)),
         (
-        "In the domain of technology and networking, the range of a Wi-Fi router is a critical factor, with signal coverage spanning from a minimum distance of 100 meters for smaller spaces and homes to a maximum distance of 200 meters for larger areas and extended connectivity, providing reliable wireless access.",
-        (100, 200)),
+            "In the domain of technology and networking, the range of a Wi-Fi router is a critical factor, with signal coverage spanning from a minimum distance of 100 meters for smaller spaces and homes to a maximum distance of 200 meters for larger areas and extended connectivity, providing reliable wireless access.",
+            (100, 200)),
         (
-        "For event organizers and conference planners, the number of attendees at a conference can vary, with participant counts ranging from as low as 200 attendees for intimate and focused gatherings to as high as 300 attendees for larger and more expansive conferences, accommodating a wide range of conference sizes and objectives.",
-        (200, 300)),
+            "For event organizers and conference planners, the number of attendees at a conference can vary, with participant counts ranging from as low as 200 attendees for intimate and focused gatherings to as high as 300 attendees for larger and more expansive conferences, accommodating a wide range of conference sizes and objectives.",
+            (200, 300)),
         (
-        "In the world of aviation and air travel, the altitude of an airplane can vary during flight, with elevations fluctuating from as low as 30,000 feet for cruising altitudes in commercial flights to as high as 40,000 feet, representing altitudes typically reached by commercial and private aircraft.",
-        (30000, 40000)),
+            "In the world of aviation and air travel, the altitude of an airplane can vary during flight, with elevations fluctuating from as low as 30,000 feet for cruising altitudes in commercial flights to as high as 40,000 feet, representing altitudes typically reached by commercial and private aircraft.",
+            (30000, 40000)),
         (
-        "When selecting a tablet for personal or professional use, the screen size of a tablet can be customized, offering options ranging from a minimum of 7 inches for compact and portable devices to a maximum of 12 inches for larger and more versatile tablets, catering to a variety of user preferences and needs.",
-        (7, 12)),
+            "When selecting a tablet for personal or professional use, the screen size of a tablet can be customized, offering options ranging from a minimum of 7 inches for compact and portable devices to a maximum of 12 inches for larger and more versatile tablets, catering to a variety of user preferences and needs.",
+            (7, 12)),
         (
-        "In data storage solutions, the storage capacity of a hard drive is an essential feature, with capacities greater than 1 terabyte, ideal for basic storage needs, but needs to be smaller than 4 terabytes, suitable for extensive data storage and archiving, ensuring users have the space they require for their digital content and files.",
-        (1, 4)),
+            "In data storage solutions, the storage capacity of a hard drive is an essential feature, with capacities greater than 1 terabyte, ideal for basic storage needs, but needs to be smaller than 4 terabytes, suitable for extensive data storage and archiving, ensuring users have the space they require for their digital content and files.",
+            (1, 4)),
         ("The temperature can vary from 0 to 100 degrees Celsius.", (0, 100)),
         ("The speed of the car ranges from 0 to 60 miles per hour.", (0, 60)),
         ("The pH level should be maintained within the range of 5 to 9.", (5, 9)),
@@ -614,7 +613,7 @@ if __name__ == '__main__':
         ("Tire pressure: 30-35 psi.", (30, 35)),
         ("Participant age: 18-30 years.", (18, 30)),
         ("Book length ranges from 200 to 300 pages.", (200, 300)),
-        ("Greenhouse temperature range: 20-25°C.", (20, 25)),
+        ("Greenhouse temperature range: 20-25C.", (20, 25)),
         ("Maximum load capacity is 500-1000 kilograms.", (500, 1000)),
         ("Highway speed limit: 55-70 mph.", (55, 70)),
         ("Wi-Fi signal range: 50-100 feet.", (50, 100)),
@@ -628,7 +627,7 @@ if __name__ == '__main__':
         ("Stock price: $50-$100 per share.", (50, 100)),
         ("Movie duration: 90-120 minutes.", (90, 120)),
         ("Medication dose: 2-4 tablets.", (2, 4)),
-        ("Acceptable temperature range: -10 to 40°C.", (-10, 40)),
+        ("Acceptable temperature range: -10 to 40C.", (-10, 40)),
         ("Car fuel tank holds 10-20 gallons of gas.", (10, 20)),
         ("Angle of rotation: 0-360 degrees.", (0, 360)),
         ("Sound wave frequency: 20-20,000 Hz.", (20, 20000)),
@@ -644,7 +643,7 @@ if __name__ == '__main__':
         ("Radio signal wavelength: 10-100 meters.", (10, 100)),
         ("Laptop charger input: 110-240V.", (110, 240)),
         ("Children's event age group: 3-12 years.", (3, 12)),
-        ("Refrigeration temperature range: -20 to -5°C.", (-20, -5)),
+        ("Refrigeration temperature range: -20 to -5C.", (-20, -5)),
         ("Position salary: $60,000 to $80,000 per year.", (60000, 80000)),
         ("Greenhouse humidity: 40-60%.", (40, 60)),
         ("Newborn baby weight: 6-8 pounds.", (6, 8)),
@@ -665,7 +664,7 @@ if __name__ == '__main__':
         ("Airplane altitude: 30,000-40,000 feet.", (30000, 40000)),
         ("Tablet screen size: 7-12 inches.", (7, 12)),
         ("Hard drive storage capacity: 1-4 TB.", (1, 4)),
-        ("Tropical climate temperature: 25-35°C.", (25, 35)),
+        ("Tropical climate temperature: 25-35C.", (25, 35)),
         ("Fast-food meal calories: 500-800.", (500, 800)),
         ("The temperature should be 5 degrees Celsius.", 5),
         ("Maintain a car speed of 60 mph.", 60),
@@ -690,7 +689,7 @@ if __name__ == '__main__':
         ("The file size is 8 MB.", 8),
         ("The interest rate is 4%.", 4),
         ("The pool water pH is 7.5.", 7.5),
-        ("Set the oven temperature to 350°F.", 350),
+        ("Set the oven temperature to 350F.", 350),
         ("The product costs $75.", 75),
         ("The circle has a 10 cm diameter.", 10),
         ("Battery life is 3 years.", 3),
@@ -699,7 +698,7 @@ if __name__ == '__main__':
         ("The tire pressure is 35 psi.", 35),
         ("Participants' age is 25 years.", 25),
         ("The book has 250 pages.", 250),
-        ("Greenhouse temperature is 23°C.", 23),
+        ("Greenhouse temperature is 23C.", 23),
         ("The maximum load is 800 kilograms.", 800),
         ("Highway speed limit is 65 mph.", 65),
         ("Wi-Fi range extends 120 feet.", 120),
@@ -713,7 +712,7 @@ if __name__ == '__main__':
         ("The stock price is $75 per share.", 75),
         ("The movie's duration is 120 minutes.", 120),
         ("Take 1 tablet of the medication.", "1"),
-        ("The acceptable temperature is 20°C.", 20),
+        ("The acceptable temperature is 20C.", 20),
         ("Fuel tank capacity is 15 gallons.", 15),
         ("Rotation angle is 180 degrees.", 180),
         ("Set the temperature to a comfortable 25 degrees Celsius.", 25),
@@ -768,6 +767,8 @@ if __name__ == '__main__':
     ]
 
     sentences = [
+        "the horse weights 50",
+        "speed higher than 5 and the thrust between 5 and 20. the height is below 6 while the longitude is above 5",
         "Aim for a daily step_count between 8,000 to 10,000, covering a walking distance of 5 to 7 kilometers.",
         "Plan a vacation lasting 7 to 10 days, allocating a budget of $1,000 to $1,500 for an enjoyable and stress-free trip.",
         "Adjust the thermostat to maintain room temperature between 22 and 25 degrees Celsius, considering energy savings and comfort.",
@@ -792,34 +793,32 @@ if __name__ == '__main__':
     ]
 
     icd_parameters = [
-        "GPS_Accuracy is larger than 0 and lower than 10 while the Oxygen_Level is higher than 0. The Flap_Position is bigger than 0 and below 40 and Hydraulic_Pressure is more than 0",
-        "altitude is in range 50000 - 100000 and longitude is higher than -180.5",
-        "wind_speed is between 0 and 100 and engine_heat greater than 0, while the air_pressure has to be lower than 1100",
-        "current_thrust is higher than 0 and Pitch_Angle is below 50. Roll_Angle is between -60 and 100 and Fuel_Consumption is above 50. Ground_Speed is 5",
-        "Vertical_Speed is 10",
-        "Tempreture is greater than -50 while being smaller then 100",
-        "The G-Force is higher than 0",
-        "Radio_Signal_Strength is bigger than -100 and smaller than 0",
-        "Brake_Pressure needs to be high, meaning it's range is 0-2000 and Landing_Lights has to be 1, while Strobe_Lights need to be 0",
-        "Beacon_Lights need to be 1"
+        "The Beacon_Lights are either Off (0) or On (1). Moreover, the Navigation_Lights are either Off (0) or On (1); and the Anti_Collision_Lights are either Off (0) or On (1).",
+        "The Altitude is between 0 and 50,000 feet. Additionally, the Longitude is within the range of -180 to 180 degrees; and the Wind_Speed ranges from 0 to 100 knots.",
+        "The Engine_Heat is within the range of 0 to 300 degrees Celsius. Moreover, the Air_Pressure falls between 800 and 1,100 hPa; and the Current_Thrust varies from 0 to 400 kN.",
+        "The Pitch_Angle is between -20 and 20 degrees. Furthermore, the Roll_Angle is within the range of -60 to 60 degrees; and the Fuel_Consumption ranges from 0 to 100 liters.",
+        "The Ground_Speed varies from 0 to 700 knots. Similarly, the Vertical_Speed is between -3,000 and 3,000 feet per minute; and the Tempreture is in the range of -50 to 100 degrees Celsius.",
+        "The G-Force is between 0 and 5 G. In addition, the Radio_Signal_Strength is within the range of -100 to 0 dBm; and the GPS_Accuracy falls between 0 and 10 meters.",
+        "The Oxygen_Level ranges from 0 to 100%. Also, the Flap_Position varies from 0 to 40 degrees; and the Hydraulic_Pressure is within the range of 0 to 3,000 PSI.",
+        "The Brake_Pressure is above 0 and below 2,000 degrees. Besides, the Landing_Lights are either Off (0) or On (1); and the Strobe_Lights are either Off (0) or On (1).",
+        "The Wing_Lights are either Off (0) or On (1). Additionally, the Cabin_Lights are either Off (0) or On (1); and the Emergency_Lights are either Off (0) or On (1)."
     ]
 
+    for sentence in parameter_ranges_long:
+        # try:
 
-    for sentence in icd_parameters:
-        #try:
+        # print(extract_word_pos_tags(sentence))
+        sensors = list(text_parser.parse(sentence))
+        # if isinstance(range, tuple) and sensor.requirement_param.__class__ == RequirementRange:
+        #     requirement_range: RequirementRange = sensor.requirement_param
+        #     if requirement_range.value != range[0] or requirement_range.end_value != range[1]:
+        #         logging.error(f"Wrong evaluation of sentence {sentence}, evaluated {(requirement_range.value, requirement_range.end_value)} but is actually {range}")
+        # elif isinstance(range, int) and sensor.requirement_param.__class__ == RequirementParam:
+        #     if sensor.requirement_param.value != range:
+        #         logging.error(f"Wrong evaluation of sentence {sentence}, evaluated {sensor.requirement_param.value} but is actually {range[0]}")
+        # else:
+        #     logging.error(f"Wrong evaluation of sentence {sentence}, evaluated {json.dumps(sensor, cls=CustomEncoder)} but is actually {range}")
 
-            # print(extract_word_pos_tags(sentence))
-            sensors = list(text_parser.parse(sentence))
-            # if isinstance(range, tuple) and sensor.requirement_param.__class__ == RequirementRange:
-            #     requirement_range: RequirementRange = sensor.requirement_param
-            #     if requirement_range.value != range[0] or requirement_range.end_value != range[1]:
-            #         logging.error(f"Wrong evaluation of sentence {sentence}, evaluated {(requirement_range.value, requirement_range.end_value)} but is actually {range}")
-            # elif isinstance(range, int) and sensor.requirement_param.__class__ == RequirementParam:
-            #     if sensor.requirement_param.value != range:
-            #         logging.error(f"Wrong evaluation of sentence {sentence}, evaluated {sensor.requirement_param.value} but is actually {range[0]}")
-            # else:
-            #     logging.error(f"Wrong evaluation of sentence {sentence}, evaluated {json.dumps(sensor, cls=CustomEncoder)} but is actually {range}")
-
-            print(f"Sentence {sentence}", f"Sensor {json.dumps(sensors, cls=CustomEncoder)}", sep='\n', end='\n\n')
-        #except ValueError as e:
-        #    print(e ,end='\n\n')
+        print(f"Sentence {sentence}", f"Sensor {json.dumps(sensors, cls=CustomEncoder)}", sep='\n', end='\n\n')
+    # except ValueError as e:
+    #    print(e ,end='\n\n')

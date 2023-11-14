@@ -91,7 +91,6 @@ Maintain a car speed of 60 mph.
 Set the pH level to 7.
 The voltage should be 120 volts.
 Keep the pressure at 30 psi.
-The weight must not exceed 10 pounds.
 Tune the radio signal to 100 MHz.
 Run the process for 12 hours.
 Prepare a solution with 0.5 M concentration.
@@ -121,7 +120,6 @@ The book has 250 pages.
 Greenhouse temperature is 23°C.
 The maximum load is 800 kilograms.
 Highway speed limit is 65 mph.
-Wi-Fi range extends 120 feet.
 The company employs 75 people.
 The mountain's altitude is 7,000 feet.
 The screen resolution is 1080p.
@@ -135,3 +133,23 @@ Take 1 tablet of the medication.
 The acceptable temperature is 20°C.
 Fuel tank capacity is 15 gallons.
 Rotation angle is 180 degrees.
+the speed 50.
+wings generate a lift_force of 25000 pounds.
+maximum_speed 50 miles per hours
+speed should be 5
+rate has to be 6
+the turning_radius 599 feet
+engine_fuel is 6
+wingspan 6
+aircraft's maximum takeoff_distance is 2000
+rotor_diameter 30 feet
+fuel_consumption 10
+Keep the pressure at 30 psi
+Maintain humidity at 50%
+the speed should be at 5 degrees
+the lift_force should be at 250 pounds
+the width of the table has to be at a comfortable size of 9cm
+the screen size is at 900 pixels
+the pressure should maintain for 5 hours
+the process runs for 9 hours
+the lift_force maintains itself with 5 milligrams

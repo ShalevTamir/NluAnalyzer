@@ -1,5 +1,4 @@
 import string
-from nltk import word_tokenize, PorterStemmer
 from spacy.tokens import Token
 
 

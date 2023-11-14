@@ -31,6 +31,7 @@ class RelationalPatternHandler(PatternHandler):
             except KeyError:
                 pass
             else:
+                # print("RELATIONAL MATCH ", self._pattern_rules, first_match, relation_group)
                 if self._reverse_classification:
                     relation_group = revert_relation_group(relation_group)
                 number_token = first_match[self._number_index]

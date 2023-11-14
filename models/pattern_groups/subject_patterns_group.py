@@ -39,7 +39,7 @@ class SubjectPatternsGroup(PatternsGroup):
 
         super().__init__(SpacyDependencyMatcher(),
                          [
-                             SubjectPatternHandler(verb_preceding_subject),
-                             SubjectPatternHandler(double_noun, subject_index=0)
+                             SubjectPatternHandler(verb_preceding_subject)
+                             # SubjectPatternHandler(double_noun, subject_index=0)
                          ])
 
