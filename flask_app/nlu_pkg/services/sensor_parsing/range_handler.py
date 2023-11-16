@@ -82,10 +82,12 @@ class RangeHandler:
 
     def _default_parsing_case(self) -> RequirementRange:
         if len(self._numbers_in_sentence) >= RANGE_NUMBERS_COUNT:
+            print("DEFAULT PARSING CASE")
             # logging.warning(f"Default parsing case for sentence {self._tokens}, used min, max")
             relevant_numbers = [parse_number(number) for number in self._numbers_in_sentence[:RANGE_NUMBERS_COUNT]]
             return RequirementRange(min(*relevant_numbers), max(*relevant_numbers))
         elif len(self._numbers_in_sentence) == PARAMETER_NUMBERS_COUNT and self._relational_bounds:
+            print("DEFAULT PARSING CASE")
             # logging.warning(f"Default parsing case for sentence {self._tokens}, used first relational bound")
             return self._extract_range(self._relational_bounds[0])
 

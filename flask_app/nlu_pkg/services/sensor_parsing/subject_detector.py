@@ -29,7 +29,7 @@ class SubjectDetector:
             # partial(locate_matching_tokens, tokens, SPACY_TEXT_ATTR, _SUBJ_SPACE_CHAR),
             partial(self._detect_custom_ner, tokens),
             test,
-            partial(self._match_subject_patterns, tokens)
+            # partial(self._match_subject_patterns, tokens)
         ]
         default_subject_locator = partial(locate_matching_token, tokens, SPACY_DEP_ATTR, ROOT_DEP)
         for subject_locator in subject_locators:

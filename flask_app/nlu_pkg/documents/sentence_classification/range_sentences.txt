@@ -5,7 +5,7 @@ The recommended daily calorie intake for adults is typically between 1,800 and 2
 The length of the river spans a range of 200 to 300 kilometers, making it one of the longest in the region.
 The stock market experienced fluctuations today, with the Dow Jones Index moving within a range of 28,000 to 28,500 points.
 The number of attendees at the event is expected to be between 200 and 300 people.
-The ideal pH level for the swimming pool water should be maintained between 7.2 and 7.6.
+The ideal level for the swimming pool water should be maintained between 7.2 and 7.6.
 The battery life of the new laptop can last anywhere from 8 to 12 hours on a single charge.
 The airline offers a flexible check-in window, allowing passengers to arrive at the airport between 2 and 4 hours before the flight.
 The lifespan of a typical light bulb varies from 1,000 to 2,000 hours.
@@ -202,7 +202,7 @@ Recommended calorie intake: Above 1,800 and below 2,500 calories.
 The river's length: Extends from 200 up to 300 kilometers.
 Stock market: Fluctuated, starting from 28,000 up to 28,500 points.
 Event attendance: Expected to be above 200 and below 300 people.
-Maintain the pool's pH level: Above 7.2 and below 7.6.
+Maintain the pool's level: Above 7.2 and below 7.6.
 Laptop battery life: Starting from 8 up to 12 hours.
 Flexible airport check-in: Starting from 2 up to 4 hours.
 Light bulb lifespan: Ranges from 1,000 up to 2,000 hours.
@@ -221,7 +221,7 @@ Sound speed in air: Exceeds 300 m/s.
 Earth's diameter: Measures more than 12,000 kilometers.
 Housefly lifespan: Less than 30 days.
 Earth-Moon distance: Less than 400,000 kilometers.
-Lemon juice acidity: Below pH 2.
+Lemon juice acidity: Below 2.
 Engine heat: Exceeds 5.
 Maintain greenhouse humidity: Above 40% and below 60%.
 Marathon completion time: Starts from 3 up to 6 hours.
@@ -251,3 +251,149 @@ height should be above 9
 the weight should be above 7
 stall_speed below 56
 weight should get up to 50000 pounds
+the room_temperatures ranged from 60 to 80 degrees.
+test_scores varied between 70% and 90%.
+car_velocities covered a spectrum from 40 to 60 miles per hour.
+colors on the palette showed diversity from 30 to 300.
+sound_intensity fluctuated between 40 and 100 decibels.
+market_costs demonstrated diversity, ranging from $20 to $2000.
+population_density differed, ranging from 100 to 1000 people per square mile.
+meeting_sizes varied, accommodating both small and large groups.
+exam_scores covered a range from 50 to 85.
+mountain_elevations showed variation, ranging from 3000 to 12000 feet.
+restaurant_prices spanned from $5 to $50.
+book_lengths varied from 100 to 500 pages.
+the number_of_guests at events ranged from 20 to 200.
+film_durations covered a spectrum from 60 to 180 minutes.
+rainfall_amounts varied from 0.5 to 2 inches.
+the brightness_of_the_screen displayed a range from 20 to 80.
+house_sizes ranged from 800 to 2000 square feet.
+meeting_durations varied from 45 minutes to 200 minutes.
+marathon_times fluctuated, ranging from 2 to 5 hours.
+distances covered during hikes varied from 5 to 15 miles.
+ages_of_participants in a study ranged from 25 to 65.
+heights_of_trees in the forest varied from 20 to 80 feet.
+the number_of_errors in coding projects ranged from 5 to 50.
+the_length_of_trails in the national park varied from 1 to 10 miles.
+film_budgets showed diversity, ranging from $1 million to $100 million.
+the number_of_pages in a novel spanned from 200 to 800.
+the amount_of_rainfall in a month varied from 1 to 5 inches.
+the concentration_levels during the experiment ranged from 30 to 70.
+the size_of_computer_monitors ranged from 20 to 40 inches.
+the rate_of_customer_satisfaction varied between 80% and 95%.
+marathon_distances covered a range from 10 to 26 miles.
+the brightness_of_light_bulbs fluctuated from 40 to 100 watts.
+room_sizes in the hotel varied from 300 to 1000 square feet.
+the number_of_steps in a staircase ranged from 10 to 50.
+dimensions_of_paintings varied from 16x20 to 36x48 inches.
+the number_of_participants in the study ranged from 50 to 500.
+the rate_of_success in a project fluctuated between 60% and 80%.
+the maximum_speed of a train varied from 50 to 150 miles per hour.
+the tolerance_levels in manufacturing ranged from 0.5 to 2 millimeters.
+marathon participants' ages varied from 20 to 60 years old.
+the number_of_intervals in a workout routine ranged from 3 to 6.
+the turning_radius of vehicles varied from 15 to 30 feet.
+the number_of_sentences in a paragraph ranged from 3 to 6.
+the amount_of_output in a factory varied from 1000 to 5000 units.
+the volume_of_a_water_tank ranged from 500 to 2000 gallons.
+the cabin_pressure in an airplane varied from 8000 to 10000 feet.
+the speed_of_a_roller_coaster fluctuated from 30 to 60 miles per hour.
+the duration_of_a_tv_show varied from 30 to 60 minutes.
+altitudes_of_mountains showed variation, ranging from 2000 to 12000 feet.
+the budget_for_a_marketing_campaign ranged from $5000 to $50000.
+the number_of_days in a month varied from 28 to 31.
+the intensity_of_light in the room fluctuated from 50 to 200 lumens.
+the width_of_a_river varied from 10 to 50 meters.
+the number_of_guests at the party ranged from 20 to 100.
+the rating_of_a_movie varied from 4 to 9 stars.
+the thickness_of_a_book_cover ranged from 0.1 to 0.5 inches.
+the size_of_a_pizza varied from 10 to 16 inches in diameter.
+the number_of_colors in the artwork ranged from 5 to 20.
+the distance_between_two_cities fluctuated from 100 to 500 miles.
+the duration of a traffic light varied from 30 to 60 seconds.
+the number_of_questions in the exam ranged from 50 to 100.
+the brightness of a flashlight fluctuated from 20 to 100 lumens.
+the width_of_a_bridge varied from 5 to 20 meters.
+the number_of_flights at an airport ranged from 50 to 200 per day.
+the size_of_a_television_screen ranged from 32 to 60 inches.
+the weight_of_a_backpack varied from 5 to 20 pounds.
+the number_of_paintings_in_an_exhibition ranged from 30 to 100.
+the speed_of_a_website_loading fluctuated from 2 to 10 seconds.
+the number_of_passengers_in_a_bus ranged from 20 to 50.
+the temperature_of_a_swimming_pool ranged from 70 to 90 degrees.
+the width_of_a_sidewalk varied from 3 to 6 feet.
+the number_of_pages_in_a_magazine ranged from 50 to 200.
+the depth_of_a_lake fluctuated from 10 to 50 meters.
+the number_of_chapters_in_a_book ranged from 10 to 20.
+the height_of_a_building varied from 50 to 200 feet.
+the number_of_stations_on_a_radio_dial ranged from 20 to 100.
+the length_of_a_football_field fluctuated from 100 to 150 yards.
+the number_of_guests_in_a_hotel_room ranged from 1 to 4.
+the brightness_of_a_laptop_screen ranged from 200 to 500 nits.
+the size_of_a_poster varied from 18x24 to 24x36 inches.
+the number_of_diners_in_a_restaurant fluctuated from 30 to 100.
+the speed_of_a_typist varied from 40 to 80 words per minute.
+the width_of_a_doorway ranged from 2 to 4 feet.
+the number_of_cells_in_a_battery ranged from 2 to 8.
+the height_of_a_fence fluctuated from 3 to 6 feet.
+the number_of_players_on_a_soccer_team ranged from 11 to 15.
+the speed_of_a_printer fluctuated from 10 to 30 pages per minute.
+the distance_between_traffic_cones ranged from 5 to 10 feet.
+the number_of_episodes_in_a_tv_series ranged from 10 to 20.
+the speed_of_a_roller_skater varied from 5 to 15 miles per hour.
+the number_of_keys_on_a_piano fluctuated from 88 to 120.
+the brightness_of_a_projector ranged from 1000 to 5000 lumens.
+the number_of_beds_in_a_hospital_room ranged from 1 to 4.
+the duration_of_a_podcast episode varied from 20 to 60 minutes.
+the width_of_a_football_field ranged from 50 to 100 yards.
+the number_of_bees_in_a_hive fluctuated from 10,000 to 50,000.
+the speed_of_a_roller_coaster fluctuated from 20 to 60 miles per hour.
+the number_of_keys_on_a_typewriter ranged from 40 to 80.
+the thickness_of_a_hair_strand ranged from 0.01 to 0.1 millimeters.
+the distance_between_train_stations fluctuated from 10 to 30 miles
+positioned at the forefront of astronomical instruments, the telescope's magnification_capabilities extend across a remarkable range, enabling astronomers to meticulously study and unravel the mysteries of distant celestial bodies at magnifications ranging from 50 to an impressive 200 times.
+for the culinary enthusiasts embarking on the gastronomic journey of a carefully crafted recipe, the recommended cooking_temperature spans a nuanced spectrum, fluctuating between 300 and 400 degrees fahrenheit, ensuring that the ingredients undergo a meticulously calibrated transformation, resulting in a symphony of flavors that tantalize the taste buds.
+embracing the principles of ergonomic design, the office environment is enriched with adjustable lighting systems that cater to individual preferences, allowing occupants to fine-tune the ambiance to their liking, with illumination_levels gracefully ranging from brighter than 50 lux to a softer glow beneath 100 lux.
+in the dynamic realm of business metrics, the company's annual_profit_margins are a testament to financial prowess, consistently occupying the expansive range between 15% and 25%, showcasing a resilient and adaptive approach to economic fluctuations and market dynamics.
+with a commitment to personalized comfort, the office workspace is adorned with ergonomic office chairs that offer a sophisticated seating experience, boasting a height range that gracefully extends from 40 to 60 inches, ensuring a tailored fit for individuals seeking both style and lumbar support.
+guided by the principles of holistic well-being, the recommended daily water_intake transcends mere hydration guidelines, beckoning individuals to partake in the consumption of more than 8 glasses but judiciously staying below the threshold of 12 glasses, fostering a harmonious equilibrium within the body's vital systems.
+functioning as the heartbeat of emergency response, the hotline's commitment to swift action is quantified by a response_time that consistently outpaces expectations, clocking in at faster than 2 minutes yet never exceeding the critical window of 5 minutes, thereby ensuring timely assistance during urgent situations.
+winding through picturesque landscapes, the hiking trail embarks on an elevation rollercoaster, guiding outdoor enthusiasts through peaks that ascend higher than 1000 feet and valleys that descend gracefully below the serene threshold of 500 feet, offering a panoramic journey through nature's undulating topography.
+the indispensable lifeline of modern communication, the smartphone, assumes the role of a reliable companion, promising an enduring battery_life that stretches beyond the confines of 10 hours but remains judiciously below the 5-hour mark, accommodating the varied demands of a tech-savvy lifestyle.
+anchored in the realm of agricultural alchemy, the recommended soil_level for the garden transcends mere horticultural guidelines, delicately balancing between the neutral range, hovering with precision above 7 and gracefully below 66, fostering a fertile foundation for the flourishing of a diverse array of botanical specimens.
+the gymnast's pursuit of physical mastery unfolds within the realms of extraordinary flexibility, as the athlete navigates a range of motion that surpasses the conventional boundaries, extending beyond 180 degrees yet tactfully remaining beneath the acrobatic zenith of 270 degrees, showcasing a harmonious blend of strength and grace.
+as the doors of knowledge swing open, the museum beckons curious minds to explore its curated wonders within the expansive temporal confines of operating_hours that stretch from 9 a.m. to 12 p.m., presenting a generous 8-hour window wherein visitors can immerse themselves in the captivating narratives woven into the exhibits.
+nestled within the architectural embrace of contemporary living, the apartment complex stands as a testament to versatility, offering living_spaces that extend across the expansive spectrum of 800 to 1200 square feet, presenting prospective residents with an array of floor plans catering to diverse lifestyle preferences.
+the revolutionary evolution of automotive technology manifests in the electric_car, a beacon of sustainable mobility, as it effortlessly glides across the asphalt with a range on a single charge that boldly transcends 200 miles but gracefully refrains from pushing the limits beyond the prudent cap of 400 miles, embodying efficiency and eco-conscious design.
+guided by the winds of adventure, paragliders take to the skies, their safety tethered to acceptable wind_speeds that surpass the gentle threshold of 10 mph yet prudently avoid the turbulence that might arise beyond the measured boundary of 25 mph, ensuring a thrilling yet secure experience amidst the aerial currents.
+the climate-controlled cocoon of the classroom is meticulously calibrated to nurture the seeds of learning, with the ambient_temperature maintained within the narrow range of 68 to 72 degrees fahrenheit, creating an environment where intellectual curiosity can bloom and students can thrive.
+the cargo elevator, an unsung hero of logistical efficiency, stands as a testament to strength and reliability, boasting a maximum load_capacity that effortlessly transcends 1000 kilograms yet remains anchored firmly below the cap of 2000 kilograms, ensuring the seamless vertical transportation of goods without compromising safety standards.
+in the intricate dance of online commerce, the accepted delivery_time for the eagerly anticipated online order unfolds within the temporal embrace of 3 to 7 business days, weaving a delicate balance between the urgency of swift fulfillment and the practicalities of logistics and transit.
+the prudent guardianship of pharmaceutical efficacy manifests in the storage guidelines for the prescription medication, which dictates that it be housed in environments where temperatures ascend above 40 degrees fahrenheit but cautiously refrain from soaring beyond the 80-degree fahrenheit mark, preserving the potency of the medicinal elixir.
+unleashing a symphony of mechanical prowess, the vehicle's acceleration_capabilities catapult it into the realm of automotive excellence, propelling it from 0 to 60 mph in less than 6 seconds, showcasing not just speed but a fusion of engineering finesse and the thrill of controlled velocity.
+for the discerning cereal aficionado, breakfast is a culinary canvas where the recommended serving_size extends beyond the confines of a mere 1 cup, offering a generous bounty of sustenance, yet judiciously refrains from excessive indulgence by encouraging a portion size that remains below the 2-cup threshold.
+the well-being of the indoor tropical plant becomes an ecological undertaking, with the acceptable humidity_level surpassing the halfway point at higher than 50% yet maintaining an environment that graciously avoids the excesses of tropical saturation, ensuring the flourishing health of the verdant inhabitant.
+the symphony of culinary craftsmanship unfolds as the gourmet chef orchestrates a culinary masterpiece, utilizing an array of spices and ingredients that dance across the palate in a crescendo of flavors ranging from subtle 5 to robust 10.
+the architectural marvel of the skyscraper stands as a testament to human ingenuity, soaring to heights greater than 500 meters but anchored firmly to the bedrock below, creating an iconic silhouette against the urban skyline.
+within the realm of artistic expression, the painter's canvas becomes a playground for creativity, with strokes of vibrant hues and textures that blend harmoniously, creating a visual tapestry with dimensions spanning from 2 to 5 feet.
+navigating the vast expanse of the digital landscape, the cybersecurity measures employed go beyond mere firewalls, encompassing encryption protocols and threat detection algorithms, ensuring the safeguarding of sensitive information with a security_level ranging from 8 to 10.
+within the culinary laboratory, the molecular gastronomist employs avant-garde techniques to deconstruct and reconstruct ingredients, creating dishes that challenge traditional notions of taste and texture with molecular_structures ranging from 50 to 200 nanometers.
+throughout the day, the temperature in the region experiences significant variations, fluctuating within the range of 20 to 30 degrees celsius, providing a diverse and dynamic climatic experience for residents and visitors alike.
+the conference room, designed for versatility, boasts an adjustable seating_capacity that can accommodate gatherings ranging from a more intimate 50 attendees to larger-scale events with up to 100 participants, offering a flexible space for various meeting requirements.
+the meticulous execution of laboratory experiments demands precise control over the level of the solution, necessitating a narrow and critical range maintained between 6.5 and 7.5, ensuring accurate and reliable scientific outcomes.
+behind the wheel of the high-performance car, drivers can experience a thrilling journey as the speedometer registers speeds across a dynamic spectrum, ranging from a steady 60 miles per hour to an exhilarating 120 miles per hour, providing a range of driving experiences.
+powering various electronic devices, the voltage_output from the versatile power supply unit can be adjusted within a broad range, offering flexibility to users with voltage options spanning from 110 to 220 volts.
+in the realm of financial projections, the forecast indicates a positive trajectory with an expected revenue_increase falling within the range of $5 million to $8 million, reflecting potential growth and financial prosperity.
+within the controlled environment of the laboratory, researchers adhere to strict humidity parameters, maintaining a conducive atmosphere with levels ranging between 40% and 60%, ensuring optimal conditions for experiments and equipment.
+exploring the picturesque mountainous region, adventurers can ascend to altitudes ranging from 500 to 2000 meters above sea level, providing a diverse landscape with varying ecosystems and breathtaking scenic vistas.
+guided by nutritional guidelines, individuals are advised to aim for a daily_intake of a specific nutrient within the range of 800 to 1200 micrograms, striking a balance that supports health and well-being.
+equipped with sophisticated temperature-measuring instruments, the laboratory ensures accuracy by calibrating equipment to measure temperatures spanning from a chilly -10 to a balmy 50 degrees celsius, accommodating a broad spectrum of experimental conditions.
+maintaining an optimal learning environment, the classroom establishes an acceptable noise_level that falls within the range of 30 to 40 decibels, fostering an atmosphere conducive to focused and effective teaching and learning.
+engineered for precision and adaptability, the variable resistor empowers engineers and technicians to control electrical circuits with a resistance_range extending from 100 to 1000 ohms, accommodating a wide array of applications.
+online shoppers can anticipate the timely arrival of their eagerly awaited packages, with expected delivery_times falling within the range of 3 to 5 business days, striking a balance between expediency and reliable transit.
+operating as an essential component of vertical transportation, the elevator boasts a robust design with a weight_capacity tailored to handle loads within the range of 500 to 1000 kilograms, ensuring safe and efficient transportation of people and goods.
+enveloping listeners in a spectrum of frequencies, the radio_signal_broadcast covers a broad range from 88 to 108 megahertz, delivering a diverse selection of music, news, and entertainment to audiences across the airwaves.
+designed for visual clarity and comfort, the computer monitor's optimal screen_brightness is carefully calibrated within the range of 200 to 300 nits, providing users with a customizable viewing experience that adapts to different lighting conditions.
+healthcare professionals prescribe medication with precision, recommending dosages falling within the range of 10 to 20 milligrams per day, tailoring treatment plans to individual needs and medical conditions.
+cinephiles can immerse themselves in cinematic storytelling as they enjoy movies with durations falling within the range of 120 to 150 minutes, providing a comprehensive narrative experience without compromising viewer engagement.
+emphasizing the importance of hydration, health experts recommend a daily water_consumption_goal within the range of 2 to 3 liters, promoting overall well-being and supporting essential bodily functions.

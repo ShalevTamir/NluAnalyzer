@@ -25,6 +25,7 @@ class RelationalPatternHandler(PatternHandler):
     def compute_result(self, matcher: SpacyMatcher, tokens: Doc | Span) -> RelationalBound:
         first_match = next(iter(super().compute_result(matcher, tokens)), None)
         if first_match:
+            print(f"RELATIONAL MATCH {first_match}")
             relational_token = first_match[self._relational_index]
             try:
                 relation_group: RelationGroup = self._relational_classifier.classify_item(relational_token)

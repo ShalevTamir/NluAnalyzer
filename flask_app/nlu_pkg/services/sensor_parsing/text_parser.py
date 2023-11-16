@@ -56,7 +56,6 @@ class TextParser:
             parsing_options = [partial(self._parse_sentence_by_type, sentence_tokens, sentence_type),
                                partial(self._parse_sentence_by_type, sentence_tokens, SentenceGroup(1 - sentence_type.value))]
 
-            parse_result: ParseResult = ParseResult(None, ParseStatus.UNABLE_TO_PARSE)
             for parsing_option in parsing_options:
                 parse_result: ParseResult = parsing_option()
                 if parse_result.parse_status == ParseStatus.SUCCESSFUL:

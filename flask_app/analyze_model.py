@@ -7,6 +7,7 @@ from flask_app.nlu_pkg.services.sensor_parsing.text_parser import TextParser
 from flask_app.nlu_pkg.services.utils.dependency_containers import Application
 from flask_app.services.json.custom_encoder import CustomEncoder
 
+# TODO: lowercase sentence at the start, preprocess it?
 # TODO: handle unable to parse string x to a valid number, instead of just throwing it
 # TODO: initiate range stuff on startup, instead on the first range parse request
 
@@ -14,34 +15,219 @@ from flask_app.services.json.custom_encoder import CustomEncoder
 container = Application()
 text_parser: TextParser = container.services.text_parser()
 
-
-icd_parameters = [
-    "The Beacon_Lights are either Off (0) or On (1). Moreover, the Navigation_Lights are either Off (0) or On (1); and the Anti_Collision_Lights are either Off (0) or On (1).",
-    "The Altitude is between 0 and 50,000 feet. Additionally, the Longitude is within the range of -180 to 180 degrees; and the Wind_Speed ranges from 0 to 100 knots.",
-    "The Engine_Heat is within the range of 0 to 300 degrees Celsius. Moreover, the Air_Pressure falls between 800 and 1,100 hPa; and the Current_Thrust varies from 0 to 400 kN.",
-    "The Pitch_Angle is between -20 and 20 degrees. Furthermore, the Roll_Angle is within the range of -60 to 60 degrees; and the Fuel_Consumption ranges from 0 to 100 liters.",
-    "The Ground_Speed varies from 0 to 700 knots. Similarly, the Vertical_Speed is between -3,000 and 3,000 feet per minute; and the Tempreture is in the range of -50 to 100 degrees Celsius.",
-    "The G-Force is between 0 and 5 G. In addition, the Radio_Signal_Strength is within the range of -100 to 0 dBm; and the GPS_Accuracy falls between 0 and 10 meters.",
-    "The Oxygen_Level ranges from 0 to 100%. Also, the Flap_Position varies from 0 to 40 degrees; and the Hydraulic_Pressure is within the range of 0 to 3,000 PSI.",
-    "The Brake_Pressure is above 0 and below 2,000 degrees. Besides, the Landing_Lights are either Off (0) or On (1); and the Strobe_Lights are either Off (0) or On (1).",
-    "The Wing_Lights are either Off (0) or On (1). Additionally, the Cabin_Lights are either Off (0) or On (1); and the Emergency_Lights are either Off (0) or On (1)."
+short_single = [
+    "The piano has 88 keys.",
+    "The garden fence is 6 feet tall.",
+    "The textbook weighs 3 pounds.",
+    "The backpack's zipper is 20 centimeters long.",
+    "The conference room has a seating capacity of 50.",
+    "The car's fuel tank capacity is 15 gallons.",
+    "The desktop computer has 16 gigabytes of RAM.",
+    "The kitchen counter is 3 feet high.",
+    "The recipe calls for 1 teaspoon of salt.",
+    "The office desk is 120 centimeters wide.",
+    "The smartphone's battery capacity is 3000 milliampere-hours.",
+    "The painting is 30 inches by 40 inches.",
+    "The microwave's cooking time is 2 minutes.",
+    "The bicycle's wheel diameter is 27 inches.",
+    "The meeting room temperature is set at 22 degrees Celsius.",
+    "The living room rug is 8 feet by 10 feet.",
+    "The elevator can carry a maximum load of 1000 kilograms.",
+    "The wristwatch's diameter is 42 millimeters.",
+    "The garden hose nozzle has a spray radius of 10 feet.",
+    "The coffee table is 18 inches in height.",
+    "The car's turning radius is 5 meters.",
+    "The classroom has 30 desks.",
+    "The hiking trail is 3 miles long.",
+    "The flashlight's brightness is 200 lumens.",
+    "The pizza's diameter is 16 inches.",
+    "The swimming pool's depth is 8 feet.",
+    "The digital camera has a shutter speed of 1/1000 seconds.",
+    "The refrigerator's freezer temperature is -18 degrees Celsius.",
+    "The laptop battery life is 8 hours.",
+    "The digital scale measures in increments of 0.5 grams.",
+    "The bookshelf has 5 shelves.",
+    "The car's weight is 2000 kilograms.",
+    "The flight duration is 4 hours.",
+    "The study desk's width is 120 centimeters.",
+    "The skateboard's length is 31 inches.",
+    "The dining table can seat 6 people.",
+    "The blender's maximum speed is 10,000 revolutions per minute.",
+    "The library has 20,000 books.",
+    "The coffee maker brews 6 cups at a time.",
+    "The camera lens focal length is 50 millimeters.",
+    "The tennis court is 78 feet long.",
+    "The alarm clock's snooze duration is 9 minutes.",
+    "The laptop's weight is 2.3 kilograms.",
+    "The painting brushstroke is 2 centimeters wide.",
+    "The refrigerator's energy consumption is 150 kilowatt-hours per month.",
+    "The fitness tracker's step goal is 10,000 steps.",
+    "The window blinds are 36 inches wide.",
+    "The water bottle capacity is 500 milliliters."
 ]
 
-for sentence in icd_parameters:
-    # try:
+short_range = [
+    "The room temperature is above 20 but below 25 degrees Celsius.",
+    "The car's speed ranges from 60 to 80 miles per hour.",
+    "The backpack's capacity is greater than 20 liters.",
+    "The smartphone's battery life spans between 10 and 12 hours.",
+    "The oven temperature can be set anywhere from 200 to 450 degrees Fahrenheit.",
+    "The television screen size starts at 40 inches and goes beyond.",
+    "The fitness tracker monitors heart rate within a range above 60 and beneath 160 beats per minute.",
+    "The car's fuel efficiency is in the range of 25 to 30 miles per gallon.",
+    "The digital camera's ISO sensitivity covers a spectrum from 100 to 1600.",
+    "The hiking trail spans a distance of 5 to 10 miles.",
+    "The refrigerator's temperature can be adjusted between 1 and 8 degrees Celsius.",
+    "The laptop's screen resolution is above 1080p.",
+    "The printer's printing speed is in the range of 20 to 30 pages per minute.",
+    "The guitar's price falls within the range of $500 to just below $1000.",
+    "The coffee maker's brewing time is between 3 and 5 minutes.",
+    "The microwave's power output spans from 800 to 1200 watts.",
+    "The washing machine's spin speed ranges from 800 to 1200 revolutions per minute.",
+    "The bicycle's gears range from 1 to 21.",
+    "The car's weight is between 1500 and over 2000 kilograms.",
+    "The smartphone's camera has a zoom capability ranging from 2x to 5x.",
+    "The conference room can accommodate anywhere from 30 to just below 50 people.",
+    "The laptop's storage capacity is above 256 gigabytes.",
+    "The smart thermostat's temperature control spans from just above 15 to below 30 degrees Celsius.",
+    "The flashlight has an adjustable brightness level ranging from just above 50 to 200 lumens.",
+    "The swimming pool's depth ranges from just above 5 to below 10 feet.",
+    "The digital scale can measure weights between 1 and just below 5 kilograms.",
+    "The coffee mug holds a volume between 8 and just below 12 ounces.",
+    "The kitchen timer can be set for durations between 1 and just below 60 minutes.",
+    "The car's turning radius is in the range of just above 4 to below 6 meters.",
+    "The desk chair's height is adjustable from just above 40 to below 50 inches.",
+    "The electric kettle can heat water between 150 and just below 212 degrees Fahrenheit.",
+    "The drone's flight time is between 15 and just below 20 minutes.",
+    "The blender has multiple speed settings ranging from just above 1 to 5.",
+    "The watch's water resistance is suitable for depths between just above 30 and below 50 meters.",
+    "The bookshelf has adjustable shelves that can be spaced from just above 8 to below 12 inches apart.",
+    "The thermostat has a programmable temperature range from just above 18 to below 28 degrees Celsius.",
+    "The vacuum cleaner's noise level is between 60 and just below 70 decibels.",
+    "The bicycle's seat height is adjustable from just above 30 to below 40 inches.",
+    "The smartwatch's battery life ranges from just above 2 to below 5 days.",
+    "The camera's aperture can be adjusted between just above f/2.8 and below f/16.",
+    "The computer monitor's refresh rate is between 60 and just below 144 hertz.",
+    "The hiking boots' price falls within the range of just above $80 to below $120.",
+    "The oven's timer can be set for durations between 1 and just below 120 minutes.",
+    "The sound system's frequency response is in the range of just above 40Hz to below 220kHz.",
+    "The alarm clock's volume is adjustable from just above 30 to below 60 decibels.",
+    "The tablet's screen size is between 7 and just below 12 inches.",
+    "The skateboard's length ranges from just above 28 to below 34 inches.",
+    "The refrigerator's energy consumption is between 100 and just below 200 kilowatt-hours per month.",
+    "The drone's maximum altitude is in the range of just above 100 to below 500 feet.",
+    "The coffee grinder has grind settings from just above fine to below coarse."
+]
 
-    # print(extract_word_pos_tags(sentence))
+long_range = [
+    "Temperature within the room varies extensively, reaching above a comfortable 20 degrees Celsius but maintaining a threshold below the warmth of 25 degrees Celsius, providing a dynamic and adaptable thermal environment.",
+    "The car's speed capabilities span a considerable range, allowing for a driving experience that can be leisurely at 60 miles per hour or swift at 80 miles per hour, catering to diverse preferences and road conditions.",
+    "The backpack provides ample space for storage, accommodating the diverse needs of individuals with varying amounts of belongings during their journeys.",
+    "The smartphone's battery life extends between 10 and 12 hours, ensuring prolonged usage without the constant need for recharging, thereby catering to the diverse needs of users throughout the day.",
+    "The oven's temperature settings offer a broad spectrum, allowing users to set it anywhere from 200 to 450 degrees Fahrenheit, facilitating the preparation of an extensive array of culinary delights with precision and finesse.",
+    "The television boasts an expansive screen size starting at a minimum of 40 inches and extending beyond, delivering an immersive visual experience that captivates viewers with cinematic grandeur.",
+    "Heart rate monitored by the fitness tracker surpasses 60 beats per minute while remaining beneath the upper limit of 160 beats per minute, ensuring accuracy in tracking diverse levels of physical exertion.",
+    "The car's fuel efficiency exists within the range of 25 to 30 miles per gallon, symbolizing a harmonious relationship between economical fuel consumption and sustained travel distances, catering to environmentally conscious drivers.",
+    "The digital camera's adaptive ISO sensitivity spans from a low setting of 100 to a high setting of 1600, enabling photographers to capture stunning images in various lighting conditions with exceptional clarity and detail.",
+    "The extensive hiking trail stretches a considerable distance of 5 miles to beyond 10 miles, offering a range of experiences for those seeking both leisurely strolls and more challenging, adventurous treks through nature's scenic wonders.",
+    "The refrigerator's adjustable temperature settings, modifiable between 1 and 8 degrees Celsius, afford users the ability to tailor the chilling environment to the specific requirements of different food items, preserving freshness effectively.",
+    "The laptop's cutting-edge screen resolution, boasting levels above the standard 1080p, guarantees a visual feast for users engaged in graphic design, video editing, and other high-resolution demanding tasks, offering unparalleled clarity and vibrancy.",
+    "Versatility defines the printer's multifunctional capabilities, featuring a printing speed ranging from 20 to over 30 pages per minute, making it a versatile tool suitable for both home and office environments, ensuring efficiency in document processing.",
+    "The guitar, with its price tag falling within the range of $500 to just below $1000, strikes a balance between quality craftsmanship and affordability, providing options for various budgets and musical aspirations.",
+    "The coffee maker's brewing time spans between 3 and 5 minutes, catering to individuals with diverse schedules and preferences, ensuring a quick and delightful coffee experience without compromising on flavor extraction.",
+    "The microwave's adjustable power output in the expansive range of 800 to beyond 1200 watts grants users the flexibility to choose between gentle reheating and rapid cooking, adapting to culinary preferences and the varying nature of food items.",
+    "The washing machine's dynamic spin speed varies from 800 to over 1200 revolutions per minute, accommodating a wide range of fabric types, from delicate garments requiring gentle care to more robust materials in need of thorough cleaning.",
+    "The bicycle's versatile gear options span from a low of 1 to over 21, providing riders with the ideal mechanical advantage for both leisurely rides and challenging ascents, enhancing the overall cycling experience.",
+    "The car's weight is distributed within the range of 1500 to over 2000 kilograms, offering stability on the road while allowing for a diverse range of body styles and features to suit individual preferences.",
+    "The smartphone's camera, equipped with a zoom capability ranging from 2x to over 5x, ensures flexibility in photographic composition and creative expression.",
+    "The conference room accommodates anywhere from 30 to just below 50 people, fostering collaboration and communication among participants.",
+    "The laptop's capacious storage capacity exceeds 256 gigabytes, accommodating the burgeoning data requirements of users engaged in content creation, gaming, and other storage-intensive activities.",
+    "The smart thermostat's adaptive temperature control ranges from just above 15 to below 30 degrees Celsius, allowing users to create a customized and energy-efficient climate within their living spaces.",
+    "Illuminating spaces with adjustable brightness levels, the flashlight's brightness level ranges from just above 50 to 200 lumens, offering users the flexibility to illuminate spaces with varying degrees of intensity, catering to specific lighting requirements.",
+    "The swimming pool's depth extends from just above 5 to below 10 feet, accommodating swimmers of different skill levels and preferences.",
+    "The digital scale's precision in measuring weights spans between 1 and just below 5 kilograms, making it a versatile tool for culinary endeavors and fitness tracking.",
+    "The coffee mug's voluminous capacity holds a volume between 8 and just below 12 ounces, accommodating various preferences for coffee, tea, or hot cocoa.",
+    "The kitchen timer's versatility offers durations between 1 and just below 60 minutes, enhancing culinary precision and efficiency.",
+    "The car's turning radius extends from just above 4 to below 6 meters, making it well-suited for navigating through tight urban spaces and parking with ease.",
+    "The desk chair's adjustable height ranges from just above 40 to below 50 inches, providing ergonomic comfort in diverse work or study settings.",
+    "The electric kettle's temperature range for heating water spans between 150 and just below 212 degrees Fahrenheit, catering to diverse tastes and preferences.",
+    "The drone's flight time lasts between 15 and just below 20 minutes, allowing users to capture aerial footage and explore surroundings.",
+    "The blender's multiple speed settings range from just above 1 to 5, ensuring versatility in blending preferences.",
+    "The watch's water resistance is suitable for depths between just above 30 and below 50 meters, accommodating water activities such as swimming and snorkeling.",
+    "The bookshelf's adjustable shelves are spaced from just above 8 to below 12 inches apart, catering to various storage needs for books, decor, and other items.",
+    "The thermostat's programmable temperature range extends from just above 18 to below 28 degrees Celsius, allowing users to set personalized temperature schedules and minimize energy consumption.",
+    "The vacuum cleaner's noise level ranges between 60 and just below 70 decibels, minimizing disruption in household environments.",
+    "The bicycle's seat height is adjustable from just above 30 to below 40 inches, promoting ergonomic comfort during cycling activities.",
+    "The smartwatch's battery life ranges from just above 2 to below 5 days, catering to users with varying degrees of device dependency.",
+    "The camera's aperture is adjustable between just above f/2.8 and below f/16, enabling the capture of stunning and nuanced images.",
+    "The computer monitor's refresh rate ranges between 60 and just below 144 hertz, making it suitable for gaming and multimedia applications.",
+    "The hiking boots' price falls within the range of just above $80 to below $120, providing consumers with options that cater to diverse budgetary constraints.",
+    "The oven's timer is adjustable for durations between 1 and just below 120 minutes, ensuring optimal results in culinary endeavors.",
+    "The sound system's frequency response ranges within just above 40Hz to below 200kHz, providing listeners with immersive and high-fidelity sound.",
+    "The alarm clock's volume is adjustable from just above 30 to below 60 decibels, promoting a personalized and gentle morning routine.",
+    "The tablet's screen size ranges between 7 and just below 12 inches, providing options for entertainment, productivity, and creative endeavors.",
+    "The skateboard's length spans from just above 28 to below 34 inches, accommodating various skateboarding styles.",
+    "The refrigerator's energ`y consumption falls within the range of just above 100 to below 200 kilowatt-hours per month, appealing to environmentally conscious consumers.",
+    "The drone's maximum altitude is within the range of just above 100 to below 500 feet, ensuring responsible and enjoyable usage.",
+    "The coffee grinder's grind settings range from just above fine to below coarse, ensuring versatility for coffee enthusiasts and their preferred brewing styles."
+]
+
+long_single = [
+    "The meticulously engineered keyboard boasts a precise length of 45.2 centimeters, ensuring an optimal typing experience for users seeking efficiency and comfort.",
+    "The ultrathin laptop, with a sleek profile, features a weight of precisely 1.34 kilograms, making it an ideal companion for on-the-go professionals and students.",
+    "A cutting-edge smartphone camera, equipped with a sensor resolution of exactly 108 megapixels, empowers users to capture stunningly detailed and vibrant images.",
+    "The luxury wristwatch, crafted with precision, displays the exact time with a mechanical movement accuracy of 2 seconds per day, exemplifying exquisite horological craftsmanship.",
+    "In the realm of audio excellence, the premium headphones deliver an unparalleled frequency response, covering a range of precisely 5Hz to 40kHz for a rich and immersive listening experience.",
+    "The spacious hard drive provides an expansive storage capacity of 2 terabytes, accommodating the diverse digital needs of content creators, professionals, and multimedia enthusiasts.",
+    "The ergonomic office chair, designed for optimal comfort during extended work sessions, offers an adjustable height setting with an exact range of 18 to 22 inches.",
+    "The scientific calculator, an indispensable tool for mathematicians and students alike, performs complex calculations with precision, displaying results with up to 10 decimal places.",
+    "The state-of-the-art laser printer produces high-resolution prints with exacting detail, achieving a printing resolution of 1200 x 2400 dots per inch for professional-quality documents.",
+    "The compact digital scale, essential for precise measurements in culinary endeavors, provides an accuracy of 0.1 grams, catering to the meticulous needs of chefs and home cooks.",
+    "The sleek and modern LED desk lamp illuminates workspaces with adjustable brightness levels, offering luminosity ranging from 300 to 800 lumens for customizable lighting conditions.",
+    "The digital thermometer, an essential tool in healthcare, measures body temperature with clinical accuracy, displaying results with precision down to the tenth of a degree Celsius.",
+    "The high-performance graphics card, a cornerstone of gaming rigs, boasts a graphics processing unit (GPU) with a clock speed precisely set at 1800 megahertz for immersive gaming experiences.",
+    "The professional-grade DSLR camera captures moments with exceptional clarity, featuring a lens aperture of f/1.8 for optimal light intake and precise depth-of-field control.",
+    "The adjustable standing desk, designed for ergonomic workspaces, accommodates users of varying heights with an exact height range adjustment from 27 to 46 inches.",
+    "The electric kettle, designed for tea enthusiasts, heats water with precision, reaching an exact temperature of 95 degrees Celsius for the perfect cup of green tea.",
+    "The advanced GPS navigation system guides travelers with precision, providing coordinates accurate to within one meter for precise location tracking and route planning.",
+    "The atmospheric pressure sensor, crucial for meteorological measurements, detects air pressure with exacting precision, measuring within the range of 950 to 1050 hPa.",
+    "The top-tier graphics tablet, favored by digital artists, boasts a pen pressure sensitivity of 8192 levels, allowing for precise and nuanced control in artistic creations.",
+    "The industrial-grade laser distance measurer, a staple in construction, accurately measures distances with laser precision, providing readings with an exactitude of 1.5 millimeters.",
+    "The elegant pendant necklace features a precisely cut diamond with a carat weight of 0.75, radiating brilliance and sophistication in its exquisite design.",
+    "The versatile power drill, a staple in DIY projects, operates at an exact speed of 1500 revolutions per minute (RPM), providing efficient and controlled drilling performance.",
+    "The energy-efficient LED lightbulb illuminates spaces with a warm glow, consuming precisely 9 watts of power for environmentally conscious and cost-effective lighting solutions.",
+    "The compact air purifier, essential for clean indoor air, effectively filters particles down to 0.3 microns with a high-efficiency particulate air (HEPA) filter, ensuring exacting filtration.",
+    "The culinary precision scale, a must-have in baking, accurately measures ingredients with a maximum capacity of 5 kilograms and an exact graduation of 1 gram.",
+    "The premium espresso machine, beloved by coffee connoisseurs, brews coffee with exacting temperature control, maintaining a precise brewing temperature of 200 degrees Fahrenheit.",
+    "The scientific-grade spectrophotometer, employed in research laboratories, measures absorbance with high accuracy, providing precise readings at wavelengths ranging from 190 to 1100 nanometers.",
+    "The adjustable dumbbell set, perfect for home workouts, allows users to lift weights with precision, adjusting in increments of 2.5 pounds for gradual strength progression.",
+    "The medical-grade blood pressure monitor, crucial for healthcare monitoring, records blood pressure with exacting precision, displaying readings with an accuracy of +/- 2 mmHg.",
+    "The ultra-responsive gaming mouse, designed for esports enthusiasts, features a customizable polling rate of 1000 Hz, ensuring exact and instantaneous cursor movements during gaming sessions.",
+    "The minimalist wall clock, a stylish addition to any living space, keeps time with precision, featuring clock hands that move with exactness, ticking away the seconds and minutes.",
+    "The sleek smart thermostat, enhancing home energy efficiency, maintains temperatures with precision, allowing users to set exact temperature thresholds within a range of 18 to 25 degrees Celsius.",
+    "The advanced heart rate monitor, a vital tool for fitness enthusiasts, tracks heart rate with exacting accuracy, providing real-time readings with a margin of error of just 1 beat per minute.",
+    "The professional-grade hairdryer, designed for salon-quality styling, operates with a motor speed of precisely 1800 watts, delivering powerful and precise airflow for efficient hair drying.",
+    "The high-resolution computer monitor, favored by graphic designers, boasts a pixel density of 150 pixels per inch, displaying images and text with exquisite detail and clarity.",
+    "The culinary sous vide immersion circulator, a favorite among chefs, maintains water temperature with precision, cooking food to perfection with an exact temperature control range of 45 to 85 degrees Celsius.",
+    "The industrial-grade laser level, essential in construction projects, projects laser lines with precision, ensuring exact leveling and alignment with an accuracy of 1.5 millimeters at 5 meters.",
+    "The ergonomic gaming chair, crafted for comfort during long gaming sessions, supports users with an exact weight capacity of 150 kilograms, providing durability and stability.",
+    "The compact air compressor, a versatile tool in DIY projects, delivers compressed air with precision, featuring an exact maximum pressure output of 120 pounds per square inch (psi).",
+    "The high-performance graphics processing unit (GPU), vital for graphic-intensive tasks, features a memory bandwidth of precisely 256 gigabytes per second, ensuring swift and efficient data processing.",
+    "The elegant wristwatch, a symbol of timeless style, features a case diameter of exactly 40 millimeters, striking a perfect balance between classic aesthetics and contemporary design.",
+    "The efficient robotic vacuum cleaner, a boon for automated cleaning, navigates spaces with precision, featuring sensors that detect obstacles with an accuracy of 98% in obstacle avoidance.",
+    "The immersive virtual reality headset, a gateway to digital realms, offers an expansive field of view at exactly 110 degrees, providing users with a lifelike and captivating VR experience.",
+    "The digital pressure gauge, essential in industrial settings, measures pressure with exacting precision, displaying readings with an accuracy of 0.1 percent of the full-scale range.",
+    "The adjustable camera tripod, a staple for photographers, extends to a maximum height of precisely 60 inches, providing stability and flexibility for capturing the perfect shot.",
+    "The compact and portable external hard drive, a storage solution for data on the go, offers a storage capacity of exactly 1 terabyte, accommodating diverse digital storage needs.",
+    "The precision laser mouse, favored by designers and professionals, boasts a sensitivity of 1600 dots per inch (DPI), ensuring precise and accurate cursor movements for detailed tasks."
+]
+
+
+
+
+for sentence in long_range:
+
     sensors = list(text_parser.parse(sentence))
-    # if isinstance(range, tuple) and sensor.requirement_param.__class__ == RequirementRange:
-    #     requirement_range: RequirementRange = sensor.requirement_param
-    #     if requirement_range.value != range[0] or requirement_range.end_value != range[1]:
-    #         logging.error(f"Wrong evaluation of sentence {sentence}, evaluated {(requirement_range.value, requirement_range.end_value)} but is actually {range}")
-    # elif isinstance(range, int) and sensor.requirement_param.__class__ == RequirementParam:
-    #     if sensor.requirement_param.value != range:
-    #         logging.error(f"Wrong evaluation of sentence {sentence}, evaluated {sensor.requirement_param.value} but is actually {range[0]}")
-    # else:
-    #     logging.error(f"Wrong evaluation of sentence {sentence}, evaluated {json.dumps(sensor, cls=CustomEncoder)} but is actually {range}")
 
     print(f"Sentence {sentence}", f"Sensor {json.dumps(sensors, cls=CustomEncoder)}", sep='\n', end='\n\n')
-# except ValueError as e:
-#    print(e ,end='\n\n')
+

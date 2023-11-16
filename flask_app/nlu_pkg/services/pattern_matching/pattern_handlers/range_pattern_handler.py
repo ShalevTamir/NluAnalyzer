@@ -19,7 +19,7 @@ class RangePatternHandler(PatternHandler):
     def compute_result(self, matcher: SpacyMatcher, tokens: Doc | Span) -> RequirementRange:
         first_match = next(iter(super().compute_result(matcher, tokens)), None)
         if first_match:
-            # print("RANGE MATCH", first_match)
+            print("RANGE MATCH", first_match)
             return RequirementRange(
                 parse_number(first_match[self._first_number_index].text),
                 parse_number(first_match[self._second_number_index].text)

@@ -18,9 +18,7 @@ def parse_number(string_to_parse: str) -> int | float:
             return int(number_in_string)
         elif is_castable(number_in_string, float):
             return float(number_in_string)
-    try:
-        return w2n.word_to_num(string_to_parse)
-    except ValueError:
+    else:
         raise ValueError(f"Unable to parse string {string_to_parse} to a valid number")
 
 

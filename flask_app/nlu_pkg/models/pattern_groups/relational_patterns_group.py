@@ -52,9 +52,8 @@ class RelationalPatternsGroup(PatternsGroup):
         #     {PATTERN_POS_ATTR: NUMERICAL_POS_TAG},
         # ]
 
-        # Parses syntax: above than 10, above 10
+        # Parses syntax: above 10
         _adposition_pattern = [
-            {PATTERN_POS_ATTR: ADPOSITION_POS_TAG, PATTERN_OP_ATTR: '{0,1}'},
             {PATTERN_POS_ATTR: ADPOSITION_POS_TAG},
             {PATTERN_POS_ATTR: NUMERICAL_POS_TAG}
         ]
