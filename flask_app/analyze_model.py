@@ -11,7 +11,10 @@ from flask_app.services.json.custom_encoder import CustomEncoder
 # TODO: handle unable to parse string x to a valid number, instead of just throwing it
 # TODO: initiate range stuff on startup, instead on the first range parse request
 
-# TODO: add option to use units and parsing still works
+# TODO: add duration
+# TODO: add negative to single parameters
+# TODO: check if can translate to hebrew
+
 container = Application()
 text_parser: TextParser = container.services.text_parser()
 
