@@ -5,7 +5,7 @@ from flask_app.nlu_pkg.models.definitions.spacy_def import NUMERICAL_POS_TAG, SP
 from flask_app.nlu_pkg.models.enums.relation_group import revert_relation_group
 from flask_app.nlu_pkg.models.named_tuples.relational_bound import RelationalBound
 from flask_app.nlu_pkg.models.pattern_groups.relational_patterns_group import RelationalPatternsGroup
-from flask_app.nlu_pkg.services.utils.spacy_utils import locate_matching_token
+from flask_app.nlu_pkg.services.utils.spacy_utils import locate_matching_token, spacy_getitem
 
 
 class RelationalHandler:
@@ -23,7 +23,8 @@ class RelationalHandler:
         if not first_number or first_number.i - sentence_chunk.start == len(sentence_chunk) - 1:
             return sentence_chunk,
         else:
-            return sentence_chunk[:first_number.i - sentence_chunk.start + 1], sentence_chunk[first_number.i - sentence_chunk.start + 1:]
+            return (spacy_getitem(sentence_chunk, slice(0, first_number.i + 1)),
+                    spacy_getitem(sentence_chunk, slice(first_number.i + 1, len(sentence_chunk))))
 
     def _revert_negated_bound(self, sentence_chunk: Doc | Span, relational_bound: RelationalBound):
         # negation detected

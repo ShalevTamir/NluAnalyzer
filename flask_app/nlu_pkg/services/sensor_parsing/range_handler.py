@@ -35,7 +35,7 @@ class RangeHandler:
             self._default_parsing_case
         ]
 
-    def parse_sentence(self):
+    def parse_sentence(self) -> ParseResult:
         if self._numbers_in_sentence:
             for parsing_method in self._parsing_methods:
                 requirement_range = parsing_method()

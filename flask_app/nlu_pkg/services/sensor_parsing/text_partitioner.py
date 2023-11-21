@@ -1,25 +1,25 @@
-from itertools import chain
-
 from spacy.tokens import Span, Doc, Token
 
-from flask_app.nlu_pkg.models.definitions.spacy_def import SPACY_DEP_ATTR, SUBJECT_DEP, COORDINATION_DEP, SPACY_MODEL, SPACY_POS_ATTR, \
-    NUMERICAL_POS_TAG, SPAN_SUBJECT_ATTR
+from flask_app.nlu_pkg.models.definitions.spacy_def import SPACY_DEP_ATTR, SUBJECT_DEP, COORDINATION_DEP, SPACY_MODEL, \
+    SPACY_POS_ATTR, \
+    NUMERICAL_POS_TAG, SPAN_SUBJECT_ATTR, SPAN_DURATION_SEC_ATTR
 from flask_app.nlu_pkg.models.pattern_groups.subject_patterns_group import SubjectPatternsGroup
 from flask_app.nlu_pkg.services.sensor_parsing.subject_detector import SubjectDetector
 from flask_app.nlu_pkg.services.utils.spacy_utils import locate_matching_tokens, locate_matching_token
 
-
-# TODO: use subject detector to detect the subjects
-# TODO: convert to yield
 
 class TextPartitioner:
 
     def __init__(self, subject_detector: SubjectDetector):
         self._subject_detector = subject_detector
         Span.set_extension(
-            "subject",
+            SPAN_SUBJECT_ATTR,
             default=None,
             force=True
+        )
+        Span.set_extension(
+            SPAN_DURATION_SEC_ATTR,
+            default=None
         )
 
     def extract_sentences(self, tokens: Doc | Span):
@@ -38,7 +38,6 @@ class TextPartitioner:
             subjects = [tokens[0]]
             sentences = [tokens[::]]
 
-        self._cleanup_sentences(sentences)
         self._assign_subjects(sentences, subjects)
         return sentences
 
@@ -46,12 +45,13 @@ class TextPartitioner:
         for i in range(len(sentences)):
             sentences[i]._.set(SPAN_SUBJECT_ATTR, subjects[i])
 
-    def _cleanup_sentences(self, sentences: list[Span]):
-        for i in range(len(sentences)):
-            numbers = list(locate_matching_tokens(sentences[i], SPACY_POS_ATTR, NUMERICAL_POS_TAG))
-            if numbers:
-                # Cut everything after the last number
-                sentences[i] = sentences[i][:numbers[-1].i - sentences[i].start + 1]
+    def remove_sent_noise(self, sentence: Span):
+        """Cuts everything after the last number"""
+        numbers = list(locate_matching_tokens(sentence, SPACY_POS_ATTR, NUMERICAL_POS_TAG))
+        if numbers:
+            return sentence[:numbers[-1].i]
+        else:
+            return sentence
 
     # def _extract_sentences_with_subsentences(self, tokens: Doc | Span):
     #     subjects = list(locate_matching_tokens(tokens, SPACY_DEP_ATTR, SUBJECT_DEP))

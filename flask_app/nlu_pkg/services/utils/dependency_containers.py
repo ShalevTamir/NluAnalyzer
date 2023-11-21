@@ -9,6 +9,7 @@ from flask_app.nlu_pkg.services.classification.relational_handler import Relatio
 from flask_app.nlu_pkg.services.classification.word_embedding.concrete.spacy_embedder import SpacyEmbedder
 from flask_app.nlu_pkg.services.classification.word_embedding.concrete.word2vec_embedder import Word2VecEmbedder
 from flask_app.nlu_pkg.services.pattern_matching.pattern_handlers.relational_pattern_handler import RelationalPatternHandler
+from flask_app.nlu_pkg.services.sensor_parsing.duration_handler import DurationHandler
 from flask_app.nlu_pkg.services.sensor_parsing.range_handler import RangeHandler
 from flask_app.nlu_pkg.services.sensor_parsing.subject_detector import SubjectDetector
 from flask_app.nlu_pkg.services.sensor_parsing.text_parser import TextParser
@@ -54,10 +55,14 @@ class Services(containers.DeclarativeContainer):
     text_partitioner = providers.Singleton(TextPartitioner,
                                            subject_detector=subject_detector)
 
+    duration_handler = providers.Singleton(DurationHandler,
+                                           range_handler_factory=range_handler.provider)
+
     text_parser = providers.Singleton(TextParser,
                                       sentence_classifier=classifiers.sentence,
                                       text_partitioner=text_partitioner,
                                       subject_detector=subject_detector,
+                                      duration_handler=duration_handler,
                                       range_handler_factory=range_handler.provider)
 
 
