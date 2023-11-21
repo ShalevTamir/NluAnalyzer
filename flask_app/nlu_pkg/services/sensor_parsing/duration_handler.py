@@ -10,7 +10,7 @@ from flask_app.nlu_pkg.models.named_tuples.duration_unit import DurationUnit
 from flask_app.nlu_pkg.models.named_tuples.range_parse import ParseResult
 from flask_app.nlu_pkg.models.sensor_dto.duration import Duration
 from flask_app.nlu_pkg.models.sensor_dto.requirement_param import RequirementParam
-from flask_app.nlu_pkg.services.utils.spacy_utils import locate_matching_token, extract_numbers
+from flask_app.nlu_pkg.services.utils.spacy_utils import locate_matching_token, extract_numbers, spacy_getitem
 
 
 class DurationHandler:
@@ -57,7 +57,7 @@ class DurationHandler:
         match noun_type:
             case NounType.PLURAL:
                 return self._parse_plural_duration(
-                    sentence[duration_token.head.i:duration_token.i-1],
+                    spacy_getitem(sentence, slice(duration_token.head.i, duration_token.i-1)),
                     duration_type
                 )
             case NounType.SINGULAR:
@@ -66,7 +66,7 @@ class DurationHandler:
                 )
 
     def _cut_duration_text(self, sentence: Doc | Span, duration_token: Token):
-        return sentence[:duration_token.head.i - 1]
+        return spacy_getitem(sentence, slice(0, duration_token.head.i - 1))
 
     def extract_duration(self, sentence: Doc | Span) -> Tuple[Doc | Span, Duration]:
         """ Returns the refined sentence without the duration text and the duration itself """

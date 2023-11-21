@@ -228,7 +228,7 @@ long_single = [
 
 
 
-for sentence in ["the current_thurst is above 10 for a duration of 5 to 10 minutes"]:
+for sentence in ["the current_thurst is above 10 for up to 10 minutes"]:
 
     sensors = list(text_parser.parse(sentence))
 

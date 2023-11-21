@@ -5,7 +5,7 @@ from flask_app.nlu_pkg.models.definitions.spacy_def import SPACY_DEP_ATTR, SUBJE
     NUMERICAL_POS_TAG, SPAN_SUBJECT_ATTR, SPAN_DURATION_SEC_ATTR
 from flask_app.nlu_pkg.models.pattern_groups.subject_patterns_group import SubjectPatternsGroup
 from flask_app.nlu_pkg.services.sensor_parsing.subject_detector import SubjectDetector
-from flask_app.nlu_pkg.services.utils.spacy_utils import locate_matching_tokens, locate_matching_token
+from flask_app.nlu_pkg.services.utils.spacy_utils import locate_matching_tokens, locate_matching_token, spacy_getitem
 
 
 class TextPartitioner:
@@ -26,17 +26,16 @@ class TextPartitioner:
         subjects = list(self._subject_detector.detect(tokens, multiple=True))
         subjects.sort(key=lambda subject: subject.i)
         # print("EXTRACTED SUBJECTS",subjects)
-        sentences = []
         if subjects:
             sentences = [
-                tokens[current_subject.i:next_subject.i]
+                spacy_getitem(tokens, slice(current_subject.i, next_subject.i))
                 for current_subject, next_subject in zip(subjects, subjects[1:])
             ]
 
-            sentences.append(tokens[subjects[-1].i:])
+            sentences.append(spacy_getitem(tokens, slice(subjects[-1].i, None)))
         else:
-            subjects = [tokens[0]]
-            sentences = [tokens[::]]
+            subjects = [spacy_getitem(tokens, 0)]
+            sentences = [spacy_getitem(tokens, slice(0, None))]
 
         self._assign_subjects(sentences, subjects)
         return sentences
@@ -49,7 +48,7 @@ class TextPartitioner:
         """Cuts everything after the last number"""
         numbers = list(locate_matching_tokens(sentence, SPACY_POS_ATTR, NUMERICAL_POS_TAG))
         if numbers:
-            return sentence[:numbers[-1].i]
+            return spacy_getitem(sentence, slice(0, numbers[-1].i))
         else:
             return sentence
 

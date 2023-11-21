@@ -55,6 +55,8 @@ class TextParser:
             parameter_name = sentence_tokens._.get(SPAN_SUBJECT_ATTR).text
             sentence_tokens, duration = self._duration_handler.extract_duration(sentence_tokens)
             sentence_tokens = self._text_partitioner.remove_sent_noise(sentence_tokens)
+            if not sentence_tokens:
+                continue
             sentence_type: SentenceGroup = self._sentence_classifier.classify_item(sentence_tokens.text)
             # containing the methods used to parse and their arguments
             parsing_options = [partial(self._parse_sentence_by_type, sentence_tokens, sentence_type),
@@ -67,7 +69,7 @@ class TextParser:
                     break
                 elif parse_result.parse_status == ParseStatus.INVALID_RANGE:
                     raise ValueError(f"Invalid range for sentence {sentence_tokens.text}, "
-                                     f"parsed {json.dumps(Sensor(parameter_name, parse_result.requirement), cls=CustomEncoder)}")
+                                     f"parsed {json.dumps(Sensor(parameter_name, parse_result.requirement, duration), cls=CustomEncoder)}")
 
             # if parse_result.parse_status == ParseStatus.UNABLE_TO_PARSE:
             #     logging.warning(f"Unable to parse sentence {sentence_tokens.text}")

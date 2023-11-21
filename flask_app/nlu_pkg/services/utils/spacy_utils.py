@@ -26,10 +26,10 @@ def _comparison_method(attribute_name: str, attribute_value: str, strong_compari
     return comparison_method
 
 
-def extract_tokens(tokens: Doc, dependency_match) -> Generator[Token, None, None]:
+def extract_tokens(tokens: Doc | Span, dependency_match) -> Generator[Token, None, None]:
     indexes = dependency_match[1]
     for index in indexes:
-        yield tokens[index]
+        yield spacy_getitem(tokens, index)
 
 
 def extract_numbers(tokens: Doc | Span):
@@ -53,4 +53,4 @@ def spacy_getitem(tokens: Doc | Span, index: int | slice) -> Token | Span:
 
 
 def _adjust_index(span: Span, index: int | None):
-    return index if index is None else span.start - index
+    return index if index is None else index - span.start + 1
