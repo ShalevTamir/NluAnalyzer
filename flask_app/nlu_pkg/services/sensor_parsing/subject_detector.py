@@ -46,10 +46,12 @@ class SubjectDetector:
             yield default_subject_locator()
 
     def _detect_custom_ner(self, tokens: Doc | Span):
-        tokens = NER_MODEL(tokens.text)
-        result = [ent_span[0] for ent_span in tokens.ents]
+        ner_tokens = NER_MODEL(tokens.text)
+        result = [tokens[ent_span.start: ent_span.end][0]
+                  for ent_span in ner_tokens.ents]
+
         print(result, "NER")
-        return [ent_span[0] for ent_span in tokens.ents]
+        return result
 
     def _match_subject_patterns(self, tokens: Doc | Span):
         extracted_subjects = []
