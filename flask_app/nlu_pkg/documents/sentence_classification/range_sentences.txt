@@ -397,3 +397,32 @@ designed for visual clarity and comfort, the computer monitor's optimal screen_b
 healthcare professionals prescribe medication with precision, recommending dosages falling within the range of 10 to 20 milligrams per day, tailoring treatment plans to individual needs and medical conditions
 cinephiles can immerse themselves in cinematic storytelling as they enjoy movies with durations falling within the range of -150 to -120 minutes, providing a comprehensive narrative experience without compromising viewer engagement
 emphasizing the importance of hydration, health experts recommend a daily water_consumption_goal within the range of 2.4 to 3.1 liters, promoting overall well-being and supporting essential bodily functions
+temperature is below -10 degrees
+population is less than 1 million
+altitude is under -2,000 feet
+duration is over 30.5 minutes
+distance is less than 10.25 kilometers
+weight is not more than 49.5 pounds
+intensity is not below -3.5
+age is above -40 years
+capacity is not less than 500.5 liters
+speed is slower than 40 mph
+value is below -5
+score is under 200
+depth is shallower than -30 meters
+volume is not less than 3.5 cubic meters
+level is lower than -2
+length is shorter than 5.5 meters
+distance is not exceeding 8.75 miles
+cost is higher than $100.25
+rating is less than 4.5
+height is not above 150 cm
+width is narrower than 2.3 meters
+humidity is below 20%
+thickness is less than 0.75 inches
+efficiency is not under 80%
+age is not less than -25 years
+wavelength is shorter than 500 nm
+concentration is not exceeding 0.1%
+resistance is higher than 50 ohms
+pressure is below -5 psi
