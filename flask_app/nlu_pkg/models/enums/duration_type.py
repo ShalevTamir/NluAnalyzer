@@ -4,10 +4,9 @@ from flask_app.nlu_pkg.models.enums.noun_type import NounType
 
 
 class DurationType(Enum):
-    UNDEFINED = 0
-    SECONDS = 1
-    MINUTES = 2
-    HOURS = 3
+    SECONDS = 0
+    MINUTES = 1
+    HOURS = 2
 
 
 def get_type_text(duration_type: DurationType, noun_type: NounType):

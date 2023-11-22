@@ -3,7 +3,8 @@ from flask_app.nlu_pkg.models.sensor_dto.requirement_param import RequirementPar
 
 
 class Sensor:
-    def __init__(self, parameter_name: str, requirement_param: RequirementParam, duration: Duration):
+    def __init__(self, parameter_name: str, requirement_param: RequirementParam, duration: Duration = None):
         self.parameter_name = parameter_name
         self.requirement_param = requirement_param
-        self.duration = duration
+        if duration:
+            self.duration = duration

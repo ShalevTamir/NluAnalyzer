@@ -3,6 +3,7 @@ from functools import partial
 
 from spacy.tokens import Span, Doc
 
+from flask_app.nlu_pkg.models.enums.duration_type import DurationType
 from flask_app.nlu_pkg.services.sensor_parsing.duration_handler import DurationHandler
 from flask_app.services.json.custom_encoder import CustomEncoder
 from flask_app.nlu_pkg.models.definitions.spacy_def import SPACY_MODEL, SPAN_SUBJECT_ATTR
