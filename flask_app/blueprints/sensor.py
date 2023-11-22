@@ -1,11 +1,11 @@
 import json
 
-from flask import Blueprint, abort
+from flask import Blueprint, abort, Response
 
 from flask_app.decorators.view import includes_body_params
 from flask_app.services.json.custom_encoder import CustomEncoder
-from services.sensor_parsing.text_parser import TextParser
-from services.utils.dependency_containers import Application
+from flask_app.nlu_pkg.services.sensor_parsing.text_parser import TextParser
+from flask_app.nlu_pkg.services.utils.dependency_containers import Application
 
 sensor_bp = Blueprint('sensor', __name__, url_prefix='/sensor')
 dependency_injector = Application()
@@ -18,10 +18,10 @@ sentence_key = 'sentence'
 def parse_sentence(sentence):
     # pdb.set_trace()
     try:
-        sensors = text_parser.parse(sentence)
+        sensors = list(text_parser.parse(sentence))
     except ValueError as e:
         abort(400, str(e).replace('\"',''))
     else:
-        return json.dumps(sensors, cls=CustomEncoder)
+        return Response(json.dumps(sensors, cls=CustomEncoder),mimetype='text/json')
 
 
