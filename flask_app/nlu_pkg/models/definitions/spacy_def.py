@@ -3,17 +3,18 @@ from spacy import Language
 import spacy
 
 from spacy.lang.en import stop_words
-from spacy.tokens import Span
+from spacy.tokens import Span, Doc
 
 from flask_app.nlu_pkg.models.definitions.file_def import ROOT_DIR, DOCUMENTS_DIRECTORY_NAME
 from flask_app.nlu_pkg.services.decorators.number_validation import validate_numbers_spacy
 
+RELATIVE_INDEX = 'relative_index'
+Doc.set_extension(RELATIVE_INDEX, method=lambda doc, token: token.i - doc[0].i)
+Span.set_extension(RELATIVE_INDEX, method=lambda span, token: token.i - span[0].i)
 SPACY_MODEL = spacy.load("en_core_web_sm")
 Language.__call__ = validate_numbers_spacy(Language.__call__)
-
 NER_MODEL = spacy.load(os.path.join(ROOT_DIR, DOCUMENTS_DIRECTORY_NAME, "ner_detection_model"))
 SPAN_SUBJECT_ATTR = 'subject'
-SPAN_DURATION_SEC_ATTR = 'duration_section'
 STOP_WORDS = stop_words.STOP_WORDS - {'amount'}
 
 # DEPENDENCIES

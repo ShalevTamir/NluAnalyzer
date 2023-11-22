@@ -29,28 +29,9 @@ def _comparison_method(attribute_name: str, attribute_value: str, strong_compari
 def extract_tokens(tokens: Doc | Span, dependency_match) -> Generator[Token, None, None]:
     indexes = dependency_match[1]
     for index in indexes:
-        yield spacy_getitem(tokens, index)
+        yield tokens[index]
 
 
 def extract_numbers(tokens: Doc | Span):
     return tuple((number.text for number in
                   locate_matching_tokens(tokens, SPACY_POS_ATTR, NUMERICAL_POS_TAG)))
-
-
-def spacy_getitem(tokens: Doc | Span, index: int | slice) -> Token | Span:
-    if isinstance(tokens, Doc):
-        return tokens[index]
-    elif isinstance(tokens, Span):
-        if isinstance(index, int):
-            index = _adjust_index(tokens, index)
-        elif isinstance(index, slice):
-            index = slice(
-                _adjust_index(tokens, index.start),
-                _adjust_index(tokens, index.stop),
-                _adjust_index(tokens, index.step)
-            )
-        return tokens[index]
-
-
-def _adjust_index(span: Span, index: int | None):
-    return index if index is None else index - span.start + 1

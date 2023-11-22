@@ -2,10 +2,10 @@ from spacy.tokens import Span, Doc, Token
 
 from flask_app.nlu_pkg.models.definitions.spacy_def import SPACY_DEP_ATTR, SUBJECT_DEP, COORDINATION_DEP, SPACY_MODEL, \
     SPACY_POS_ATTR, \
-    NUMERICAL_POS_TAG, SPAN_SUBJECT_ATTR, SPAN_DURATION_SEC_ATTR
+    NUMERICAL_POS_TAG, SPAN_SUBJECT_ATTR, RELATIVE_INDEX
 from flask_app.nlu_pkg.models.pattern_groups.subject_patterns_group import SubjectPatternsGroup
 from flask_app.nlu_pkg.services.sensor_parsing.subject_detector import SubjectDetector
-from flask_app.nlu_pkg.services.utils.spacy_utils import locate_matching_tokens, locate_matching_token, spacy_getitem
+from flask_app.nlu_pkg.services.utils.spacy_utils import locate_matching_tokens, locate_matching_token
 
 
 class TextPartitioner:
@@ -17,25 +17,22 @@ class TextPartitioner:
             default=None,
             force=True
         )
-        Span.set_extension(
-            SPAN_DURATION_SEC_ATTR,
-            default=None
-        )
+
 
     def extract_sentences(self, tokens: Doc | Span):
         subjects = list(self._subject_detector.detect(tokens, multiple=True))
-        subjects.sort(key=lambda subject: subject.i)
+        subjects.sort(key=lambda subject: tokens._.get(RELATIVE_INDEX)(subject))
         # print("EXTRACTED SUBJECTS",subjects)
         if subjects:
             sentences = [
-                spacy_getitem(tokens, slice(current_subject.i, next_subject.i))
+                tokens[tokens._.get(RELATIVE_INDEX)(current_subject): tokens._.get(RELATIVE_INDEX)(next_subject)]
                 for current_subject, next_subject in zip(subjects, subjects[1:])
             ]
 
-            sentences.append(spacy_getitem(tokens, slice(subjects[-1].i, None)))
+            sentences.append(tokens[tokens._.get(RELATIVE_INDEX)(subjects[-1]):])
         else:
-            subjects = [spacy_getitem(tokens, 0)]
-            sentences = [spacy_getitem(tokens, slice(0, None))]
+            subjects = [tokens[0]]
+            sentences = [tokens[::]]
 
         self._assign_subjects(sentences, subjects)
         return sentences
@@ -48,7 +45,7 @@ class TextPartitioner:
         """Cuts everything after the last number"""
         numbers = list(locate_matching_tokens(sentence, SPACY_POS_ATTR, NUMERICAL_POS_TAG))
         if numbers:
-            return spacy_getitem(sentence, slice(0, numbers[-1].i))
+            return sentence[:sentence._.get(RELATIVE_INDEX)(numbers[-1]) + 1]
         else:
             return sentence
 
