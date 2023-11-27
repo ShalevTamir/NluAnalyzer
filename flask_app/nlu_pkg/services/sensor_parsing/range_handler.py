@@ -40,9 +40,9 @@ class RangeHandler:
             for parsing_method in self._parsing_methods:
                 requirement_range = parsing_method()
                 if requirement_range:
-                    return ParseResult(requirement_range, self._configure_parse_status(requirement_range))
+                    return ParseResult([requirement_range], self._configure_parse_status(requirement_range))
 
-        return ParseResult(None, ParseStatus.UNABLE_TO_PARSE)
+        return ParseResult([], ParseStatus.UNABLE_TO_PARSE)
 
     def _configure_parse_status(self, requirement_range: RequirementRange):
         if not requirement_range:

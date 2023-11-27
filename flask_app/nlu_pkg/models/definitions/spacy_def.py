@@ -11,8 +11,10 @@ from flask_app.nlu_pkg.services.decorators.number_validation import validate_num
 RELATIVE_INDEX = 'relative_index'
 Doc.set_extension(RELATIVE_INDEX, method=lambda doc, token: token.i - doc[0].i)
 Span.set_extension(RELATIVE_INDEX, method=lambda span, token: token.i - span[0].i)
+print("LOADING SPACY MODEL")
 SPACY_MODEL = spacy.load("en_core_web_sm")
 Language.__call__ = validate_numbers_spacy(Language.__call__)
+print("LOADING NER MODEL")
 NER_MODEL = spacy.load(os.path.join(ROOT_DIR, DOCUMENTS_DIRECTORY_NAME, "ner_detection_model"))
 SPAN_SUBJECT_ATTR = 'subject'
 STOP_WORDS = stop_words.STOP_WORDS - {'amount'}
@@ -27,6 +29,7 @@ SUBJECT_DEP = 'nsubj'
 ROOT_DEP = 'ROOT'
 DIRECT_OBJECT_DEP = 'dobj'
 COMPOUND_DEP = 'compound'
+PREP_OBJ_DEP = 'pobj'
 
 # POS TAGS
 NUMERICAL_POS_TAG = "NUM"
