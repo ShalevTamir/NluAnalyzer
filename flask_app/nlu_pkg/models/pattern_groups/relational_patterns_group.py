@@ -27,11 +27,13 @@ class RelationalPatternsGroup(PatternsGroup):
         # Parses syntax: at least 5
         _reverted_adverb_pattern = [
             {
-                PATTERN_POS_ATTR: ADVERB_POS_TAG,
+                PATTERN_POS_ATTR: ADPOSITION_POS_TAG,
                 PATTERN_DEP_ATTR: ADVERBIAL_MODIFIER_DEP
             },
             {
-                PATTERN_POS_ATTR: ADVERB_POS_TAG,
+                PATTERN_POS_ATTR: {PATTERN_IN_ATTR: [ADVERB_POS_TAG,
+                                                     ADPOSITION_POS_TAG,
+                                                     ADJECTIVE_POS_TAG]},
                 PATTERN_DEP_ATTR: ADVERBIAL_MODIFIER_DEP
             },
             {

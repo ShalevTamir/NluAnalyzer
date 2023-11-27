@@ -2,7 +2,7 @@ from typing import Callable, Tuple
 
 from spacy.tokens import Span, Doc, Token
 
-from flask_app.nlu_pkg.models.definitions.spacy_def import SPACY_TEXT_ATTR, RELATIVE_INDEX
+from flask_app.nlu_pkg.models.definitions.spacy_def import SPACY_TEXT_ATTR, RELATIVE_INDEX, PREP_OBJ_DEP
 from flask_app.nlu_pkg.models.enums.duration_type import DurationType, get_type_text
 from flask_app.nlu_pkg.models.enums.noun_type import NounType
 from flask_app.nlu_pkg.models.enums.parse_status import ParseStatus
@@ -10,6 +10,7 @@ from flask_app.nlu_pkg.models.named_tuples.duration_unit import DurationUnit
 from flask_app.nlu_pkg.models.named_tuples.range_parse import ParseResult
 from flask_app.nlu_pkg.models.sensor_dto.duration import Duration
 from flask_app.nlu_pkg.models.sensor_dto.requirement_param import RequirementParam
+
 from flask_app.nlu_pkg.services.utils.spacy_utils import locate_matching_token, extract_numbers
 from flask_app.nlu_pkg.services.utils.str_utils import parse_number
 
@@ -30,7 +31,7 @@ class DurationHandler:
                     get_type_text(duration_type, noun_type),
                     strong_comparison=True
                 )
-                if matching_token:
+                if matching_token:  # and matching_token.dep_ == PREP_OBJ_DEP:
                     return DurationUnit(matching_token, duration_type, noun_type)
 
     def _parse_plural_duration(self, range_text: Span, duration_type: DurationType) -> Duration:
@@ -39,7 +40,7 @@ class DurationHandler:
             if parse_result.parse_status == ParseStatus.SUCCESSFUL:
                 return Duration(
                     duration_type,
-                    parse_result.requirement
+                    parse_result.requirement[0]
                 )
         else:
             return Duration(
@@ -59,8 +60,8 @@ class DurationHandler:
             case NounType.PLURAL:
                 return self._parse_plural_duration(
                     sentence[
-                        sentence._.get(RELATIVE_INDEX)(duration_token.head) + 1:
-                        sentence._.get(RELATIVE_INDEX)(duration_token)
+                    sentence._.get(RELATIVE_INDEX)(duration_token.head) + 1:
+                    sentence._.get(RELATIVE_INDEX)(duration_token)
                     ],
                     duration_type
                 )

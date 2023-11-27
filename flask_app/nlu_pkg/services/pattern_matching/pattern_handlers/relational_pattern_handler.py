@@ -2,7 +2,6 @@ from spacy.tokens import Doc, Span
 
 from flask_app.nlu_pkg.models.enums.relation_group import RelationGroup, revert_relation_group
 from flask_app.nlu_pkg.models.named_tuples.relational_bound import RelationalBound
-from flask_app.nlu_pkg.services.pattern_matching.spacy_matchers.base_spacy_matcher import BaseSpacyMatcher
 from flask_app.nlu_pkg.services.classification.classifiers.concrete.relational_words_classifier import RelationalWordsClassifier
 from flask_app.nlu_pkg.services.pattern_matching.pattern_handlers.pattern_handler import PatternHandler
 from flask_app.nlu_pkg.services.pattern_matching.spacy_matchers.spacy_matcher import SpacyMatcher

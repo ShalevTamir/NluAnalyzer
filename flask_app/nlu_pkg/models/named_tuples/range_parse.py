@@ -5,5 +5,5 @@ from flask_app.nlu_pkg.models.sensor_dto.requirement_param import RequirementPar
 
 
 class ParseResult(NamedTuple):
-    requirement: RequirementParam | None
+    requirement: list[RequirementParam]
     parse_status: ParseStatus

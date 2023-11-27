@@ -7,13 +7,10 @@ from flask_app.nlu_pkg.services.sensor_parsing.text_parser import TextParser
 from flask_app.nlu_pkg.services.utils.dependency_containers import Application
 from flask_app.services.json.custom_encoder import CustomEncoder
 
+# TODO: initiate range stuff on startup, instead on the first range parse request
 # TODO: lowercase sentence at the start, preprocess it?
 # TODO: handle unable to parse string x to a valid number, instead of just throwing it
-# TODO: initiate range stuff on startup, instead on the first range parse request
 
-# TODO: add duration
-# TODO: add negative to single parameters
-# TODO: check if can translate to hebrew
 
 container = Application()
 text_parser: TextParser = container.services.text_parser()
@@ -225,10 +222,41 @@ long_single = [
     "The precision laser mouse, favored by designers and professionals, boasts a sensitivity of 1600 dots per inch (DPI), ensuring precise and accurate cursor movements for detailed tasks."
 ]
 
+sentences = [
+    "Embracing the art of mixology, a well-crafted cocktail may contain alcohol content within the range of 15% to 25%, offering a spectrum of flavors and intensities to satisfy diverse palates.",
+    "In the realm of culinary mastery, chefs often recommend cooking poultry to an internal temperature ranging between 165 and 175 degrees Fahrenheit, ensuring both safety and succulence in every bite.",
+    "Navigating the vast universe of digital photography, a high-quality camera sensor is capable of capturing images with a resolution ranging from 20 to 50 megapixels, delivering stunning visual detail and clarity.",
+    "Guiding financial prudence, experts advise individuals to maintain an emergency fund equivalent to three to six months' worth of living expenses, serving as a financial safety net in times of unexpected challenges.",
+    "Balancing fitness aspirations, health enthusiasts often target a daily step count ranging from 10,000 to 15,000 steps, promoting cardiovascular health and an active lifestyle.",
+    "Harnessing the power of renewable energy, solar panels are designed to operate with an efficiency range of 15% to 22%, converting sunlight into electricity and contributing to sustainable power generation.",
+    "Defining architectural marvels, skyscrapers can soar to heights ranging from 500 to 1,000 feet, symbolizing human ingenuity and pushing the boundaries of urban development.",
+    "Sculpting the auditory landscape, a high-quality sound system can reproduce frequencies within the range of 20 to 20,000 Hertz, delivering a rich and immersive audio experience across the entire spectrum of human hearing.",
+    "In the culinary domain, the recommended cooking time for a perfectly medium-rare steak falls within the range of 3 to 5 minutes per side, striking a delicate balance between tenderness and flavor.",
+    "Balancing academic rigor, a standard undergraduate degree program typically requires completion of 120 to 150 credit hours, encompassing a diverse curriculum and ensuring a comprehensive education.",
+    "Charting the ebbs and flows of financial markets, a moderate annual return on investment is often considered to be in the range of 5% to 8%, providing a benchmark for evaluating the performance of investment portfolios.",
+    "Illuminating our surroundings, LED light bulbs are renowned for their energy efficiency, consuming power within the range of 6 to 10 watts, offering a greener alternative to traditional incandescent bulbs.",
+    "Ensuring optimal hydration, health experts recommend daily water intake within the range of 8 to 10 cups, supporting bodily functions and promoting overall well-being.",
+    "In the realm of celestial wonders, a telescope's aperture, or lens diameter, can vary between 80 and 120 millimeters, influencing the instrument's ability to capture and magnify distant cosmic phenomena.",
+    "Guiding vehicular safety, tire pressure is advised to be maintained within the range of 30 to 35 pounds per square inch (psi), optimizing traction and fuel efficiency.",
+    "Unveiling the intricacies of nutrition, dietary fiber intake is recommended to be within the range of 25 to 35 grams per day, supporting digestive health and overall nutritional balance.",
+    "Showcasing the dynamic world of cinematic frame rates, movies are typically filmed and displayed at a standard rate of 24 frames per second, capturing motion with a cinematic and visually pleasing quality.",
+    "Expanding the horizons of technological innovation, smartphones boast storage capacities ranging from 128 to 512 gigabytes, accommodating the growing demand for multimedia content and applications.",
+    "In the realm of sustainable transportation, electric cars offer a driving range spanning from 200 to 400 miles on a single charge, reshaping the landscape of eco-friendly mobility.",
+    "Crafting the perfect cup, coffee brewing experts often recommend water temperatures in the range of 195 to 205 degrees Fahrenheit, extracting flavors with precision and finesse.",
+    "Defining the limits of atmospheric exploration, commercial airplanes cruise at altitudes ranging from 30,000 to 40,000 feet, navigating the skies with efficiency and safety.",
+    "Embracing the digital frontier, internet speeds for residential broadband connections typically range from 50 to 100 megabits per second, enabling seamless online experiences.",
+    "Anchoring the essence of timepieces, luxury watches may boast power reserves ranging from 40 to 80 hours, reflecting the craftsmanship and precision of their mechanical movements.",
+    "Charting the course of global navigation, GPS accuracy is refined to within the range of 1 to 3 meters, providing precise location data for diverse applications.",
+    "Sailing the seas of renewable energy, wind turbines generate electricity with capacities ranging from 2 to 8 megawatts, harnessing the power of the wind to contribute to sustainable power grids.",
+    "Evoking the world of photographic composition, camera lenses often feature apertures with f-stop values ranging from f/1.4 to f/16, allowing photographers to control depth of field and light intake.",
+    "Unveiling the realm of biodiversity, an acre of tropical rainforest may harbor anywhere from 100 to 300 species of trees, illustrating the richness and complexity of these vital ecosystems.",
+    "Transforming the landscape of virtual reality, VR headsets offer field-of-view angles ranging from 90 to 120 degrees, immersing users in expansive and lifelike digital environments.",
+    "Unraveling the mysteries of geological forces, earthquakes exhibit magnitudes within the range of 4 to 9 on the Richter scale, reflecting variations in intensity and potential impact.",
+    "Bridging the realms of culinary creativity, the ideal oven temperature for baking artisan bread often falls within the range of 400 to 450 degrees Fahrenheit, ensuring the perfect balance of crust and crumb."
+]
 
 
-
-for sentence in ["the current_thurst is above 10 for up to 10 minutes"]:
+for sentence in sentences:
 
     sensors = list(text_parser.parse(sentence))
 

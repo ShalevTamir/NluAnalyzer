@@ -4,6 +4,7 @@ from flask_app.nlu_pkg.models.definitions.spacy_def import SPACY_DEP_ATTR, SUBJE
     SPACY_POS_ATTR, \
     NUMERICAL_POS_TAG, SPAN_SUBJECT_ATTR, RELATIVE_INDEX
 from flask_app.nlu_pkg.models.pattern_groups.subject_patterns_group import SubjectPatternsGroup
+
 from flask_app.nlu_pkg.services.sensor_parsing.subject_detector import SubjectDetector
 from flask_app.nlu_pkg.services.utils.spacy_utils import locate_matching_tokens, locate_matching_token
 
@@ -18,11 +19,10 @@ class TextPartitioner:
             force=True
         )
 
-
     def extract_sentences(self, tokens: Doc | Span):
         subjects = list(self._subject_detector.detect(tokens, multiple=True))
         subjects.sort(key=lambda subject: tokens._.get(RELATIVE_INDEX)(subject))
-        # print("EXTRACTED SUBJECTS",subjects)
+        print("EXTRACTED SUBJECTS", subjects)
         if subjects:
             sentences = [
                 tokens[tokens._.get(RELATIVE_INDEX)(current_subject): tokens._.get(RELATIVE_INDEX)(next_subject)]
