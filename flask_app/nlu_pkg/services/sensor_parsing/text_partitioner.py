@@ -20,7 +20,7 @@ class TextPartitioner:
         )
 
     def extract_sentences(self, tokens: Doc | Span):
-        subjects = list(self._subject_detector.detect(tokens, multiple=True))
+        subjects = self._subject_detector.detect(tokens, multiple=True)
         subjects.sort(key=lambda subject: tokens._.get(RELATIVE_INDEX)(subject))
         print("EXTRACTED SUBJECTS", subjects)
         if subjects:

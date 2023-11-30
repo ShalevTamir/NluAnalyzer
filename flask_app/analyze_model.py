@@ -8,7 +8,6 @@ from flask_app.nlu_pkg.services.utils.dependency_containers import Application
 from flask_app.services.json.custom_encoder import CustomEncoder
 
 # TODO: initiate range stuff on startup, instead on the first range parse request
-# TODO: lowercase sentence at the start, preprocess it?
 # TODO: handle unable to parse string x to a valid number, instead of just throwing it
 
 

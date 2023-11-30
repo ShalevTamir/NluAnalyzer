@@ -20,7 +20,7 @@ class SubjectDetector:
         if multiple:
             return self._detect_subjects(tokens, as_text)
         else:
-            return next(self._detect_subjects(tokens, as_text), None)
+            return self._detect_subjects(tokens, as_text)[0]
 
     def _detect_subjects(self, tokens: Doc | Span, as_text):
         yielded_subjects = set()
@@ -38,12 +38,12 @@ class SubjectDetector:
                 subjects = list(subjects)
                 print(subjects, "SPACY")
             for subject in subjects:
-                if subject.i not in yielded_subjects and subject.text not in STOP_WORDS and not subject.like_num:
-                    yield subject.text if as_text else subject
-                    yielded_subjects.add(subject.i)
-
-        if not yielded_subjects:
-            yield default_subject_locator()
+                if subject.text not in STOP_WORDS and not subject.like_num:
+                    yielded_subjects.add(subject.text if as_text else subject)
+        if yielded_subjects:
+            return list(yielded_subjects)
+        else:
+            return [default_subject_locator()]
 
     def _detect_custom_ner(self, tokens: Doc | Span):
         ner_tokens = NER_MODEL(tokens.text)
