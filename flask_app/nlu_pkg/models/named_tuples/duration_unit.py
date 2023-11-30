@@ -2,8 +2,8 @@ from typing import NamedTuple
 
 from spacy.tokens import Token
 
-from flask_app.nlu_pkg.models.enums.duration_type import DurationType
-from flask_app.nlu_pkg.models.enums.noun_type import NounType
+from ..enums.duration_type import DurationType
+from ..enums.noun_type import NounType
 
 
 class DurationUnit(NamedTuple):

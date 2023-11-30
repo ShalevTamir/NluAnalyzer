@@ -3,8 +3,8 @@ from gensim.models import KeyedVectors
 
 import gensim.downloader as gensim_downloader
 
-from flask_app.nlu_pkg.models.definitions.file_def import DOCUMENTS_DIRECTORY_NAME, ROOT_DIR
-from flask_app.nlu_pkg.services.classification.word_embedding.word_embedder import WordEmbedder
+from .....models.definitions.file_def import DOCUMENTS_DIRECTORY_NAME, ROOT_DIR
+from ..word_embedder import WordEmbedder
 
 EMBEDDING_MODEL_NAME = "word2vec-google-news-300"
 EMBEDDING_MODEL_PATH = os.path.join(ROOT_DIR, DOCUMENTS_DIRECTORY_NAME, EMBEDDING_MODEL_NAME + ".kv")

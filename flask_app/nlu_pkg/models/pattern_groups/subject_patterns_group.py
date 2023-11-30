@@ -1,8 +1,8 @@
-from flask_app.nlu_pkg.models.definitions.spacy_def import PATTERN_POS_ATTR, VERB_POS_TAG, NOUN_POS_TAG, \
-    PATTERN_DEP_ATTR, DIRECT_OBJECT_DEP, COMPOUND_DEP
-from flask_app.nlu_pkg.models.pattern_groups.patterns_group import PatternsGroup
-from flask_app.nlu_pkg.services.pattern_matching.pattern_handlers.subject_pattern_handler import SubjectPatternHandler
-from flask_app.nlu_pkg.services.pattern_matching.spacy_matchers.spacy_dependency_matcher import SpacyDependencyMatcher
+from ..definitions.spacy_def import PATTERN_POS_ATTR, VERB_POS_TAG, NOUN_POS_TAG, PATTERN_DEP_ATTR, DIRECT_OBJECT_DEP, \
+    COMPOUND_DEP
+from .patterns_group import PatternsGroup
+from ...services.pattern_matching.pattern_handlers.subject_pattern_handler import SubjectPatternHandler
+from ...services.pattern_matching.spacy_matchers.spacy_dependency_matcher import SpacyDependencyMatcher
 
 
 class SubjectPatternsGroup(PatternsGroup):

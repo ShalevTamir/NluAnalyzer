@@ -1,7 +1,7 @@
 from functools import wraps
 from spacy.tokens import Span, Doc
 
-from flask_app.nlu_pkg.services.utils.str_utils import parse_number
+from ..utils.str_utils import parse_number
 
 
 def validate_numbers_spacy(func):
@@ -14,7 +14,7 @@ def validate_numbers_spacy(func):
     return wrapper
 
 def _validate_spacy(tokens: Doc | Span):
-    from flask_app.nlu_pkg.models.definitions.spacy_def import NUMERICAL_POS_TAG, UNKNOWN_POS_TAG
+    from ...models.definitions.spacy_def import NUMERICAL_POS_TAG, UNKNOWN_POS_TAG
     for token in tokens:
         try:
             parse_number(token.text)

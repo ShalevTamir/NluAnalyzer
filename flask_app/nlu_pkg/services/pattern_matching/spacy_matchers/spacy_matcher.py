@@ -1,10 +1,8 @@
-from typing import Iterable
-
 from spacy.matcher import Matcher
 from spacy.tokens import Span, Doc
 
-from flask_app.nlu_pkg.models.definitions.spacy_def import SPACY_MODEL
-from flask_app.nlu_pkg.services.pattern_matching.spacy_matchers.base_spacy_matcher import BaseSpacyMatcher
+from ....models.definitions.spacy_def import SPACY_MODEL
+from .base_spacy_matcher import BaseSpacyMatcher
 
 
 class SpacyMatcher(BaseSpacyMatcher):

@@ -1,7 +1,6 @@
 import re
 import string
-from flask_app.nlu_pkg.services.utils.general import is_castable
-from word2number import w2n
+from .general import is_castable
 
 _FIND_NUMBERS_REG = r'-?\d+(?:\.\d+)?'
 

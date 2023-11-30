@@ -1,23 +1,19 @@
 import json
 from functools import partial
-
 from spacy.tokens import Span, Doc
-
 from deep_translator import GoogleTranslator
-
-
-from flask_app.nlu_pkg.services.sensor_parsing.duration_handler import DurationHandler
-from flask_app.nlu_pkg.services.sensor_parsing.parameter_handler import parse_parameter
-from flask_app.services.json.custom_encoder import CustomEncoder
-from flask_app.nlu_pkg.models.definitions.spacy_def import SPACY_MODEL, SPAN_SUBJECT_ATTR
-from flask_app.nlu_pkg.models.enums.parse_status import ParseStatus
-from flask_app.nlu_pkg.models.enums.sentence_group import SentenceGroup
-from flask_app.nlu_pkg.models.named_tuples.range_parse import ParseResult
-from flask_app.nlu_pkg.models.sensor_dto.sensor import Sensor
-from flask_app.nlu_pkg.services.classification.classifiers.concrete.sentence_classifier import SentenceClassifier
-from flask_app.nlu_pkg.services.classification.preprocessing.preprocessor import remove_punctuation_marks
-from flask_app.nlu_pkg.services.sensor_parsing.subject_detector import SubjectDetector
-from flask_app.nlu_pkg.services.sensor_parsing.text_partitioner import TextPartitioner
+from .duration_handler import DurationHandler
+from .parameter_handler import parse_parameter
+from ....services.json.custom_encoder import CustomEncoder
+from ...models.definitions.spacy_def import SPACY_MODEL, SPAN_SUBJECT_ATTR
+from ...models.enums.parse_status import ParseStatus
+from ...models.enums.sentence_group import SentenceGroup
+from ...models.named_tuples.range_parse import ParseResult
+from ...models.sensor_dto.sensor import Sensor
+from ..classification.classifiers.concrete.sentence_classifier import SentenceClassifier
+from ..classification.preprocessing.preprocessor import remove_punctuation_marks, preprocess_sentence
+from .subject_detector import SubjectDetector
+from .text_partitioner import TextPartitioner
 
 
 class TextParser:

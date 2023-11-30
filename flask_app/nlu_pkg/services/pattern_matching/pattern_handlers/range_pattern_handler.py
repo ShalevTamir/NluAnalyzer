@@ -1,10 +1,9 @@
 from spacy.tokens import Doc, Span
 
-from flask_app.nlu_pkg.services.pattern_matching.spacy_matchers.base_spacy_matcher import BaseSpacyMatcher
-from flask_app.nlu_pkg.models.sensor_dto.requirement_range import RequirementRange
-from flask_app.nlu_pkg.services.pattern_matching.pattern_handlers.pattern_handler import PatternHandler
-from flask_app.nlu_pkg.services.pattern_matching.spacy_matchers.spacy_matcher import SpacyMatcher
-from flask_app.nlu_pkg.services.utils.str_utils import parse_number
+from ....models.sensor_dto.requirement_range import RequirementRange
+from .pattern_handler import PatternHandler
+from ..spacy_matchers.spacy_matcher import SpacyMatcher
+from ...utils.str_utils import parse_number
 
 
 class RangePatternHandler(PatternHandler):

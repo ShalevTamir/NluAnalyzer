@@ -1,6 +1,6 @@
 from typing import NamedTuple
 
-from flask_app.nlu_pkg.models.enums.relation_group import RelationGroup
+from ..enums.relation_group import RelationGroup
 
 
 class RelationalBound(NamedTuple):

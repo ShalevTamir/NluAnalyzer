@@ -1,5 +1,5 @@
-from flask_app.nlu_pkg.models.definitions.spacy_def import SPACY_MODEL
-from flask_app.nlu_pkg.services.classification.word_embedding.word_embedder import WordEmbedder
+from .....models.definitions.spacy_def import SPACY_MODEL
+from ..word_embedder import WordEmbedder
 
 
 class SpacyEmbedder(WordEmbedder):

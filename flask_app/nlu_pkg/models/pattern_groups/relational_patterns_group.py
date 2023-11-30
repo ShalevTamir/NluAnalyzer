@@ -1,8 +1,8 @@
-from flask_app.nlu_pkg.models.definitions.spacy_def import PATTERN_POS_ATTR, ADVERB_POS_TAG, ADVERBIAL_MODIFIER_DEP, \
-    PATTERN_DEP_ATTR, PATTERN_TEXT_ATTR, ADJECTIVE_POS_TAG, PATTERN_IN_ATTR, ADPOSITION_POS_TAG, PRONOUN_POS_TAG, \
+from ..definitions.spacy_def import PATTERN_POS_ATTR, ADVERB_POS_TAG, ADVERBIAL_MODIFIER_DEP, PATTERN_DEP_ATTR, \
+    PATTERN_TEXT_ATTR, ADJECTIVE_POS_TAG, PATTERN_IN_ATTR, ADPOSITION_POS_TAG, PRONOUN_POS_TAG, \
     SUBORDINATING_CONJUNCTION_POS_TAG, NUMERICAL_POS_TAG, PATTERN_OP_ATTR, PART_POS_TAG, VERB_POS_TAG
-from flask_app.nlu_pkg.models.pattern_groups.patterns_group import PatternsGroup
-from flask_app.nlu_pkg.services.pattern_matching.spacy_matchers.spacy_matcher import SpacyMatcher
+from .patterns_group import PatternsGroup
+from ...services.pattern_matching.spacy_matchers.spacy_matcher import SpacyMatcher
 
 
 class RelationalPatternsGroup(PatternsGroup):

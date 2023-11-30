@@ -1,6 +1,6 @@
 from spacy.tokens import Doc, Span
 
-from flask_app.nlu_pkg.services.pattern_matching.spacy_matchers.base_spacy_matcher import BaseSpacyMatcher, ResultType
+from ..spacy_matchers.base_spacy_matcher import BaseSpacyMatcher, ResultType
 
 
 class PatternHandler:

@@ -1,10 +1,10 @@
 from abc import ABC
-from typing import Iterable, Generator
+from typing import Generator
 
 from spacy.tokens import Doc, Span
 
-from flask_app.nlu_pkg.services.pattern_matching.pattern_handlers.pattern_handler import PatternHandler
-from flask_app.nlu_pkg.services.pattern_matching.spacy_matchers.base_spacy_matcher import BaseSpacyMatcher, ResultType
+from ...services.pattern_matching.pattern_handlers.pattern_handler import PatternHandler
+from ...services.pattern_matching.spacy_matchers.base_spacy_matcher import BaseSpacyMatcher, ResultType
 
 
 class PatternsGroup(ABC):

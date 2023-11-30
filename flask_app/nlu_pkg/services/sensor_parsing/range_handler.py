@@ -1,16 +1,15 @@
 # import logging
 from spacy.tokens import Span, Doc
 
-from flask_app.nlu_pkg.models.definitions.spacy_def import SPACY_MODEL, SPACY_POS_ATTR, NUMERICAL_POS_TAG
-from flask_app.nlu_pkg.models.enums.relation_group import RelationGroup
-from flask_app.nlu_pkg.models.named_tuples.range_parse import ParseResult
-from flask_app.nlu_pkg.models.named_tuples.relational_bound import RelationalBound
-from flask_app.nlu_pkg.models.pattern_groups.range_patterns_group import RangePatternsGroup
-from flask_app.nlu_pkg.models.sensor_dto.requirement_range import RequirementRange
-from flask_app.nlu_pkg.services.classification.relational_handler import RelationalHandler
-from flask_app.nlu_pkg.services.utils.spacy_utils import locate_matching_tokens, extract_numbers
-from flask_app.nlu_pkg.services.utils.str_utils import parse_number
-from flask_app.nlu_pkg.models.enums.parse_status import ParseStatus
+from ...models.enums.relation_group import RelationGroup
+from ...models.named_tuples.range_parse import ParseResult
+from ...models.named_tuples.relational_bound import RelationalBound
+from ...models.pattern_groups.range_patterns_group import RangePatternsGroup
+from ...models.sensor_dto.requirement_range import RequirementRange
+from ..classification.relational_handler import RelationalHandler
+from ..utils.spacy_utils import extract_numbers
+from ..utils.str_utils import parse_number
+from ...models.enums.parse_status import ParseStatus
 
 PARAMETER_NUMBERS_COUNT = 1
 RANGE_NUMBERS_COUNT = 2

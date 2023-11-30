@@ -1,12 +1,8 @@
 from spacy.tokens import Span, Doc, Token
-
-from flask_app.nlu_pkg.models.definitions.spacy_def import SPACY_DEP_ATTR, SUBJECT_DEP, COORDINATION_DEP, SPACY_MODEL, \
-    SPACY_POS_ATTR, \
+from ...models.definitions.spacy_def import SPACY_DEP_ATTR, SUBJECT_DEP, COORDINATION_DEP, SPACY_MODEL, SPACY_POS_ATTR, \
     NUMERICAL_POS_TAG, SPAN_SUBJECT_ATTR, RELATIVE_INDEX
-from flask_app.nlu_pkg.models.pattern_groups.subject_patterns_group import SubjectPatternsGroup
-
-from flask_app.nlu_pkg.services.sensor_parsing.subject_detector import SubjectDetector
-from flask_app.nlu_pkg.services.utils.spacy_utils import locate_matching_tokens, locate_matching_token
+from .subject_detector import SubjectDetector
+from ..utils.spacy_utils import locate_matching_tokens, locate_matching_token
 
 
 class TextPartitioner:
