@@ -8,7 +8,6 @@ from flask_app.nlu_pkg.services.utils.dependency_containers import Application
 from flask_app.services.json.custom_encoder import CustomEncoder
 
 # TODO: initiate range stuff on startup, instead on the first range parse request
-# TODO: handle unable to parse string x to a valid number, instead of just throwing it
 
 
 container = Application()
@@ -255,7 +254,7 @@ sentences = [
 ]
 
 
-for sentence in sentences:
+for sentence in ["height is bigger than 5"]:
 
     sensors = list(text_parser.parse(sentence))
 

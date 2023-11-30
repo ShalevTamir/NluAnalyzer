@@ -15,10 +15,10 @@ sentence_key = 'sentence'
 
 @sensor_bp.post('/')
 @includes_body_params
-def parse_sentence(sentence):
+def parse_sentence(text):
     # pdb.set_trace()
     try:
-        sensors = list(text_parser.parse(sentence))
+        sensors = list(text_parser.parse(text))
     except ValueError as e:
         abort(400, str(e).replace('\"',''))
     else:
