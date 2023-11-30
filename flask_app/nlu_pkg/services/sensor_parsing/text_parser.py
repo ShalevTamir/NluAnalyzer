@@ -53,7 +53,7 @@ class TextParser:
     def parse(self, text: str):
         text = self._translator.translate(text)
         print(f"TRANSLATED TEXT {text}")
-        text = remove_punctuation_marks(text)
+        text = preprocess_sentence(text)
         tokens = SPACY_MODEL(text)
         for sentence_tokens in self._text_partitioner.extract_sentences(tokens):
             parameter_name = sentence_tokens._.get(SPAN_SUBJECT_ATTR).text
