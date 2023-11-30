@@ -1,7 +1,11 @@
 import json
-from .nlu_pkg.services.sensor_parsing.text_parser import TextParser
-from .nlu_pkg.services.utils.dependency_containers import Application
-from .services.json.custom_encoder import CustomEncoder
+import logging
+
+from spacy import displacy
+
+from flask_app.nlu_pkg.services.sensor_parsing.text_parser import TextParser
+from flask_app.nlu_pkg.services.utils.dependency_containers import Application
+from flask_app.services.json.custom_encoder import CustomEncoder
 
 # TODO: initiate range stuff on startup, instead on the first range parse request
 # TODO: handle unable to parse string x to a valid number, instead of just throwing it

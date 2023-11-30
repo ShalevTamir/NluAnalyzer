@@ -1,8 +1,9 @@
 from abc import ABC
 from typing import Callable
 
-from ..classification_models.classification_model import ClassificationModel, GroupEnum
-from ..word_embedding.word_embedder import WordEmbedder
+from flask_app.nlu_pkg.services.classification.classification_models.classification_model import ClassificationModel, \
+    GroupEnum
+from flask_app.nlu_pkg.services.classification.word_embedding.word_embedder import WordEmbedder
 
 
 class LinearClassifier(ABC):

@@ -1,18 +1,18 @@
-from typing import Tuple
+from typing import Callable, Tuple
 
 from spacy.tokens import Span, Doc, Token
 
-from ...models.definitions.spacy_def import SPACY_TEXT_ATTR, RELATIVE_INDEX, PREP_OBJ_DEP
-from ...models.enums.duration_type import DurationType, get_type_text
-from ...models.enums.noun_type import NounType
-from ...models.enums.parse_status import ParseStatus
-from ...models.named_tuples.duration_unit import DurationUnit
-from ...models.named_tuples.range_parse import ParseResult
-from ...models.sensor_dto.duration import Duration
-from ...models.sensor_dto.requirement_param import RequirementParam
+from flask_app.nlu_pkg.models.definitions.spacy_def import SPACY_TEXT_ATTR, RELATIVE_INDEX, PREP_OBJ_DEP
+from flask_app.nlu_pkg.models.enums.duration_type import DurationType, get_type_text
+from flask_app.nlu_pkg.models.enums.noun_type import NounType
+from flask_app.nlu_pkg.models.enums.parse_status import ParseStatus
+from flask_app.nlu_pkg.models.named_tuples.duration_unit import DurationUnit
+from flask_app.nlu_pkg.models.named_tuples.range_parse import ParseResult
+from flask_app.nlu_pkg.models.sensor_dto.duration import Duration
+from flask_app.nlu_pkg.models.sensor_dto.requirement_param import RequirementParam
 
-from ..utils.spacy_utils import locate_matching_token, extract_numbers
-from ..utils.str_utils import parse_number
+from flask_app.nlu_pkg.services.utils.spacy_utils import locate_matching_token, extract_numbers
+from flask_app.nlu_pkg.services.utils.str_utils import parse_number
 
 
 class DurationHandler:

@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import TypeVar
 
 from spacy.tokens import Span, Doc
-from ....models.definitions.spacy_def import DEFAULT_PATTERN_NAME
+from flask_app.nlu_pkg.models.definitions.spacy_def import DEFAULT_PATTERN_NAME
 
 ResultType = TypeVar("ResultType")
 

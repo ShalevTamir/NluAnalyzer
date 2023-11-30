@@ -1,12 +1,13 @@
 import os
 
-from .....models.definitions.file_def import ROOT_DIR, DOCUMENTS_DIRECTORY_NAME
-from .....models.enums.sentence_group import SentenceGroup
-from ...classification_models.concrete.quadratic_discriminant import QuadraticDiscriminant
-from ..linear_classifier import LinearClassifier
-from ...preprocessing.preprocessor import preprocess_sentence
-from ...word_embedding.concrete.spacy_embedder import SpacyEmbedder
-from ....utils.file_parser import parse_file
+from flask_app.nlu_pkg.models.definitions.file_def import ROOT_DIR, DOCUMENTS_DIRECTORY_NAME
+from flask_app.nlu_pkg.models.enums.sentence_group import SentenceGroup
+from flask_app.nlu_pkg.services.classification.classification_models.concrete.quadratic_discriminant import \
+    QuadraticDiscriminant
+from flask_app.nlu_pkg.services.classification.classifiers.linear_classifier import LinearClassifier
+from flask_app.nlu_pkg.services.classification.preprocessing.preprocessor import preprocess_sentence
+from flask_app.nlu_pkg.services.classification.word_embedding.concrete.spacy_embedder import SpacyEmbedder
+from flask_app.nlu_pkg.services.utils.file_parser import parse_file
 
 _RANGE_FILE_PATH = os.path.join(ROOT_DIR, DOCUMENTS_DIRECTORY_NAME,
                                 "sentence_classification", "range_sentences.txt")

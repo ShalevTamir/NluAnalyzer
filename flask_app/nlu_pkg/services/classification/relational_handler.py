@@ -1,11 +1,11 @@
 from typing import Tuple, Generator
 from spacy.tokens import Doc, Span
-from ...models.definitions.spacy_def import NUMERICAL_POS_TAG, SPACY_POS_ATTR, SPACY_DEP_ATTR, NEGATION_DEP, \
-    RELATIVE_INDEX
-from ...models.enums.relation_group import revert_relation_group
-from ...models.named_tuples.relational_bound import RelationalBound
-from ...models.pattern_groups.relational_patterns_group import RelationalPatternsGroup
-from ..utils.spacy_utils import locate_matching_token
+from flask_app.nlu_pkg.models.definitions.spacy_def import NUMERICAL_POS_TAG, SPACY_POS_ATTR, SPACY_DEP_ATTR, \
+    NEGATION_DEP, RELATIVE_INDEX
+from flask_app.nlu_pkg.models.enums.relation_group import revert_relation_group
+from flask_app.nlu_pkg.models.named_tuples.relational_bound import RelationalBound
+from flask_app.nlu_pkg.models.pattern_groups.relational_patterns_group import RelationalPatternsGroup
+from flask_app.nlu_pkg.services.utils.spacy_utils import locate_matching_token
 
 
 class RelationalHandler:

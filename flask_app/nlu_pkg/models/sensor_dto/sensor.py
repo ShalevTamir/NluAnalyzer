@@ -1,5 +1,5 @@
-from .duration import Duration
-from .requirement_param import RequirementParam
+from flask_app.nlu_pkg.models.sensor_dto.duration import Duration
+from flask_app.nlu_pkg.models.sensor_dto.requirement_param import RequirementParam
 
 
 class Sensor:

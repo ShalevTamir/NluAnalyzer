@@ -1,12 +1,13 @@
 import os
 
-from .....models.definitions.file_def import ROOT_DIR, DOCUMENTS_DIRECTORY_NAME
-from .....models.enums.relation_group import RelationGroup
-from ...classification_models.concrete.logistic_regression import LogisticRegression
-from ..linear_classifier import LinearClassifier
-from ...preprocessing.preprocessor import preprocess_token
-from ...word_embedding.concrete.word2vec_embedder import Word2VecEmbedder
-from ....utils.file_parser import parse_file
+from flask_app.nlu_pkg.models.definitions.file_def import ROOT_DIR, DOCUMENTS_DIRECTORY_NAME
+from flask_app.nlu_pkg.models.enums.relation_group import RelationGroup
+from flask_app.nlu_pkg.services.classification.classification_models.concrete.logistic_regression import \
+    LogisticRegression
+from flask_app.nlu_pkg.services.classification.classifiers.linear_classifier import LinearClassifier
+from flask_app.nlu_pkg.services.classification.preprocessing.preprocessor import preprocess_token
+from flask_app.nlu_pkg.services.classification.word_embedding.concrete.word2vec_embedder import Word2VecEmbedder
+from flask_app.nlu_pkg.services.utils.file_parser import parse_file
 
 DECREASED_FILE_PATH = os.path.join(ROOT_DIR, DOCUMENTS_DIRECTORY_NAME, "relational_words",
                                    "decreased.txt")

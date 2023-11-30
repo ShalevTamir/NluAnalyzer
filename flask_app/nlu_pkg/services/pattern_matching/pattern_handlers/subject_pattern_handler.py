@@ -2,8 +2,8 @@ from typing import Generator, Iterator
 
 from spacy.tokens import Doc, Span, Token
 
-from .pattern_handler import PatternHandler
-from ..spacy_matchers.spacy_dependency_matcher import SpacyDependencyMatcher
+from flask_app.nlu_pkg.services.pattern_matching.pattern_handlers.pattern_handler import PatternHandler
+from flask_app.nlu_pkg.services.pattern_matching.spacy_matchers.spacy_dependency_matcher import SpacyDependencyMatcher
 
 
 class SubjectPatternHandler(PatternHandler):

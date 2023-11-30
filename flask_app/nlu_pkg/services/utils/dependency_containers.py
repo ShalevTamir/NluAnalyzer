@@ -1,18 +1,19 @@
 from dependency_injector import containers, providers
-from ...models.pattern_groups.range_patterns_group import RangePatternsGroup
-from ...models.pattern_groups.relational_patterns_group import RelationalPatternsGroup
-from ...models.pattern_groups.subject_patterns_group import SubjectPatternsGroup
-from ..classification.classifiers.concrete.relational_words_classifier import RelationalWordsClassifier
-from ..classification.classifiers.concrete.sentence_classifier import SentenceClassifier
-from ..classification.relational_handler import RelationalHandler
-from ..classification.word_embedding.concrete.spacy_embedder import SpacyEmbedder
-from ..classification.word_embedding.concrete.word2vec_embedder import Word2VecEmbedder
-from ..pattern_matching.pattern_handlers.relational_pattern_handler import RelationalPatternHandler
-from ..sensor_parsing.duration_handler import DurationHandler
-from ..sensor_parsing.range_handler import RangeHandler
-from ..sensor_parsing.subject_detector import SubjectDetector
-from ..sensor_parsing.text_parser import TextParser
-from ..sensor_parsing.text_partitioner import TextPartitioner
+
+from flask_app.nlu_pkg.models.pattern_groups.range_patterns_group import RangePatternsGroup
+from flask_app.nlu_pkg.models.pattern_groups.relational_patterns_group import RelationalPatternsGroup
+from flask_app.nlu_pkg.models.pattern_groups.subject_patterns_group import SubjectPatternsGroup
+from flask_app.nlu_pkg.services.classification.classifiers.concrete.relational_words_classifier import RelationalWordsClassifier
+from flask_app.nlu_pkg.services.classification.classifiers.concrete.sentence_classifier import SentenceClassifier
+from flask_app.nlu_pkg.services.classification.relational_handler import RelationalHandler
+from flask_app.nlu_pkg.services.classification.word_embedding.concrete.spacy_embedder import SpacyEmbedder
+from flask_app.nlu_pkg.services.classification.word_embedding.concrete.word2vec_embedder import Word2VecEmbedder
+from flask_app.nlu_pkg.services.pattern_matching.pattern_handlers.relational_pattern_handler import RelationalPatternHandler
+from flask_app.nlu_pkg.services.sensor_parsing.duration_handler import DurationHandler
+from flask_app.nlu_pkg.services.sensor_parsing.range_handler import RangeHandler
+from flask_app.nlu_pkg.services.sensor_parsing.subject_detector import SubjectDetector
+from flask_app.nlu_pkg.services.sensor_parsing.text_parser import TextParser
+from flask_app.nlu_pkg.services.sensor_parsing.text_partitioner import TextPartitioner
 
 
 class Embedders(containers.DeclarativeContainer):

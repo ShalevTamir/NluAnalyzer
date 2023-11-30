@@ -1,4 +1,4 @@
-from .requirement_param import RequirementParam
+from flask_app.nlu_pkg.models.sensor_dto.requirement_param import RequirementParam
 
 
 class RequirementRange(RequirementParam):

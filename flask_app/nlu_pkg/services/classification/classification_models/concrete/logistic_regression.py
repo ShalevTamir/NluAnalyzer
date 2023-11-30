@@ -1,6 +1,7 @@
 from sklearn.linear_model import LogisticRegression as LogisticRegressionModel
 
-from ..classification_model import ClassificationModel, GroupEnum
+from flask_app.nlu_pkg.services.classification.classification_models.classification_model import ClassificationModel, \
+    GroupEnum
 
 
 class LogisticRegression(ClassificationModel[GroupEnum]):

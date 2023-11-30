@@ -5,8 +5,8 @@ import spacy
 from spacy.lang.en import stop_words
 from spacy.tokens import Span, Doc
 
-from .file_def import ROOT_DIR, DOCUMENTS_DIRECTORY_NAME
-from ...services.decorators.number_validation import validate_numbers_spacy
+from flask_app.nlu_pkg.models.definitions.file_def import ROOT_DIR, DOCUMENTS_DIRECTORY_NAME
+from flask_app.nlu_pkg.services.decorators.number_validation import validate_numbers_spacy
 
 RELATIVE_INDEX = 'relative_index'
 Doc.set_extension(RELATIVE_INDEX, method=lambda doc, token: token.i - doc[0].i)

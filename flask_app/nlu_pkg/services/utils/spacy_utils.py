@@ -1,6 +1,7 @@
 from typing import Generator, Iterable
 from spacy.tokens import Token, Doc, Span
-from ...models.definitions.spacy_def import SPACY_POS_ATTR, NUMERICAL_POS_TAG
+
+from flask_app.nlu_pkg.models.definitions.spacy_def import SPACY_POS_ATTR, NUMERICAL_POS_TAG
 
 
 def locate_matching_tokens(tokens: Doc | Span, attribute_name: str, attribute_value: str, strong_comparison=False) \

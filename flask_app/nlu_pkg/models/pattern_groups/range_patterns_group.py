@@ -1,9 +1,9 @@
-from ..definitions.spacy_def import PATTERN_POS_ATTR, NUMERICAL_POS_TAG, NOUN_POS_TAG, PATTERN_OP_ATTR, \
-    ADPOSITION_POS_TAG, PARTICLE_POS_TAG, CONJUNCTION_POS_TAG, COORDINATING_CONJUNCTION_POS_TAG, \
+from flask_app.nlu_pkg.models.definitions.spacy_def import PATTERN_POS_ATTR, NUMERICAL_POS_TAG, NOUN_POS_TAG, \
+    PATTERN_OP_ATTR, ADPOSITION_POS_TAG, PARTICLE_POS_TAG, CONJUNCTION_POS_TAG, COORDINATING_CONJUNCTION_POS_TAG, \
     SUBORDINATING_CONJUNCTION_POS_TAG, PATTERN_IN_ATTR, PUNCTUATION_POS_TAG, SYMBOL_POS_TAG
-from .patterns_group import PatternsGroup
-from ...services.pattern_matching.pattern_handlers.range_pattern_handler import RangePatternHandler
-from ...services.pattern_matching.spacy_matchers.spacy_matcher import SpacyMatcher
+from flask_app.nlu_pkg.models.pattern_groups.patterns_group import PatternsGroup
+from flask_app.nlu_pkg.services.pattern_matching.pattern_handlers.range_pattern_handler import RangePatternHandler
+from flask_app.nlu_pkg.services.pattern_matching.spacy_matchers.spacy_matcher import SpacyMatcher
 
 
 class RangePatternsGroup(PatternsGroup):

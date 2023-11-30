@@ -1,11 +1,16 @@
 from functools import partial
-from spacy.tokens import Span, Doc, Token
-from ...models.definitions.spacy_def import SPACY_DEP_ATTR, SUBJECT_DEP, ROOT_DEP, SPACY_TEXT_ATTR, NER_MODEL, \
-    STOP_WORDS
-from ...models.pattern_groups.subject_patterns_group import SubjectPatternsGroup
-from ..utils.spacy_utils import locate_matching_token, locate_matching_tokens
 
+from spacy import displacy
+from spacy.tokens import Span, Doc, Token
+
+from flask_app.nlu_pkg.models.definitions.spacy_def import SPACY_DEP_ATTR, SUBJECT_DEP, ROOT_DEP, SPACY_TEXT_ATTR, NER_MODEL, STOP_WORDS
+from flask_app.nlu_pkg.models.pattern_groups.subject_patterns_group import SubjectPatternsGroup
+from flask_app.nlu_pkg.services.utils.spacy_utils import locate_matching_token, locate_matching_tokens
+
+# _SUBJ_DEPENDENCIES = [SUBJECT_DEP, ROOT_DEP]
 _SUBJ_SPACE_CHAR = '_'
+from flask_app.nlu_pkg.models.definitions.spacy_def import SPACY_MODEL
+import spacy
 
 class SubjectDetector:
     def __init__(self, subject_patterns: SubjectPatternsGroup):

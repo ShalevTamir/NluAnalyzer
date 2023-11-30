@@ -1,6 +1,6 @@
 from enum import Enum
 
-from .noun_type import NounType
+from flask_app.nlu_pkg.models.enums.noun_type import NounType
 
 
 class DurationType(Enum):

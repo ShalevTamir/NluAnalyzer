@@ -1,6 +1,7 @@
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 
-from ..classification_model import ClassificationModel, GroupEnum
+from flask_app.nlu_pkg.services.classification.classification_models.classification_model import ClassificationModel, \
+    GroupEnum
 
 
 class QuadraticDiscriminant(ClassificationModel[GroupEnum]):
