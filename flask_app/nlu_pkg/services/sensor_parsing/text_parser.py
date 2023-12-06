@@ -15,7 +15,8 @@ from flask_app.nlu_pkg.models.enums.sentence_group import SentenceGroup
 from flask_app.nlu_pkg.models.named_tuples.range_parse import ParseResult
 from flask_app.nlu_pkg.models.sensor_dto.sensor import Sensor
 from flask_app.nlu_pkg.services.classification.classifiers.concrete.sentence_classifier import SentenceClassifier
-from flask_app.nlu_pkg.services.classification.preprocessing.preprocessor import remove_punctuation_marks
+from flask_app.nlu_pkg.services.classification.preprocessing.preprocessor import remove_punctuation_marks, \
+    preprocess_sentence
 from flask_app.nlu_pkg.services.sensor_parsing.subject_detector import SubjectDetector
 from flask_app.nlu_pkg.services.sensor_parsing.text_partitioner import TextPartitioner
 
